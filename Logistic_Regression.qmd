@@ -1,1 +1,9 @@
+Chapter 8: Introduction to Logistic Regression
 
+-   Basics of logistic regression in econometrics
+
+-   Estimating logistic regression models in R
+
+-   Interpreting logistic regression coefficients and odds ratios
+
+-   Applications of logistic regression in economic research using R

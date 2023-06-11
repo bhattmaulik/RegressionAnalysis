@@ -1,1 +1,9 @@
+Chapter 9: Model Evaluation and Selection
 
+-   Evaluating model performance and goodness-of-fit measures in econometrics
+
+-   Validation techniques for econometric regression models
+
+-   Comparing and selecting models using information criteria
+
+-   Cross-validation and bootstrapping for robust model assessment in econometrics

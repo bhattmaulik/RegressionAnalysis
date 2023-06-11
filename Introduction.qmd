@@ -1,1 +1,7 @@
+Introduction {.unnumbered}
 
+-   Importance of regression analysis in econometrics
+
+-   Overview of the book's structure and goals
+
+-   Introduction to R programming language and its relevance to econometric analysis

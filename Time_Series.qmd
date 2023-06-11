@@ -1,1 +1,11 @@
+Chapter 7: Time Series Regression
 
+-   Introduction to time series data in econometrics
+
+-   Time series regression models in R for economic analysis
+
+-   Dealing with autocorrelation and lagged variables
+
+-   Forecasting with time series regression models in R
+
+-   Applications of time series regression in economic forecasting

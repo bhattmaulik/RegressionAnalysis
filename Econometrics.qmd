@@ -1,1 +1,10 @@
 
+Chapter 1: Introduction to Econometrics and Regression Analysis
+
+-   Understanding the basics of econometrics
+
+-   Role of regression analysis in econometric modeling
+
+-   Overview of the regression analysis process
+
+-   Introduction to R for econometric analysis

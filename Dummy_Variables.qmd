@@ -1,1 +1,9 @@
+Chapter 5: Regression Analysis with Dummy Variables
 
+-   Incorporating categorical variables in regression analysis
+
+-   Creating and interpreting dummy variables in R
+
+-   Dummy variable pitfalls and remedies in econometric modeling
+
+-   Examples and case studies of dummy variable regression in economics using R

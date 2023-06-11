@@ -12,7 +12,6 @@ book:
   date: today
   date-format: DD/MM/YYYY
   chapters:
-    - index.qmd
     - introduction.qmd
     - Econometrics.qmd
     - Getting_Started.qmd
@@ -29,7 +28,7 @@ book:
     - Datasets.qmd
     - Code_Snippets.qmd
 
-bibliography: references.bib
+#bibliography: references.bib
 
 format:
   html:

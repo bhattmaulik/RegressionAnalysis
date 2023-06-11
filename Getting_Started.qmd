@@ -1,1 +1,9 @@
+Chapter 2: Getting Started with R for Econometrics
 
+-   Introduction to R programming language and its ecosystem
+
+-   Setting up the R environment and installing necessary packages
+
+-   Loading and manipulating data in R for econometric analysis
+
+-   Exploring data visualization techniques using R

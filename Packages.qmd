@@ -1,1 +1,1 @@
-
+Appendix A: R packages for econometric regression analysis and additional resources

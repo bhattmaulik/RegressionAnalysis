@@ -1,1 +1,11 @@
+Chapter 3: Simple Linear Regression
 
+-   Understanding the principles of simple linear regression
+
+-   Performing simple linear regression in R for econometric analysis
+
+-   Interpreting regression results in the context of economic variables
+
+-   Assessing model assumptions and addressing violations
+
+-   Practical examples and exercises using R

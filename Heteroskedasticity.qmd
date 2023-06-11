@@ -1,1 +1,9 @@
+Chapter 6: Heteroscedasticity and Robust Regression
 
+-   Understanding heteroscedasticity and its implications
+
+-   Addressing heteroscedasticity using robust regression techniques in R
+
+-   Interpreting robust regression results in an economic context
+
+-   Practical examples and exercises showcasing robust regression in econometrics

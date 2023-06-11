@@ -1,1 +1,7 @@
+Conclusion:
 
+-   Summary of the key concepts covered in the book
+
+-   Importance of regression analysis in econometrics and economic research
+
+-   Encouragement for further exploration and application of econometric regression using R

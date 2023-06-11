@@ -1,1 +1,11 @@
+Chapter 4: Multiple Linear Regression
 
+-   Extending regression analysis to multiple independent variables
+
+-   Building and interpreting multiple linear regression models in R
+
+-   Handling multicollinearity and selecting significant predictors in an economic context
+
+-   Model evaluation and diagnostics in econometric regression
+
+-   Application of multiple linear regression in economic analysis using R

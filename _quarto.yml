@@ -1,0 +1,42 @@
+project:
+  type: book
+
+execute: 
+  echo: true
+  error: false
+  warning: false
+  
+book:
+  title: "Regression Analysis With R and Easystats"
+  author: "Maulik Bhatt"
+  date: today
+  date-format: DD/MM/YYYY
+  chapters:
+    - index.qmd
+    - introduction.qmd
+    - Econometrics.qmd
+    - Getting_Started.qmd
+    - lm.qmd
+    - Multiple_Regression.qmd
+    - Dummy_Variables.qmd
+    - Heteroskedasticity.qmd
+    - Time_Series.qmd
+    - Logistic_Regression.qmd
+    - Evaluation.qmd
+    - Practical_Tips.qmd
+    - Conclusion.qmd
+    - Packages.qmd
+    - Datasets.qmd
+    - Code_Snippets.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
+

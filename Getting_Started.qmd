@@ -1,9 +1,18 @@
-Chapter 2: Getting Started with R for Econometrics
+# Getting Started with R for Econometrics
 
--   Introduction to R programming language and its ecosystem
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
 
--   Setting up the R environment and installing necessary packages
+\item{Introduction to R programming language and its ecosystem}
 
--   Loading and manipulating data in R for econometric analysis
+\item{Setting up the R environment and installing necessary packages}
 
--   Exploring data visualization techniques using R
+\item{Loading and manipulating data in R for econometric analysis}
+
+\item{Exploring data visualization techniques using R}
+
+\end{itemize}
+
+\end{objectives}
+```

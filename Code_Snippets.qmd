@@ -1,1 +1,8 @@
-Appendix C: R code snippets and tutorials for reference
+# Appendix C: R code snippets and tutorials for reference {.unnumbered}
+
+The whole book is published on bookdown.org website. You can read the book online on this website. You can also download the source code of this book in multiple ways. The easiest way is to visit the website github, and Alternatively, you can download the entire source code of the book from github. Please run the following code to download the book:
+
+```{r}
+#install.packages("devtools")
+#devtools::install_github("bhattmaulik/RegressionAnalysis)
+```

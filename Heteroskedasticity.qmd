@@ -1,4 +1,21 @@
-Chapter 6: Heteroscedasticity and Robust Regression
+# Heteroscedasticity and Robust Regression
+
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Understanding heteroscedasticity and its implications}
+
+\item{Addressing heteroscedasticity using robust regression techniques in R}
+
+\item{Interpreting robust regression results in an economic context}
+
+\item{Practical examples and exercises showcasing robust regression in econometrics}
+
+\end{itemize}
+
+\end{objectives}
+```
 
 -   Understanding heteroscedasticity and its implications
 

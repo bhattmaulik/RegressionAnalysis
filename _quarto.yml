@@ -1,41 +1,87 @@
 project:
   type: book
 
-execute: 
-  echo: true
-  error: false
-  warning: false
-  
 book:
   title: "Regression Analysis With R and Easystats"
   author: "Maulik Bhatt"
   date: today
   date-format: DD/MM/YYYY
+  #cover-image: cover.jpeg
   chapters:
-    - introduction.qmd
-    - Econometrics.qmd
-    - Getting_Started.qmd
-    - lm.qmd
-    - Multiple_Regression.qmd
-    - Dummy_Variables.qmd
-    - Heteroskedasticity.qmd
-    - Time_Series.qmd
-    - Logistic_Regression.qmd
-    - Evaluation.qmd
-    - Practical_Tips.qmd
-    - Conclusion.qmd
-    - Packages.qmd
-    - Datasets.qmd
-    - Code_Snippets.qmd
+    - index.qmd
+    - part: Basics.qmd
+      chapters:
+        - introduction.qmd
+        - econometrics.qmd
+        - Getting_Started.qmd
+    - part: Issues.qmd
+      chapters:
+        - lm.qmd
+        - Multiple_Regression.qmd
+        - Dummy_Variables.qmd
+        - Heteroskedasticity.qmd
+        - Time_Series.qmd
+        - Logistic_Regression.qmd
+        - Evaluation.qmd
+        - Practical_Tips.qmd
+        - Conclusion.qmd
+    - part: Appendix.qmd
+      chapters:
+        - Packages.qmd
+        - Datasets.qmd
+        - Code_Snippets.qmd
 
 #bibliography: references.bib
-
 format:
   html:
     theme: cosmo
   pdf:
-    documentclass: scrreprt
-
+    documentclass: scrbook
+    classoption: [twoside, openany]
+    #change it later to openright
+    include-in-header: 
+      - text: |
+          \providecommand{\abstractname}{Learning Objectives} % not in scrbook class
+          \newenvironment{objectives}[1]{%
+          \hrule
+          \vspace{5pt}
+          \small\textbf{\abstractname: } 
+          \newline
+          \vspace{0.1cm}
+          %\small\emph #1     %  emph takes an argument
+          \small\emph{#1} % or \small\textit{#1} 
+          \itshape % use this if you want the text to be in italics
+          }{%
+          \vspace{5pt}
+          \hrule
+          \vspace{0.6cm}
+          }
+    margin-left: 1in
+    margin-right: 1in
+    margin-top: 1in
+    margin-bottom: 1in
+    colorlinks: true
+    toc: true
+    toc-title: "Contents"
+    lot: true
+    lof: true
+    number-sections: true
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    code-line-numbers: true
+    keep-tex: true
+    author-meta: "Maulik Bhatt"
+    title-meta: "Regression Analysis With R and Easystats"
+    hyperrefoptions:
+    - linktoc=all
+    - pdfwindowui
+    - pdfpagemode=FullScreen
+execute: 
+  echo: true
+  warning: false
+  message: false
+  error: false
+  cache: true
 editor: visual
 
 

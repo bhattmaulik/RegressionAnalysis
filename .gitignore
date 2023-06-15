@@ -49,3 +49,5 @@ po/*~
 rsconnect/
 
 /.quarto/
+# Other files
+Notes.txt

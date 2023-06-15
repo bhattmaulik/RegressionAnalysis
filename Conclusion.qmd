@@ -1,5 +1,19 @@
-Conclusion:
+# Conclusion
 
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Summary of the key concepts covered in the book}
+
+\item{Importance of regression analysis in econometrics and economic research}
+
+\item{Encouragement for further exploration and application of econometric regression using R}
+
+\end{itemize}
+
+\end{objectives}
+```
 -   Summary of the key concepts covered in the book
 
 -   Importance of regression analysis in econometrics and economic research

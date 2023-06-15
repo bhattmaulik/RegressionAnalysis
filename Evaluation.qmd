@@ -1,5 +1,21 @@
-Chapter 9: Model Evaluation and Selection
+# Model Evaluation and Selection
 
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Evaluating model performance and goodness-of-fit measures in econometrics}
+
+\item{Validation techniques for econometric regression models}
+
+\item{Comparing and selecting models using information criteria}
+
+\item{Cross-validation and bootstrapping for robust model assessment in econometrics}
+
+\end{itemize}
+
+\end{objectives}
+```
 -   Evaluating model performance and goodness-of-fit measures in econometrics
 
 -   Validation techniques for econometric regression models

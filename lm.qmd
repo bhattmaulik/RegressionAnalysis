@@ -1,4 +1,23 @@
-Chapter 3: Simple Linear Regression
+# Simple Linear Regression
+
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Understanding the principles of simple linear regression}
+
+\item{Performing simple linear regression in R for econometric analysis}
+
+\item{Interpreting regression results in the context of economic variables}
+
+\item{Assessing model assumptions and addressing violations}
+
+\item{Practical examples and exercises using R}
+
+\end{itemize}
+
+\end{objectives}
+```
 
 -   Understanding the principles of simple linear regression
 

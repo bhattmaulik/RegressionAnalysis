@@ -1,7 +1,17 @@
-Introduction {.unnumbered}
+# Introduction
 
--   Importance of regression analysis in econometrics
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
 
--   Overview of the book's structure and goals
+\item{Importance of regression analysis in econometrics}
 
--   Introduction to R programming language and its relevance to econometric analysis
+\item{Overview of the book's structure and goals}
+
+\item{Introduction to R programming language and its relevance to econometric analysis}
+
+\end{itemize}
+
+\end{objectives}
+```
+This chapter introduces the basics of Econometrics and R to a novice user. Econometrics is a combination of two words: Econo + Metric. Econo refers to concepts of economics, while metric refers to measurement. Let's take an example of the law of demand from microeconomic theory. We know the demand of a commodity will decrease if the price of the commodity increases. But we don't know how much the demand will decrease, given the increase in the price is one unit (i.e., one Dollar, or one Euro, etc.). In Econometrics, we measure such increase or decrease using various experiments.

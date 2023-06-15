@@ -1,4 +1,21 @@
-Chapter 5: Regression Analysis with Dummy Variables
+# Regression Analysis with Dummy Variables
+
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Incorporating categorical variables in regression analysis}
+
+\item{Creating and interpreting dummy variables in R}
+
+\item{Dummy variable pitfalls and remedies in econometric modeling}
+
+\item{Examples and case studies of dummy variable regression in economics using R}
+
+\end{itemize}
+
+\end{objectives}
+```
 
 -   Incorporating categorical variables in regression analysis
 

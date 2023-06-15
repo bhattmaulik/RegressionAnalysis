@@ -1,4 +1,21 @@
-Chapter 10: Practical Tips and Resources for Econometric Regression
+# Practical Tips and Resources for Econometric Regression
+
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Data preparation and preprocessing tips for econometric analysis}
+
+\item{Handling missing data and outliers in regression analysis}
+
+\item{Dealing with endogeneity and instrumental variables}
+
+\item{Additional resources for further learning and practice in econometrics with R}
+
+\end{itemize}
+
+\end{objectives}
+```
 
 -   Data preparation and preprocessing tips for econometric analysis
 

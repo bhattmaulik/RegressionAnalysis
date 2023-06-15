@@ -1,5 +1,23 @@
-Chapter 7: Time Series Regression
+# Time Series Regression
 
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Introduction to time series data in econometrics}
+
+\item{Time series regression models in R for economic analysis}
+
+\item{Dealing with autocorrelation and lagged variables}
+
+\item{Forecasting with time series regression models in R}
+
+\item{Applications of time series regression in economic forecasting}
+
+\end{itemize}
+
+\end{objectives}
+```
 -   Introduction to time series data in econometrics
 
 -   Time series regression models in R for economic analysis

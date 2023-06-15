@@ -1,10 +1,20 @@
+# Introduction to Econometrics and Regression Analysis
 
-Chapter 1: Introduction to Econometrics and Regression Analysis
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
 
--   Understanding the basics of econometrics
+\item{Understanding the basics of econometrics}
 
--   Role of regression analysis in econometric modeling
+\item{Role of regression analysis in econometric modeling}
 
--   Overview of the regression analysis process
+\item{Overview of the regression analysis process}
 
--   Introduction to R for econometric analysis
+\item{Introduction to R for econometric analysis}
+
+\end{itemize}
+
+\end{objectives}
+```
+
+Sample text here

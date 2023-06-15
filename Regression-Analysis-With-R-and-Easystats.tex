@@ -1,0 +1,644 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode,linktoc=all,pdfwindowui,pdfpagemode=FullScreen}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  twoside,
+  openany]{scrbook}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\providecommand{\abstractname}{Learning Objectives} % not in scrbook class
+\newenvironment{objectives}[1]{%
+\hrule
+\vspace{5pt}
+\small\textbf{\abstractname: } 
+\newline
+\vspace{0.1cm}
+%\small\emph #1     %  emph takes an argument
+\small\emph{#1} % or \small\textit{#1} 
+\itshape % use this if you want the text to be in italics
+}{%
+\vspace{5pt}
+\hrule
+\vspace{0.6cm}
+}
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Regression Analysis With R and Easystats},
+  pdfauthor={Maulik Bhatt},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Regression Analysis With R and Easystats}
+\author{Maulik Bhatt}
+\date{15/06/2023}
+
+\begin{document}
+\frontmatter
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, breakable, boxrule=0pt, interior hidden, frame hidden, enhanced, sharp corners]}{\end{tcolorbox}}\fi
+
+\renewcommand*\contentsname{Contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+\mainmatter
+\bookmarksetup{startatroot}
+
+\hypertarget{preface}{%
+\chapter*{Preface}\label{preface}}
+\addcontentsline{toc}{chapter}{Preface}
+
+\markboth{Preface}{Preface}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{acknowledgement}{%
+\chapter*{Acknowledgement}\label{acknowledgement}}
+\addcontentsline{toc}{chapter}{Acknowledgement}
+
+\markboth{Acknowledgement}{Acknowledgement}
+
+\part{BASICS OF ECONOMETRICS AND R}
+
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Importance of regression analysis in econometrics}
+
+\item{Overview of the book's structure and goals}
+
+\item{Introduction to R programming language and its relevance to econometric analysis}
+
+\end{itemize}
+
+\end{objectives}
+
+This chapter introduces the basics of Econometrics and R to a novice
+user. Econometrics is a combination of two words: Econo + Metric. Econo
+refers to concepts of economics, while metric refers to measurement.
+Let's take an example of the law of demand from microeconomic theory. We
+know the demand of a commodity will decrease if the price of the
+commodity increases. But we don't know how much the demand will
+decrease, given the increase in the price is one unit (i.e., one Dollar,
+or one Euro, etc.). In Econometrics, we measure such increase or
+decrease using various experiments.
+
+\hypertarget{introduction-to-econometrics-and-regression-analysis}{%
+\chapter{Introduction to Econometrics and Regression
+Analysis}\label{introduction-to-econometrics-and-regression-analysis}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Understanding the basics of econometrics}
+
+\item{Role of regression analysis in econometric modeling}
+
+\item{Overview of the regression analysis process}
+
+\item{Introduction to R for econometric analysis}
+
+\end{itemize}
+
+\end{objectives}
+
+Sample text here
+
+\hypertarget{getting-started-with-r-for-econometrics}{%
+\chapter{Getting Started with R for
+Econometrics}\label{getting-started-with-r-for-econometrics}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Introduction to R programming language and its ecosystem}
+
+\item{Setting up the R environment and installing necessary packages}
+
+\item{Loading and manipulating data in R for econometric analysis}
+
+\item{Exploring data visualization techniques using R}
+
+\end{itemize}
+
+\end{objectives}
+
+\part{ISSUES IN REGRESSION ANALYSIS}
+
+\hypertarget{simple-linear-regression}{%
+\chapter{Simple Linear Regression}\label{simple-linear-regression}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Understanding the principles of simple linear regression}
+
+\item{Performing simple linear regression in R for econometric analysis}
+
+\item{Interpreting regression results in the context of economic variables}
+
+\item{Assessing model assumptions and addressing violations}
+
+\item{Practical examples and exercises using R}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Understanding the principles of simple linear regression
+\item
+  Performing simple linear regression in R for econometric analysis
+\item
+  Interpreting regression results in the context of economic variables
+\item
+  Assessing model assumptions and addressing violations
+\item
+  Practical examples and exercises using R
+\end{itemize}
+
+\hypertarget{multiple-linear-regression}{%
+\chapter{Multiple Linear Regression}\label{multiple-linear-regression}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Extending regression analysis to multiple independent variables}
+
+\item{Building and interpreting multiple linear regression models in R}
+
+\item{Handling multicollinearity and selecting significant predictors in an economic context}
+
+\item{Model evaluation and diagnostics in econometric regression}
+
+\item{Application of multiple linear regression in economic analysis using R}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Extending regression analysis to multiple independent variables
+\item
+  Building and interpreting multiple linear regression models in R
+\item
+  Handling multicollinearity and selecting significant predictors in an
+  economic context
+\item
+  Model evaluation and diagnostics in econometric regression
+\item
+  Application of multiple linear regression in economic analysis using R
+\end{itemize}
+
+\hypertarget{regression-analysis-with-dummy-variables}{%
+\chapter{Regression Analysis with Dummy
+Variables}\label{regression-analysis-with-dummy-variables}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Incorporating categorical variables in regression analysis}
+
+\item{Creating and interpreting dummy variables in R}
+
+\item{Dummy variable pitfalls and remedies in econometric modeling}
+
+\item{Examples and case studies of dummy variable regression in economics using R}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Incorporating categorical variables in regression analysis
+\item
+  Creating and interpreting dummy variables in R
+\item
+  Dummy variable pitfalls and remedies in econometric modeling
+\item
+  Examples and case studies of dummy variable regression in economics
+  using R
+\end{itemize}
+
+\hypertarget{heteroscedasticity-and-robust-regression}{%
+\chapter{Heteroscedasticity and Robust
+Regression}\label{heteroscedasticity-and-robust-regression}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Understanding heteroscedasticity and its implications}
+
+\item{Addressing heteroscedasticity using robust regression techniques in R}
+
+\item{Interpreting robust regression results in an economic context}
+
+\item{Practical examples and exercises showcasing robust regression in econometrics}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Understanding heteroscedasticity and its implications
+\item
+  Addressing heteroscedasticity using robust regression techniques in R
+\item
+  Interpreting robust regression results in an economic context
+\item
+  Practical examples and exercises showcasing robust regression in
+  econometrics
+\end{itemize}
+
+\hypertarget{time-series-regression}{%
+\chapter{Time Series Regression}\label{time-series-regression}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Introduction to time series data in econometrics}
+
+\item{Time series regression models in R for economic analysis}
+
+\item{Dealing with autocorrelation and lagged variables}
+
+\item{Forecasting with time series regression models in R}
+
+\item{Applications of time series regression in economic forecasting}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Introduction to time series data in econometrics
+\item
+  Time series regression models in R for economic analysis
+\item
+  Dealing with autocorrelation and lagged variables
+\item
+  Forecasting with time series regression models in R
+\item
+  Applications of time series regression in economic forecasting
+\end{itemize}
+
+\hypertarget{introduction-to-logistic-regression}{%
+\chapter{Introduction to Logistic
+Regression}\label{introduction-to-logistic-regression}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Basics of logistic regression in econometrics}
+
+\item{Estimating logistic regression models in R}
+
+\item{Interpreting logistic regression coefficients and odds ratios}
+
+\item{Applications of logistic regression in economic research using R}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Basics of logistic regression in econometrics
+\item
+  Estimating logistic regression models in R
+\item
+  Interpreting logistic regression coefficients and odds ratios
+\item
+  Applications of logistic regression in economic research using R
+\end{itemize}
+
+\hypertarget{model-evaluation-and-selection}{%
+\chapter{Model Evaluation and
+Selection}\label{model-evaluation-and-selection}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Evaluating model performance and goodness-of-fit measures in econometrics}
+
+\item{Validation techniques for econometric regression models}
+
+\item{Comparing and selecting models using information criteria}
+
+\item{Cross-validation and bootstrapping for robust model assessment in econometrics}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Evaluating model performance and goodness-of-fit measures in
+  econometrics
+\item
+  Validation techniques for econometric regression models
+\item
+  Comparing and selecting models using information criteria
+\item
+  Cross-validation and bootstrapping for robust model assessment in
+  econometrics
+\end{itemize}
+
+\hypertarget{practical-tips-and-resources-for-econometric-regression}{%
+\chapter{Practical Tips and Resources for Econometric
+Regression}\label{practical-tips-and-resources-for-econometric-regression}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Data preparation and preprocessing tips for econometric analysis}
+
+\item{Handling missing data and outliers in regression analysis}
+
+\item{Dealing with endogeneity and instrumental variables}
+
+\item{Additional resources for further learning and practice in econometrics with R}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Data preparation and preprocessing tips for econometric analysis
+\item
+  Handling missing data and outliers in regression analysis
+\item
+  Dealing with endogeneity and instrumental variables
+\item
+  Additional resources for further learning and practice in econometrics
+  with R
+\end{itemize}
+
+\hypertarget{conclusion}{%
+\chapter{Conclusion}\label{conclusion}}
+
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Summary of the key concepts covered in the book}
+
+\item{Importance of regression analysis in econometrics and economic research}
+
+\item{Encouragement for further exploration and application of econometric regression using R}
+
+\end{itemize}
+
+\end{objectives}
+
+\begin{itemize}
+\item
+  Summary of the key concepts covered in the book
+\item
+  Importance of regression analysis in econometrics and economic
+  research
+\item
+  Encouragement for further exploration and application of econometric
+  regression using R
+\end{itemize}
+
+\part{APPENDICES}
+
+\pagenumbering{Roman}
+
+\hypertarget{appendix-a-r-packages-for-econometric-regression-analysis-and-additional-resources}{%
+\chapter*{Appendix A: R packages for econometric regression analysis and
+additional
+resources}\label{appendix-a-r-packages-for-econometric-regression-analysis-and-additional-resources}}
+\addcontentsline{toc}{chapter}{Appendix A: R packages for econometric
+regression analysis and additional resources}
+
+\markboth{Appendix A: R packages for econometric regression analysis and
+additional resources}{Appendix A: R packages for econometric regression
+analysis and additional resources}
+
+\hypertarget{appendix-b-data-sets-used-in-the-books-examples}{%
+\chapter*{Appendix B: Data sets used in the book's
+examples}\label{appendix-b-data-sets-used-in-the-books-examples}}
+\addcontentsline{toc}{chapter}{Appendix B: Data sets used in the book's
+examples}
+
+\markboth{Appendix B: Data sets used in the book's examples}{Appendix B:
+Data sets used in the book's examples}
+
+\hypertarget{appendix-c-r-code-snippets-and-tutorials-for-reference}{%
+\chapter*{Appendix C: R code snippets and tutorials for
+reference}\label{appendix-c-r-code-snippets-and-tutorials-for-reference}}
+\addcontentsline{toc}{chapter}{Appendix C: R code snippets and tutorials
+for reference}
+
+\markboth{Appendix C: R code snippets and tutorials for
+reference}{Appendix C: R code snippets and tutorials for reference}
+
+The whole book is published on bookdown.org website. You can read the
+book online on this website. You can also download the source code of
+this book in multiple ways. The easiest way is to visit the website
+github, and Alternatively, you can download the entire source code of
+the book from github. Please run the following code to download the
+book:
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\CommentTok{\#install.packages("devtools")}
+\CommentTok{\#devtools::install\_github("bhattmaulik/RegressionAnalysis)}
+\end{Highlighting}
+\end{Shaded}
+
+
+
+\backmatter
+
+\end{document}

@@ -1,4 +1,23 @@
-Chapter 4: Multiple Linear Regression
+# Multiple Linear Regression
+
+```{=latex}
+\begin{objectives}{In this chapter, you will learn to}
+\begin{itemize}
+
+\item{Extending regression analysis to multiple independent variables}
+
+\item{Building and interpreting multiple linear regression models in R}
+
+\item{Handling multicollinearity and selecting significant predictors in an economic context}
+
+\item{Model evaluation and diagnostics in econometric regression}
+
+\item{Application of multiple linear regression in economic analysis using R}
+
+\end{itemize}
+
+\end{objectives}
+```
 
 -   Extending regression analysis to multiple independent variables
 

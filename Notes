@@ -1,0 +1,5 @@
+Agenda
+1. Set book cover file in _quarto.yml
+2. Ask on stackoverflow how to change page number style in Appendices
+3. Check for class options (See if chapter begins from any side page - not "openright")
+4. Define new environment for "Learning Objectives" of each chapter.

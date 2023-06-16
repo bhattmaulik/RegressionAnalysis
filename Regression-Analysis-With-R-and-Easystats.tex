@@ -121,18 +121,18 @@
 
 \providecommand{\abstractname}{Learning Objectives} % not in scrbook class
 \newenvironment{objectives}[1]{%
-\hrule
-\vspace{5pt}
-\small\textbf{\abstractname: } 
-\newline
-\vspace{0.1cm}
-%\small\emph #1     %  emph takes an argument
-\small\emph{#1} % or \small\textit{#1} 
-\itshape % use this if you want the text to be in italics
+	\hrule
+	\vspace{5pt}
+	\small\textbf{\abstractname: } 
+	\newline
+	\vspace{0.1cm}
+	%\small\emph #1     %  emph takes an argument
+	\small\emph{#1} % or \small\textit{#1} 
+	\itshape % use this if you want the text to be in italics
 }{%
-\vspace{5pt}
-\hrule
-\vspace{0.6cm}
+	\vspace{5pt}
+	\hrule
+	\vspace{0.6cm}
 }
 \makeatletter
 \makeatother
@@ -206,12 +206,12 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{15/06/2023}
+\date{16/06/2023}
 
 \begin{document}
 \frontmatter
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, breakable, boxrule=0pt, interior hidden, frame hidden, enhanced, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, sharp corners, frame hidden, enhanced, interior hidden, breakable, borderline west={3pt}{0pt}{shadecolor}]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Contents}
 {
@@ -238,10 +238,69 @@
 
 \markboth{Acknowledgement}{Acknowledgement}
 
+I would like to express my heartfelt gratitude to the individuals who
+have played a significant role in the creation of this book on
+Regression Analysis with R. Their guidance, knowledge, and support have
+been invaluable throughout this journey.
+
+First and foremost, I extend my deepest appreciation to my esteemed
+professors, {[}Professor's Name{]}, {[}Professor's Name{]}, and
+{[}Professor's Name{]}. Their expertise in statistics and econometrics
+has shaped my understanding of quantitative analysis and provided a
+solid foundation for this book. Their dedication to teaching and their
+unwavering commitment to fostering academic excellence have been
+instrumental in my growth as a student of econometrics.
+
+I would like to extend special thanks to my colleague and dear friend,
+{[}Colleague's Name{]}. Their introduction to the world of R programming
+language opened up a world of possibilities for me. Their patience,
+willingness to share their knowledge, and countless hours spent
+assisting me with R-related challenges have been indispensable. I am
+grateful for their unwavering support and the collaborative environment
+we fostered, which significantly enriched my learning experience.
+
+A heartfelt appreciation goes to the developers of R, an open-source
+programming language that has revolutionized the field of data analysis
+and statistical computing. Their tireless efforts in creating and
+continuously improving R have made it an indispensable tool for
+researchers and analysts worldwide. Without their dedication, this book
+would not have been possible.
+
+I would also like to express my gratitude to the developers of the R
+packages that have been instrumental in the analysis and visualization
+techniques presented in this book. Their commitment to excellence,
+innovation, and user-friendly implementations has immensely contributed
+to the field of regression analysis. Their packages have not only
+expanded the capabilities of R but have also facilitated the seamless
+integration of econometric methodologies into practical applications.
+
+Finally, I extend my heartfelt thanks to my family and friends who have
+supported me throughout this writing process. Their encouragement,
+understanding, and belief in my abilities have been a constant source of
+motivation.
+
+To all those mentioned above, and to anyone else who has contributed to
+this book in any way, I offer my deepest appreciation. Your guidance,
+knowledge, and support have been invaluable in shaping this work and
+have helped me fulfill my goal of sharing the beauty and importance of
+regression analysis with R.
+
+Thank you.
+
+{[}Your Name{]}
+
 \part{BASICS OF ECONOMETRICS AND R}
 
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
+
+\begin{verbatim}
+
+:::: status
+::: callout-important 
+You are reading the work-in-progress first edition of Regression Analysis with R and Easystats. This chapter is currently a dumping ground for ideas, and we don't recommend reading it. :::
+::::
+\end{verbatim}
 
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}

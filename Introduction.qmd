@@ -1,5 +1,11 @@
 # Introduction
 
+```{r}
+#| echo: false
+source("_common.R")
+status("drafting")
+```
+
 ```{=latex}
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}

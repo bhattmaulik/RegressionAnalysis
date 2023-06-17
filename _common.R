@@ -51,3 +51,15 @@ status <- function(type) {
     "::::\n"
   ))
 }
+chapterStatus <- function(userInput = "Drafting") {
+  
+  if (tolower(userInput) %in% c("polishing", "polishing")) {
+    message("This chapter should be readable, but is currently undergoing final polishing.")
+  } else if (tolower(userInput) %in% c("restructuring", "restructuring")) {
+    message("This chapter is undergoing heavy restructuring, and may be confusing or incomplete.")
+  } else if (tolower(userInput) %in% c("complete", "complete")) {
+    message("This chapter is largely complete, and just needs final proofreading.")
+  } else {
+    message("Invalid user input.")
+  }
+}

@@ -1,5 +1,16 @@
 # Introduction to Logistic Regression
 
+```{r}
+
+```
+
+```{r status}
+#| echo: false
+#| output: show
+source("_common.R")
+display_chapter_status("drafting")
+```
+
 ```{=latex}
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}
@@ -16,7 +27,6 @@
 
 \end{objectives}
 ```
-
 -   Basics of logistic regression in econometrics
 
 -   Estimating logistic regression models in R

@@ -1,8 +1,43 @@
-# Appendix C: R code snippets and tutorials for reference {.unnumbered}
+# Appendix C: How to Build This Book Locally {.unnumbered}
 
-The whole book is published on bookdown.org website. You can read the book online on this website. You can also download the source code of this book in multiple ways. The easiest way is to visit the website github, and Alternatively, you can download the entire source code of the book from github. Please run the following code to download the book:
+```{=latex}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{C.\arabic{figure}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{C.\arabic{table}}
+```
+
+If you want to build this book locally on your computer, please download the entire code from Github. The first step is to visit the website `www.github.com/bhattmaulik/RegressionAnalysis`. Here, you will find the option to download the entire book in a zip file, as shown below.
 
 ```{r}
-#install.packages("devtools")
-#devtools::install_github("bhattmaulik/RegressionAnalysis)
+#| fig-cap: "Download the book from Github"
+#| label: fig-download-book
+knitr::include_graphics(here::here("download-book.png"))
 ```
+
+After you download the zip file, unzip it. This will create a folder in your computer. Within this folder, double click on the "RegressionAnalysis.Rproj" file. This will open the whole project in RStudio.
+
+After opening this project, go to "Build" pane in RStudio. This pane is generally on the top right of RStudio along with Environment, History, Connections, Git and Tutorial. In the build pane, click on "`Render Book`" and select "`HTML format`".
+
+You can also choose to build the book in PDF format, but for that you will need additional software called `tinytex`. In order to build a book in PDF format, R also needs `LaTeX` compiler. There are two popular `LaTeX` compilers: TeX Live and MikTeX. However, they have their own set of problems for R users. The `LaTeX` compiler `tinytex` attempts to solve many of them.
+
+If you want to build the PDF book, you can install `tinytex` through terminal in RStudio using the command `quarto install tinytex`.
+
+```{r}
+#| label: fig-build-book
+#| fig-cap: "Build book using tinytex"
+knitr::include_graphics(here::here("build-book.png"))
+```
+
+If you can't install it this way, or if you want to install it through traditional way using R code, you can use the following code:
+
+```{r install-tinytex}
+#| echo: TRUE
+#| eval: FALSE
+install.packages("tinytex")
+library(tinytex)
+tinytex::install_tinytex()
+#if you want to install all the LaTeX packages, you can modify the command to tinytex::install_tinytex(bundle = "TinyTeX-2")
+```
+
+This confuses some readers because there are two `tinytex` in this code: the first tinytex is the `tinytex` R package. The other `tinytex` is the `LaTeX` compiler `tinytex`. So, when we write `library(tinytex)`, we are calling the R package tinytex. And when we use the command `install_tinytex`, we are installing the `LaTeX` compiler `tinytex` using the R package `tinytex`. The benefit of this approach is that you get to select which bundle you want to install. By default, you get to install the bundle `TinyTeX-1`, which contains only the most necessary LaTeX packages. But if you choose the bundle `TinyTeX-2`, you can download all the `LaTeX` packages.

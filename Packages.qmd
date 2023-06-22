@@ -1,1 +1,43 @@
-# Appendix A: R packages for econometric regression analysis and additional resources {.unnumbered}
+# Appendix A: R packages for econometric regression analysis and additional resources
+
+```{=latex}
+\setcounter{figure}{0} 
+\renewcommand{\thefigure}{A.\arabic{figure}}
+\setcounter{table}{0} 
+\renewcommand{\thetable}{A.\arabic{table}}
+```
+This book could never be completed without using many packages. The most notable of the packages include tidyverse, easystats, AER, lmtest, fpp3, gujarati5sie, etc. These packages can be installed using the following commands in R.
+
+```{r}
+#| eval: false
+#| echo: true
+#| label: sec-packages
+RA_packages <- c("AER","easystats","fpp3","lmtest","ggthemes","gt","gtsummary","patchwork","here","fs", "knitr","kableExtra")
+install.packages(RA_packages)
+```
+
+The commands above install the packages into your R system. However, the functionality of these packages are not added into your R session just because you installed these packages. You have to load the required packages specifically whenever you need them.
+
+Imagine you are building a home. You have completed electrification in your home. But just because you have a fan or an AC in your home doesn't mean they start automatically. You have to switch on the appliance whenever you need it. Similarly, you will have to load the R packages into your session whenever you need those packages. You can load the package using the `library(package_name)` command. For example, the command to load `easystats` set of packages would be
+
+```{r}
+#| eval: false
+#| echo: true
+library(easystats)
+
+```
+
+When you run the `install.packages(package_name)` command, R installs the package from Comprehensive R Archive Network (CRAN), which is the highest authority to decide about R. However, there are many packages, which are not available on CRAN. These packages can be downloaded from code sharing platform Github.
+
+To install packages from Github, you need to install one of the three packages first: `remotes`, `devtools` or `pak`. After that, you can easily install packages from Github also. Apart from such packages, the development versions of regular packages (which are available on CRAN) can also be downloaded from Github. For example, if you want to install the package "gujarati5sie", which is a package containing data from the book "Basic Econometrics" written by Damodar Gujarati and others, then you can do it as follows:
+
+```{r}
+#| echo: true
+#| eval: false
+#Install devtools, remotes or pak
+install.packages("remotes")#or install.packages("devltools")#or install.packages("pak")
+#Load the package
+library(remotes)#or library(devtools) or library(pak)
+#download the gujarati5sie package using one of the above packages
+remotes::install_github("bhattmaulik/Gujarati5sie")#or devtools::install_github("bhattmaulik/Gujarati5sie") or pak::pak("bhattmaulik/Gujarati5sie")
+```

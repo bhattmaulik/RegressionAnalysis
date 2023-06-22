@@ -1,6 +1,7 @@
 project:
   type: book
 
+engine: knitr
 book:
   title: "Regression Analysis With R and Easystats"
   author:
@@ -16,35 +17,37 @@ book:
   #cover-image: cover.jpeg
   chapters:
     - index.qmd
-    - part: Basics.qmd
-      chapters:
-        - introduction.qmd
-        - econometrics.qmd
-        - Getting_Started.qmd
-    - part: Issues.qmd
-      chapters:
-        - lm.qmd
-        - Multiple_Regression.qmd
-        - Dummy_Variables.qmd
-        - Heteroskedasticity.qmd
-        - Time_Series.qmd
-        - Logistic_Regression.qmd
-        - Evaluation.qmd
-        - Practical_Tips.qmd
-        - Conclusion.qmd
-    - part: Appendix.qmd
-      chapters:
-        - Packages.qmd
-        - Datasets.qmd
-        - Code_Snippets.qmd
+    - introduction.qmd
+    - econometrics.qmd
+    - Getting_Started.qmd
+    - lm.qmd
+    - Multiple_Regression.qmd
+    - Dummy_Variables.qmd
+    - Heteroskedasticity.qmd
+    - Time_Series.qmd
+    - Logistic_Regression.qmd
+    - Evaluation.qmd
+    - Practical_Tips.qmd
+    - Conclusion.qmd
+  appendices:
+    - Packages.qmd
+    - Datasets.qmd
+    - Code_Snippets.qmd
+crossref:
+  chapters: true
+  appendix-title: "Appendix"
+
+  
 
 #bibliography: references.bib
 format:
   html:
     theme: cosmo
   pdf:
+    number-sections: true
+    number-depth: 3
     documentclass: scrbook
-    classoption: [twoside, openany]
+    classoption: [twoside, openright, headsepline, footsepline, listof = totocnumbered, chapterprefix = true]
     #change it later to openright
     include-in-header:
       - file: preamble.tex
@@ -57,7 +60,6 @@ format:
     toc-title: "Contents"
     lot: true
     lof: true
-    number-sections: true
     fig-cap-location: bottom
     tbl-cap-location: top
     code-line-numbers: true

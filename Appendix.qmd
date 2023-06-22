@@ -1,3 +1,6 @@
 # APPENDICES
 
+```{=tex}
+\appendix
+```
 \pagenumbering{Roman}

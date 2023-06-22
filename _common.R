@@ -24,42 +24,18 @@ options(
 )
 
 #ggplot2::theme_set(ggplot2::theme_gray(12))
+mydata <- data.frame(Label = c("drafting","restructuring","polishing","complete"), Meaning = c("This chapter is currently a dumping ground for ideas, and we don't recommend reading it.","This chapter is undergoing heavy restructuring and may be confusing or incomplete.", "This chapter should be readable but is currently undergoing final polishing.", "This chapter is largely complete and just needs final proof reading."))
 
-status <- function(type) {
-  status <- switch(type,
-    polishing = "should be readable but is currently undergoing final polishing",
-    restructuring = "is undergoing heavy restructuring and may be confusing or incomplete",
-    drafting = "is currently a dumping ground for ideas, and we don't recommend reading it",
-    complete = "is largely complete and just needs final proof reading",
-    stop("Invalid `type`", call. = FALSE)
-  )
-
-  class <- switch(type,
-    polishing = "note",
-    restructuring = "important",
-    drafting = "important",
-    complete = "note"
-  )
-
-  cat(paste0(
-    "\n",
-    ":::: status\n",
-    "::: callout-", class, " \n",
-    "You are reading the work-in-progress first edition of Regression Analysis with R and Easystats. ",
-    "This chapter ", status, ". ",
-    ":::\n",
-    "::::\n"
-  ))
-}
-chapterStatus <- function(userInput = "Drafting") {
+display_chapter_status <- function(user_input) {
   
-  if (tolower(userInput) %in% c("polishing", "polishing")) {
-    message("This chapter should be readable, but is currently undergoing final polishing.")
-  } else if (tolower(userInput) %in% c("restructuring", "restructuring")) {
-    message("This chapter is undergoing heavy restructuring, and may be confusing or incomplete.")
-  } else if (tolower(userInput) %in% c("complete", "complete")) {
-    message("This chapter is largely complete, and just needs final proofreading.")
+  # Check if the user input is in the mydata dataset
+  if (tolower(user_input) %in% mydata$Label) {
+    # Get the corresponding message from the mydata dataset
+    message_row <- data.frame(Status = mydata[mydata$Label == tolower(user_input),2])
+    
+    # Display the message using knitr::kable
+    knitr::kable(message_row, align = "c")
   } else {
-    message("Invalid user input.")
+    print("Not a valid input")
   }
 }

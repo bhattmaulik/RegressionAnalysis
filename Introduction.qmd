@@ -1,10 +1,10 @@
 # Introduction
 
-```{r}
+```{r status}
 #| echo: false
 #| output: show
 source("_common.R")
-chapterStatus("Drafting")
+display_chapter_status("drafting")
 ```
 
 ```{=latex}
@@ -21,4 +21,14 @@ chapterStatus("Drafting")
 
 \end{objectives}
 ```
-This chapter introduces the basics of Econometrics and R to a novice user. Econometrics is a combination of two words: Econo + Metric. Econo refers to concepts of economics, while metric refers to measurement. Let's take an example of the law of demand from microeconomic theory. We know the demand of a commodity will decrease if the price of the commodity increases. But we don't know how much the demand will decrease, given the increase in the price is one unit (i.e., one Dollar, or one Euro, etc.). In Econometrics, we measure such increase or decrease using various experiments.
+Econometrics is a combination of two words: Econo + Metric. Econo refers to concepts of economics, while metric refers to measurement. Let's take an example of the law of demand from microeconomic theory. We know the demand of a commodity will decrease if the price of the commodity increases. But we don't know how much the demand will decrease, given the increase in the price is one unit (i.e., one Dollar, or one Euro, etc.). In Econometrics, we measure such increase or decrease using various experiments. In these experiments, we observe how much the demand for a commodity increase of decrease in response to a unit change (increase or decrease) in price of the commodity.
+
+## Importance of R for Econometrics and Statistics
+
+Many software are available for statistical and econometric analysis. Some of the popular software include SPSS, SAS, Stata, MATLAB, etc. These are all proprietary software. Free and open source alternatives include python and R, which are programming languages. The users need to type the commands in order to perform various tasks/analysis in these programming languages.
+
+Python is a general purpose programming langauge, while R is a statistical programming language. R also has many packages (i.e., add-ons, which enhance the functionality of R). As of writing this, there are `19697` packages available on CRAN (the Comprehensive R Archive Network, which is the central authority to decide about R programming language). Even more packages are available on `github`, which is an Internet hosting service for software development and version control using the version control system Git. Because of such extensive support, I have chosen R to conduct econometric analysis for this book.
+
+In particular, I will use `easystats` set of packages, which are designed for various statistical analysis tasks. We will see how `easystats` make our tasks easier in R.
+
+I will also use `quarto`, which is a document preparation system, based on pandoc's markdown. The benefit of `quarto` is that we can keep our analysis and prose in the same document. At the end, when we click on the `build` button, it renders the entire book in either pdf or HTML format. It is also possible to render the book in Microsoft Word format, but this output format has got limited support. It is more convenient to design and customize the output in HTML and PDF formats. We will discuss more about this in the \[**packages appendix at the end of the book\] (#sec-packages)**. See @sec-packages for more details.

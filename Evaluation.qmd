@@ -1,5 +1,12 @@
 # Model Evaluation and Selection
 
+```{r status}
+#| echo: false
+#| output: show
+source("_common.R")
+display_chapter_status("drafting")
+```
+
 ```{=latex}
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}

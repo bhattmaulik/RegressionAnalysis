@@ -1,5 +1,12 @@
 # Simple Linear Regression
 
+```{r status}
+#| echo: false
+#| output: show
+source("_common.R")
+display_chapter_status("drafting")
+```
+
 ```{=latex}
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}
@@ -18,7 +25,6 @@
 
 \end{objectives}
 ```
-
 -   Understanding the principles of simple linear regression
 
 -   Performing simple linear regression in R for econometric analysis

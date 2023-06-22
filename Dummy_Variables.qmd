@@ -1,5 +1,12 @@
 # Regression Analysis with Dummy Variables
 
+```{r status}
+#| echo: false
+#| output: show
+source("_common.R")
+display_chapter_status("drafting")
+```
+
 ```{=latex}
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}
@@ -16,7 +23,6 @@
 
 \end{objectives}
 ```
-
 -   Incorporating categorical variables in regression analysis
 
 -   Creating and interpreting dummy variables in R

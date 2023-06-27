@@ -9,7 +9,9 @@
   openright,
   headsepline,
   footsepline,
-  listof = totocnumbered]{scrbook}
+  listof = totocnumbered,
+  chapterprefix = true,
+  titlepage = false]{scrbook}
 
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
@@ -122,8 +124,9 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\usepackage{scrlayer-scrpage}
-
+\usepackage[automark]{scrlayer-scrpage}
+%\usepackage[blocks]{authblk)
+%\usepackage{uni-titlepage}
 
 \providecommand{\abstractname}{Learning Objectives} % not in scrbook class
 \newenvironment{objectives}[1]{%
@@ -139,6 +142,25 @@
 	\vspace{5pt}
 	\hrule
 	\vspace{0.6cm}
+}
+\AtBeginDocument{%
+\begin{titlepage}
+	\centering
+	\vspace*{\baselineskip}
+	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
+	\rule{\textwidth}{0.4pt}\\[\baselineskip]
+	{\LARGE Regression Analysis\\ With \\[0.3\baselineskip] R And Easystats}\\[0.2\baselineskip]
+	\rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt}
+	\rule{\textwidth}{1.6pt}\\[\baselineskip]
+	\scshape
+	\vspace*{8\baselineskip}
+	Author \\[\baselineskip]
+	{\Large Maulik Bhatt \par}
+	{\itshape S P Jain Institute of Management \& Research \\ Mumbai\par}
+	\vfill
+	{\scshape 2023} \\
+	{\large Maulik Bhatt}\par%
+\end{titlepage}
 }
 \makeatletter
 \makeatother
@@ -212,12 +234,12 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{21/06/2023}
+\date{26/06/2023}
 
 \begin{document}
 \frontmatter
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, enhanced, frame hidden, boxrule=0pt, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable, boxrule=0pt, frame hidden, sharp corners]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Contents}
 {
@@ -371,9 +393,8 @@ we click on the \texttt{build} button, it renders the entire book in
 either pdf or HTML format. It is also possible to render the book in
 Microsoft Word format, but this output format has got limited support.
 It is more convenient to design and customize the output in HTML and PDF
-formats. We will discuss more about this in the {[}\textbf{packages
-appendix at the end of the book{]} (\#sec-packages)}. See
-\textbf{?@sec-packages} for more details.
+formats. We will discuss more about this in the chapter of Getting
+Started with R.
 
 \bookmarksetup{startatroot}
 
@@ -451,6 +472,151 @@ recommend reading it. \\
 
 \end{objectives}
 
+\hypertarget{a-brief-history-of-r}{%
+\section{A Brief History of R}\label{a-brief-history-of-r}}
+
+John Chambers, working at Bell Laboratories, developed S programming
+language for statistical analysis. This programming language was
+incorporated in the commercial program S-plus. Inspired by this
+programming languagage, tw o statistics professors Robert Gentleman and
+Ross Ihaka developed a reduced version of S, which they named R.
+
+R was first released in 1993. In 1995, another statistician Martin
+Mächler convinced Gentleman and Ihaka to make R source code available to
+general public. As a result, R became free and open source under GNU
+General Public License.
+
+R also has a robust community of users. As of writing this, there are
+19,719 user-developed packages on Comprehensive R Archive Network
+(CRAN), which distributes the R source code and packages. Apart from
+CRAN, many more packages are also available on code sharing platform
+github. Users can download packages from github as well. The Appendix A
+explains how to install packages from CRAN and from github.
+
+How to Install R
+
+You can install R from the website of
+\href{https://cran.r-project.org/}{CRAN}. Downloadable files and
+instructions to download and install R for all the major operating
+systems are available on this website. R can be downloaded and installed
+on Windows, Mac and Linux platforms.
+
+It is possible to use R right from within this R Graphical User
+Interface (R-Gui). But such a work will not be reproducible. It means,
+you will be able to work on your system, but you won't be able to share
+that work with others. IDE like RStudio makes it much easier to work in
+R, and to share your work with others.
+
+How to Install RStudio
+
+Once you have installed R for your operating system, you can visit the
+website of \href{https://posit.co/download/rstudio-desktop/}{RStudio}.
+Just like R, RStudio is also available on Windows, Mac and Linux
+platforms.
+
+Useful Settings in RStudio
+
+I would recommend you not to save the workspace in RStudio. This setting
+can be disabled in RStudio as follows:
+
+\begin{figure}
+
+{\centering \includegraphics[width=3.92in,height=\textheight]{images/RStudio-settings.png}
+
+}
+
+\caption{\label{fig-disable-workspace}How to Disable Saving Workspace}
+
+\end{figure}
+
+This setting (of not saving your workspace) seems counter-intuitive. But
+it helps you in the longer term. Assume you have to share your work with
+someone else. The other person might not have the same settings of
+computer in his/her system. So, the work on your system might look
+different in that system. Instead, you should save the R Script (or even
+better, a Quarto document) in your system, and should share it.
+
+The Concept of Working Directory
+
+R has a concept of working directory. When you save your R script and
+your work, it gets saved in the ``working directory'' of R. You can find
+and change the working directory using R commands.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\CommentTok{\# Find the working directory}
+\FunctionTok{getwd}\NormalTok{()}
+\CommentTok{\#Change the working directory}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"Path/to/another/folder"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Quarto
+
+Quarto is a new open-source scientific and technical publishing system
+developed by Posit (the maker of RStudio). Quarto is designed to be
+useful to anyone who wants to create reproducible documents. A Quarto
+document contains both - the code and the prose. For example, if you are
+running regression analysis in R, R Script will only contain your code,
+but a Quarto document will contain your R code and your interpretation
+of the regression results. Quarto runs computations into separate
+pluggable language ``engines'', which helps make this cross-language
+functionality easier to support .
+
+Here are some points that emphasize the reproducibility of Quarto over R
+scripts:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Cross-language support}: Quarto is designed to work with
+  multiple languages, including Python, bash, Julia, C, SQL, and more.
+  This makes it easier to work with different languages in the same
+  document.
+\item
+  \textbf{Built-in output formats}: Quarto generates the output in
+  various formats like Microsoft Word, HTML, PDF, beamer, revealjs, etc.
+  It also has many options for customizing each format.
+\item
+  \textbf{Native features for special project types}: Quarto has native
+  features for special project types like websites, books, and blogs.
+  This means that you don't have to rely on external packages. As a
+  matter of fact, this book is written entirely using Quarto in RStudio.
+\item
+  \textbf{Easier rendering}: Quarto isn't an R package. It's a
+  command-line interface that makes it much easier to work with Quarto
+  documents outside of the RStudio IDE. You can also use Quarto in other
+  IDEs like VS Code.
+\end{enumerate}
+
+These features make Quarto a better choice than R scripts when it comes
+to reproducibility. With Quarto, you can easily create documents that
+are easy to reproduce and share with others.
+
+Optional: Installing \LaTeX
+
+If you want to work in Quarto, and want to generate PDF output,
+\LaTeX is required. There are two popular \LaTeX distributions: MiKTeX
+and TeX Live. However, I prefer another \LaTeX distribution, called
+TinyTeX. It's a light weight distribution of \LaTeX, and works well with
+R. You can install it using R as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\CommentTok{\#install tinytex R package}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"tinytex"}\NormalTok{)}
+\CommentTok{\#load it in R}
+\FunctionTok{library}\NormalTok{(tinytex)}
+\CommentTok{\#use this package to install LaTeX compiler TinyTeX}
+\FunctionTok{install\_tinytex}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+These commands install the most commonly used \LaTeX packages into your
+system. However, if you want to install all the \LaTeX packages, you can
+do so by using \texttt{install\_tinytex(bundle\ =\ "TinyTeX-2")} instead
+of \texttt{install\_tinytex()} function above.
+
 \bookmarksetup{startatroot}
 
 \hypertarget{simple-linear-regression}{%
@@ -487,18 +653,205 @@ recommend reading it. \\
 
 \end{objectives}
 
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\FunctionTok{library}\NormalTok{(easystats)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+Introduction
+
+Linear regression is among the fundamental concepts in Econometrics. In
+linear regression, we try to estimate how much one variable will change,
+with response to a change in another variable. The controlled variable
+is called predictor or independent variable. The variable, which changes
+as a response to a change in the controlled variable is called response
+or dependent variable. In R, we denote such relationship with
+\texttt{y\textasciitilde{}x}, where y is the response and x is the
+predictor. The notation \texttt{y\textasciitilde{}x} is read as ``y
+explained by x''.
+
+In mathematical terms, we are fitting a linear equation between x and y.
+When we write \texttt{y\textasciitilde{}x}, it means
+\texttt{y\ =\ ax\ +\ b}, and we need to find a and b from the data
+points given.
+
+Let's understand what it means for us. The workflow for the linear
+regression problem would be:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  We would be given some observations of both - independent variable and
+  dependent variable.
+\item
+  we graph these data points, using a coordinate system (like Cartesian
+  system). Each value is represented by a dot. Such a diagram is called
+  a scatter-plot diagram.
+\item
+  After graphing the points onto a scatter plot diagram, linear
+  regression analysis seeks to find the best-fit line to fit the points
+  as closely as possible.
+\item
+  This best-fit line is a line, which minimizes the distance between the
+  points falling above or below the lines.
+\end{enumerate}
+
+\href{https://www.fiverr.com/resources/guides/data/linear-regression-101}{Linear
+Regression 101: What Is It And How Is It Done? \textbar{} Fiverr}
+
+Principles of Linear Regression (Gauss Markov)
+
+Example in R
+
+For understanding regression, we can generate a dummy dataset, and
+create a regression model on the basis of the data.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{dummy }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{),}\AttributeTok{x =} \FunctionTok{rpois}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+In the code above, we have created a dummy data. The \texttt{rnorm(n)}
+function generates n number of data points based on normal distribution.
+The default mean and standard deviation are 0 and 1 respectively.
+Similarly, the \texttt{rpois(n,l)} function generates n number of data
+points based on poisson distribution, with \lambda = l. We can plot the
+data to explore it visually. We will use \texttt{ggplot2} package to
+create this scatterplot diagram.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\FunctionTok{ggplot}\NormalTok{(dummy)}\SpecialCharTok{+}\FunctionTok{aes}\NormalTok{(x,y)}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Scatterplot Diagram of X and Y"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{lm_files/figure-pdf/fig-scatterplot-1.pdf}
+
+}
+
+\caption{\label{fig-scatterplot}Scatterplot of X and Y}
+
+\end{figure}
+
+Now we can create a regression model from this dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y}\SpecialCharTok{\textasciitilde{}}\NormalTok{x, }\AttributeTok{data =}\NormalTok{ dummy)}
+\end{Highlighting}
+\end{Shaded}
+
+This model stores a lot of information, but it is difficult to
+understand and get the meaning out of it. So, one way is to use the
+\texttt{summary} function on this \texttt{model1} object.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\FunctionTok{summary}\NormalTok{(model1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = y ~ x, data = dummy)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.6342 -0.4445  0.0324  0.6090  2.7336 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.24693    0.20632   1.197    0.234
+x           -0.05627    0.05672  -0.992    0.324
+
+Residual standard error: 1.051 on 98 degrees of freedom
+Multiple R-squared:  0.009944,  Adjusted R-squared:  -0.0001589 
+F-statistic: 0.9843 on 1 and 98 DF,  p-value: 0.3236
+\end{verbatim}
+
+The problem with this summary object is that it is not a data.frame. It
+is difficult to put this object in a research paper or any other
+academic submisison. So, we can use the \texttt{easystats} packages for
+this. The \texttt{model\_parameters} function would show us the
+parameters (aka coefficients) of the model, and the
+\texttt{model\_performance} function will show us the effectiveness of
+the regression model. We can also use the \texttt{display} function to
+beautify the table in the output.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{model1 }\SpecialCharTok{|\textgreater{}} \FunctionTok{model\_parameters}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{display}\NormalTok{(}\AttributeTok{format =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Regression Parameters"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tbl-regression-params}{}
+\begin{longtable}[]{@{}lccccc@{}}
+\caption{\label{tbl-regression-params}Regression
+Parameters}\tabularnewline
+\toprule\noalign{}
+Parameter & Coefficient & SE & 95\% CI & t(98) & p \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Parameter & Coefficient & SE & 95\% CI & t(98) & p \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 0.25 & 0.21 & (-0.16, 0.66) & 1.20 & 0.234 \\
+x & -0.06 & 0.06 & (-0.17, 0.06) & -0.99 & 0.324 \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{model1 }\SpecialCharTok{|\textgreater{}} \FunctionTok{model\_performance}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{display}\NormalTok{(}\AttributeTok{format =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Regression Effectiveness"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tbl-regression-effectiveness}{}
+\begin{longtable}[]{@{}lcccccc@{}}
+\caption{\label{tbl-regression-effectiveness}Regression
+Effectiveness}\tabularnewline
+\toprule\noalign{}
+AIC & AICc & BIC & R2 & R2 (adj.) & RMSE & Sigma \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+AIC & AICc & BIC & R2 & R2 (adj.) & RMSE & Sigma \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+297.71 & 297.96 & 305.53 & 9.94e-03 & -1.59e-04 & 1.04 & 1.05 \\
+\end{longtable}
+
+Interpretation of Regression Model
+
+- The intercept is statistically non-significant and negative (beta =
+-0.16, 95\% CI {[}-0.59, 0.27{]}, t(98) = -0.74, p = 0.461; Std. beta =
+-5.50e-18, 95\% CI {[}-0.20, 0.20{]}).
+
 \begin{itemize}
+\tightlist
 \item
-  Understanding the principles of simple linear regression
-\item
-  Performing simple linear regression in R for econometric analysis
-\item
-  Interpreting regression results in the context of economic variables
-\item
-  Assessing model assumptions and addressing violations
-\item
-  Practical examples and exercises using R
+  The effect of x is statistically non-significant and positive (beta =
+  0.07, 95\% CI {[}-0.04, 0.17{]}, t(98) = 1.24, p = 0.219; Std. beta =
+  0.12, 95\% CI {[}-0.07, 0.32{]}).
 \end{itemize}
+
+The model explains a statistically not significant and very
+
+weak proportion of variance (R\^{}2 = 0.02, F(1, 98) = 1.53, p =
+
+0.219, adj. R\^{}2 = 5.32e-03).
 
 \bookmarksetup{startatroot}
 
@@ -985,13 +1338,13 @@ below.
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"download{-}book.png"}\NormalTok{))}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"images"}\NormalTok{,}\StringTok{"download{-}book.png"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=4.43in,height=\textheight]{download-book.png}
+{\centering \includegraphics[width=4.43in,height=\textheight]{images/download-book.png}
 
 }
 
@@ -1022,13 +1375,13 @@ through terminal in RStudio using the command
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"build{-}book.png"}\NormalTok{))}
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"images"}\NormalTok{,}\StringTok{"build{-}book.png"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=2.73in,height=\textheight]{build-book.png}
+{\centering \includegraphics[width=2.73in,height=\textheight]{images/build-book.png}
 
 }
 

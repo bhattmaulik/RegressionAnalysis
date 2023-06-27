@@ -6,13 +6,12 @@
 \setcounter{table}{0}
 \renewcommand{\thetable}{C.\arabic{table}}
 ```
-
 If you want to build this book locally on your computer, please download the entire code from Github. The first step is to visit the website `www.github.com/bhattmaulik/RegressionAnalysis`. Here, you will find the option to download the entire book in a zip file, as shown below.
 
 ```{r}
 #| fig-cap: "Download the book from Github"
 #| label: fig-download-book
-knitr::include_graphics(here::here("download-book.png"))
+knitr::include_graphics(here::here("images","download-book.png"))
 ```
 
 After you download the zip file, unzip it. This will create a folder in your computer. Within this folder, double click on the "RegressionAnalysis.Rproj" file. This will open the whole project in RStudio.
@@ -26,7 +25,7 @@ If you want to build the PDF book, you can install `tinytex` through terminal in
 ```{r}
 #| label: fig-build-book
 #| fig-cap: "Build book using tinytex"
-knitr::include_graphics(here::here("build-book.png"))
+knitr::include_graphics(here::here("images","build-book.png"))
 ```
 
 If you can't install it this way, or if you want to install it through traditional way using R code, you can use the following code:

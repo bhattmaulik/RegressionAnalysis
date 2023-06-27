@@ -1,23 +1,8 @@
-\usepackage[automark]{scrlayer-scrpage}
-%\usepackage[blocks]{authblk)
-%\usepackage{uni-titlepage}
-
-\providecommand{\abstractname}{Learning Objectives} % not in scrbook class
-\newenvironment{objectives}[1]{%
-	\hrule
-	\vspace{5pt}
-	\small\textbf{\abstractname: } 
-	\newline
-	\vspace{0.1cm}
-	%\small\emph #1     %  emph takes an argument
-	\small\emph{#1} % or \small\textit{#1} 
-	\itshape % use this if you want the text to be in italics
-}{%
-	\vspace{5pt}
-	\hrule
-	\vspace{0.6cm}
-}
-\AtBeginDocument{%
+\documentclass[]{scrbook}
+\title{Regression Analysis with R and Easystats}
+\author{Maulik Bhatt}
+\date{\today}
+\begin{document}
 \begin{titlepage}
 	\centering
 	\vspace*{\baselineskip}
@@ -34,5 +19,5 @@
 	\vfill
 	{\scshape 2023} \\
 	{\large Maulik Bhatt}\par%
-\end{titlepage}
-}
+    \end{titlepage}
+	\end{document}

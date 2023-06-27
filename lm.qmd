@@ -25,12 +25,83 @@ display_chapter_status("drafting")
 
 \end{objectives}
 ```
--   Understanding the principles of simple linear regression
+```{r chapter-setup}
+library(easystats)
+library(ggplot2)
+```
 
--   Performing simple linear regression in R for econometric analysis
+Introduction
 
--   Interpreting regression results in the context of economic variables
+Linear regression is among the fundamental concepts in Econometrics. In linear regression, we try to estimate how much one variable will change, with response to a change in another variable. The controlled variable is called predictor or independent variable. The variable, which changes as a response to a change in the controlled variable is called response or dependent variable. In R, we denote such relationship with `y~x`, where y is the response and x is the predictor. The notation `y~x` is read as "y explained by x".
 
--   Assessing model assumptions and addressing violations
+In mathematical terms, we are fitting a linear equation between x and y. When we write `y~x`, it means `y = ax + b`, and we need to find a and b from the data points given.
 
--   Practical examples and exercises using R
+Let's understand what it means for us. The workflow for the linear regression problem would be:
+
+1.  We would be given some observations of both - independent variable and dependent variable.
+
+2.  we graph these data points, using a coordinate system (like Cartesian system). Each value is represented by a dot. Such a diagram is called a scatter-plot diagram.
+
+3.  After graphing the points onto a scatter plot diagram, linear regression analysis seeks to find the best-fit line to fit the points as closely as possible.
+
+4.  This best-fit line is a line, which minimizes the distance between the points falling above or below the lines.
+
+[Linear Regression 101: What Is It And How Is It Done? \| Fiverr](https://www.fiverr.com/resources/guides/data/linear-regression-101)
+
+Principles of Linear Regression (Gauss Markov)
+
+Example in R
+
+For understanding regression, we can generate a dummy dataset, and create a regression model on the basis of the data.
+
+```{r dummy-data}
+dummy <- data.frame(y = rnorm(100),x = rpois(100,3))
+```
+
+In the code above, we have created a dummy data. The `rnorm(n)` function generates n number of data points based on normal distribution. The default mean and standard deviation are 0 and 1 respectively. Similarly, the `rpois(n,l)` function generates n number of data points based on poisson distribution, with \lambda = l. We can plot the data to explore it visually. We will use `ggplot2` package to create this scatterplot diagram.
+
+```{r scatterplot}
+#| label: fig-scatterplot
+#| fig-cap: "Scatterplot of X and Y"
+ggplot(dummy)+aes(x,y)+geom_point()+labs(title = "Scatterplot Diagram of X and Y")
+```
+
+Now we can create a regression model from this dataset.
+
+```{r regression}
+model1 <- lm(y~x, data = dummy)
+```
+
+This model stores a lot of information, but it is difficult to understand and get the meaning out of it. So, one way is to use the `summary` function on this `model1` object.
+
+```{r regression-summary}
+summary(model1)
+```
+
+The problem with this summary object is that it is not a data.frame. It is difficult to put this object in a research paper or any other academic submisison. So, we can use the `easystats` packages for this. The `model_parameters` function would show us the parameters (aka coefficients) of the model, and the `model_performance` function will show us the effectiveness of the regression model. We can also use the `display` function to beautify the table in the output.
+
+```{r}
+#| label: tbl-regression-params
+#| tbl-cap: "Regression Parameters"
+model1 |> model_parameters() |> 
+  display(format = "markdown", caption = "Regression Parameters")
+```
+
+```{r}
+#| label: tbl-regression-effectiveness
+#| tbl-cap: "Regression Effectiveness"
+model1 |> model_performance() |> 
+  display(format = "markdown", caption = "Regression Effectiveness")
+```
+
+Interpretation of Regression Model
+
+\- The intercept is statistically non-significant and negative (beta = -0.16, 95% CI \[-0.59, 0.27\], t(98) = -0.74, p = 0.461; Std. beta = -5.50e-18, 95% CI \[-0.20, 0.20\]).
+
+-   The effect of x is statistically non-significant and positive (beta = 0.07, 95% CI \[-0.04, 0.17\], t(98) = 1.24, p = 0.219; Std. beta = 0.12, 95% CI \[-0.07, 0.32\]).
+
+The model explains a statistically not significant and very
+
+weak proportion of variance (R\^2 = 0.02, F(1, 98) = 1.53, p =
+
+0.219, adj. R\^2 = 5.32e-03).

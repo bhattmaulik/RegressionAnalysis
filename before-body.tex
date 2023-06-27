@@ -1,0 +1,16 @@
+$if(has-frontmatter)$
+\frontmatter
+$endif$
+$if(title)$
+$if(beamer)$
+\frame{\titlepage}
+$else$
+\titlepagestyle[dedication = "My teachers", publisher = "Self published", subject = "Econometrics", titlehead = { }]{KOMAScript}
+\maketitle
+$endif$
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$endif$

@@ -5,13 +5,14 @@
 %
 \documentclass[
   letterpaper,
+  paper =a4,
   twoside,
   openright,
   headsepline,
   footsepline,
   listof = totocnumbered,
   chapterprefix = true,
-  titlepage = false]{scrbook}
+  firstiscover]{scrbook}
 
 \usepackage{amsmath,amssymb}
 \usepackage{iftex}
@@ -143,7 +144,7 @@
 	\hrule
 	\vspace{0.6cm}
 }
-\AtBeginDocument{%
+\renewcommand{\maketitle}{
 \begin{titlepage}
 	\centering
 	\vspace*{\baselineskip}
@@ -234,12 +235,12 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{26/06/2023}
+\date{29/06/2023}
 
 \begin{document}
 \frontmatter
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, borderline west={3pt}{0pt}{shadecolor}, enhanced, breakable, boxrule=0pt, frame hidden, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, breakable, frame hidden, boxrule=0pt, interior hidden, sharp corners, enhanced]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Contents}
 {
@@ -551,7 +552,8 @@ and change the working directory using R commands.
 \end{Highlighting}
 \end{Shaded}
 
-Quarto
+\hypertarget{quarto}{%
+\section{Quarto}\label{quarto}}
 
 Quarto is a new open-source scientific and technical publishing system
 developed by Posit (the maker of RStudio). Quarto is designed to be
@@ -616,6 +618,471 @@ These commands install the most commonly used \LaTeX packages into your
 system. However, if you want to install all the \LaTeX packages, you can
 do so by using \texttt{install\_tinytex(bundle\ =\ "TinyTeX-2")} instead
 of \texttt{install\_tinytex()} function above.
+
+\hypertarget{your-first-interaction-with-r}{%
+\section{Your First Interaction with
+R}\label{your-first-interaction-with-r}}
+
+After installing R and RStudio, you would start RStudio (not R). RStudio
+has four parts in the screen. The four parts (called ``panes'') are
+source pane, console pane, environment pane and files pane. You can
+customize each pane using
+\texttt{Tools\ Menu\ \textgreater{}\ Global\ Options\ \textgreater{}\ Pane\ Layout}.
+The RStudio screen looks as follows:
+
+\begin{figure}
+
+{\centering \includegraphics[width=4.27in,height=\textheight]{images/RStudio-panes.png}
+
+}
+
+\caption{\label{fig-rstudio-panes}RStudio Panes}
+
+\end{figure}
+
+When you open a new file in RStudio using the
+\texttt{Files\ Menu\ \textgreater{}\ New\ File}, you are presented with
+many options like R Script, R Markdown Document, Quarto Document, etc. I
+would suggest you to choose R Markdown Document or Quarto Document,
+because in these two file formats, you can write both - your analysis
+and your prose. Your document will be saved in your working directory.
+
+In RStudio's File Menu, you will also find another option:
+\texttt{New\ Project}. This is a considerable improvement over a new
+file - be it an R Script or a Quarto Document. This is because it
+changes the working directory of the project to the folder, where
+\texttt{.Rproj} file of the project is stored. You can share this folder
+with anyone, and the code will work just fine on that computer also.
+
+When you go to
+\texttt{File\ Menu\ \textgreater{}\ New\ Project\ \textgreater{}\ New\ Directory},
+you get options as follows:
+
+\begin{figure}
+
+{\centering \includegraphics[width=4.27in,height=\textheight]{images/New_Project.png}
+
+}
+
+\caption{\label{fig-rstudio-project}Types of RStudio Projects}
+
+\end{figure}
+
+As you can see, it has many options like RStudio Project, R Package,
+Quarto Project, Quarto Website, Quarto Blog and Quarto Book. This book
+is written using a Quarto Book project.
+
+\hypertarget{installing-packages}{%
+\section{Installing Packages}\label{installing-packages}}
+
+You can install packages using the command
+\texttt{install.packages(package\_name)}. For example, the command to
+install the \texttt{easystats} set of packages would be
+\texttt{install.packages(easystats)}.
+
+\hypertarget{loading-and-manipulating-data}{%
+\section{Loading and Manipulating
+Data}\label{loading-and-manipulating-data}}
+
+In order to analyse the data, we need to load or import the data first.
+There are many possibilities as far as loading/importing data is
+concerned. If the data comes from a package, then you can directly load
+the data using the \texttt{data(dataset\_name)} command. For example,
+the command \texttt{data(mtcars)} will load the \texttt{mtcars} dataset
+into the environment. This dataset comes in-built in R.
+
+Most of the data comes from external sources in different file formats
+like csv or Microsoft Excel. Data in csv file format can easily be read
+using the \texttt{read.csv(path\_to\_data\_file)} command. There is
+\texttt{readr} package also, which is part of the \texttt{tidyverse} set
+of packages. This package \texttt{readr} can import csv data and load it
+in the environment as a \texttt{tibble}. The native data format in R is
+\texttt{data.frame}, and \texttt{tibble} is ``advanced version of
+\texttt{data.frame} according to the developers of the tidyverse set of
+packages.
+
+Similarly, to import data from Microsoft Excel file, there is
+\texttt{readxl} package, which is also a part of \texttt{tidyverse}.
+Just like \texttt{readr}, \texttt{readxl} would also import the data in
+form of a \texttt{tibble}. Both the packages also share similar
+interface to import data.
+
+The packages \texttt{foreign} and \texttt{haven} are useful for
+importing data from other statistical packages like SPSS, SAS and STATA.
+
+Another noteworthy package is \texttt{data.table}, which can import data
+from many formats. Its function \texttt{fread} is versatile and can read
+data in many formats.
+
+\hypertarget{manipulating-data}{%
+\subsection{Manipulating Data}\label{manipulating-data}}
+
+Although R is capable of data manipulation without using any other
+packages, some of the packages created especially to facilitate data
+manipulation makes the process easy and understandable for others. In
+our examples, we will use \texttt{tidyverse} set of packages for data
+manipulation. In particular, two of its packages \texttt{dplyr} and
+\texttt{tidyr} make this process quite easy.
+
+\hypertarget{selecting-columns-from-dataset}{%
+\subsection{Selecting Columns from
+Dataset}\label{selecting-columns-from-dataset}}
+
+We can use the \texttt{select} command from \texttt{dplyr} for selecting
+columns from a dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{carb) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Selecting Columns from am to carb from mtcars
+dataset}\tabularnewline
+\toprule\noalign{}
+& am & gear & carb \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& am & gear & carb \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Mazda RX4 & 1 & 4 & 4 \\
+Mazda RX4 Wag & 1 & 4 & 4 \\
+Datsun 710 & 1 & 4 & 1 \\
+Hornet 4 Drive & 0 & 3 & 1 \\
+Hornet Sportabout & 0 & 3 & 2 \\
+Valiant & 0 & 3 & 1 \\
+Duster 360 & 0 & 3 & 4 \\
+Merc 240D & 0 & 4 & 2 \\
+Merc 230 & 0 & 4 & 2 \\
+Merc 280 & 0 & 4 & 4 \\
+Merc 280C & 0 & 4 & 4 \\
+Merc 450SE & 0 & 3 & 3 \\
+Merc 450SL & 0 & 3 & 3 \\
+Merc 450SLC & 0 & 3 & 3 \\
+Cadillac Fleetwood & 0 & 3 & 4 \\
+Lincoln Continental & 0 & 3 & 4 \\
+Chrysler Imperial & 0 & 3 & 4 \\
+Fiat 128 & 1 & 4 & 1 \\
+Honda Civic & 1 & 4 & 2 \\
+Toyota Corolla & 1 & 4 & 1 \\
+Toyota Corona & 0 & 3 & 1 \\
+Dodge Challenger & 0 & 3 & 2 \\
+AMC Javelin & 0 & 3 & 2 \\
+Camaro Z28 & 0 & 3 & 4 \\
+Pontiac Firebird & 0 & 3 & 2 \\
+Fiat X1-9 & 1 & 4 & 1 \\
+Porsche 914-2 & 1 & 5 & 2 \\
+Lotus Europa & 1 & 5 & 2 \\
+Ford Pantera L & 1 & 5 & 4 \\
+Ferrari Dino & 1 & 5 & 6 \\
+Maserati Bora & 1 & 5 & 8 \\
+Volvo 142E & 1 & 4 & 2 \\
+\end{longtable}
+
+In the above command, we first loaded the \texttt{tidyverse} set of
+packages, so that its functionality is available in the R session. Then
+we took the built-in dataset \texttt{mtcars}, and then selected the
+columns from \texttt{am} to \texttt{carb} in the dataset. The
+\texttt{\textbar{}\textgreater{}} is called the \texttt{pipe\ operator}
+in R. It was introduced in R version 4.1. Before that, there was another
+pipe operator (\texttt{\%\textgreater{}\%}) in the \texttt{magrittr}
+package, which is also a part of \texttt{tidyverse}. To understand how
+pipe operator makes coding easy and readable, imagine you want to take
+g(f(x)), which reads g of f of x. It means you want to take a value x,
+apply the function f on that value, and on the output, you want to apply
+another function g. Before the introduction of pipe operator, you would
+have written it as \texttt{g(f(x))}, but now after R 4.1, you can write
+it as
+\texttt{x\ \textbar{}\textgreater{}\ f()\ \textbar{}\textgreater{}\ g()}.
+
+\hypertarget{selecting-rows-from-a-dataset-aka-filtering}{%
+\subsection{\texorpdfstring{Selecting Rows from a Dataset (aka
+\texttt{filtering})}{Selecting Rows from a Dataset (aka filtering)}}\label{selecting-rows-from-a-dataset-aka-filtering}}
+
+We can use \texttt{filter} function from \texttt{dplyr} for filtering
+rows of a dataset. For example, we want to filter the rows of
+\texttt{mtcars} dataset, where \texttt{cyl} is equal to 6. We can do
+this by
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{filter}\NormalTok{(cyl}\SpecialCharTok{==}\DecValTok{6}\NormalTok{) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.2239}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0746}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0597}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0896}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0597}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0746}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0896}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0896}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0448}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0448}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0746}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 22\tabcolsep) * \real{0.0746}}@{}}
+\caption{Selecting Rows from mtcars dataset where value of cyl is
+6}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mpg
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+cyl
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+disp
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+hp
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+drat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+wt
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+qsec
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+vs
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+am
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gear
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+carb
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mpg
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+cyl
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+disp
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+hp
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+drat
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+wt
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+qsec
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+vs
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+am
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+gear
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+carb
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Mazda RX4 & 21.0 & 6 & 160.0 & 110 & 3.90 & 2.620 & 16.46 & 0 & 1 & 4 &
+4 \\
+Mazda RX4 Wag & 21.0 & 6 & 160.0 & 110 & 3.90 & 2.875 & 17.02 & 0 & 1 &
+4 & 4 \\
+Hornet 4 Drive & 21.4 & 6 & 258.0 & 110 & 3.08 & 3.215 & 19.44 & 1 & 0 &
+3 & 1 \\
+Valiant & 18.1 & 6 & 225.0 & 105 & 2.76 & 3.460 & 20.22 & 1 & 0 & 3 &
+1 \\
+Merc 280 & 19.2 & 6 & 167.6 & 123 & 3.92 & 3.440 & 18.30 & 1 & 0 & 4 &
+4 \\
+Merc 280C & 17.8 & 6 & 167.6 & 123 & 3.92 & 3.440 & 18.90 & 1 & 0 & 4 &
+4 \\
+Ferrari Dino & 19.7 & 6 & 145.0 & 175 & 3.62 & 2.770 & 15.50 & 0 & 1 & 5
+& 6 \\
+\end{longtable}
+
+We can see that in this code, we have used ``='' twice. In R, ``='' is
+an assignment operator. It means, when we write \texttt{cyl=6}, it
+assigns value 6 to the variable \texttt{cyl}. So, when we want to check
+equality, we have to use ``=='' instead of ``=''.
+
+\hypertarget{arrange-data}{%
+\subsection{Arrange Data}\label{arrange-data}}
+
+Using \texttt{dplyr}, it is easy to arrange or sort data in ascending or
+descending order of a column: use the \texttt{arrange} function for
+that.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(mpg)}\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Arrange the Data in Ascending Order of
+\texttt{mpg}}\tabularnewline
+\toprule\noalign{}
+& mpg & cyl & disp \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& mpg & cyl & disp \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Cadillac Fleetwood & 10.4 & 8 & 472.0 \\
+Lincoln Continental & 10.4 & 8 & 460.0 \\
+Camaro Z28 & 13.3 & 8 & 350.0 \\
+Duster 360 & 14.3 & 8 & 360.0 \\
+Chrysler Imperial & 14.7 & 8 & 440.0 \\
+Maserati Bora & 15.0 & 8 & 301.0 \\
+Merc 450SLC & 15.2 & 8 & 275.8 \\
+AMC Javelin & 15.2 & 8 & 304.0 \\
+Dodge Challenger & 15.5 & 8 & 318.0 \\
+Ford Pantera L & 15.8 & 8 & 351.0 \\
+Merc 450SE & 16.4 & 8 & 275.8 \\
+Merc 450SL & 17.3 & 8 & 275.8 \\
+Merc 280C & 17.8 & 6 & 167.6 \\
+Valiant & 18.1 & 6 & 225.0 \\
+Hornet Sportabout & 18.7 & 8 & 360.0 \\
+Merc 280 & 19.2 & 6 & 167.6 \\
+Pontiac Firebird & 19.2 & 8 & 400.0 \\
+Ferrari Dino & 19.7 & 6 & 145.0 \\
+Mazda RX4 & 21.0 & 6 & 160.0 \\
+Mazda RX4 Wag & 21.0 & 6 & 160.0 \\
+Hornet 4 Drive & 21.4 & 6 & 258.0 \\
+Volvo 142E & 21.4 & 4 & 121.0 \\
+Toyota Corona & 21.5 & 4 & 120.1 \\
+Datsun 710 & 22.8 & 4 & 108.0 \\
+Merc 230 & 22.8 & 4 & 140.8 \\
+Merc 240D & 24.4 & 4 & 146.7 \\
+Porsche 914-2 & 26.0 & 4 & 120.3 \\
+Fiat X1-9 & 27.3 & 4 & 79.0 \\
+Honda Civic & 30.4 & 4 & 75.7 \\
+Lotus Europa & 30.4 & 4 & 95.1 \\
+Fiat 128 & 32.4 & 4 & 78.7 \\
+Toyota Corolla & 33.9 & 4 & 71.1 \\
+\end{longtable}
+
+You can similarly arrange the data in descending order of \texttt{mpg}
+column in the \texttt{mtcars} dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Arrange the Data in Descending Order of
+\texttt{mpg}}\tabularnewline
+\toprule\noalign{}
+& mpg & cyl & disp \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& mpg & cyl & disp \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Toyota Corolla & 33.9 & 4 & 71.1 \\
+Fiat 128 & 32.4 & 4 & 78.7 \\
+Honda Civic & 30.4 & 4 & 75.7 \\
+Lotus Europa & 30.4 & 4 & 95.1 \\
+Fiat X1-9 & 27.3 & 4 & 79.0 \\
+Porsche 914-2 & 26.0 & 4 & 120.3 \\
+Merc 240D & 24.4 & 4 & 146.7 \\
+Datsun 710 & 22.8 & 4 & 108.0 \\
+Merc 230 & 22.8 & 4 & 140.8 \\
+Toyota Corona & 21.5 & 4 & 120.1 \\
+Hornet 4 Drive & 21.4 & 6 & 258.0 \\
+Volvo 142E & 21.4 & 4 & 121.0 \\
+Mazda RX4 & 21.0 & 6 & 160.0 \\
+Mazda RX4 Wag & 21.0 & 6 & 160.0 \\
+Ferrari Dino & 19.7 & 6 & 145.0 \\
+Merc 280 & 19.2 & 6 & 167.6 \\
+Pontiac Firebird & 19.2 & 8 & 400.0 \\
+Hornet Sportabout & 18.7 & 8 & 360.0 \\
+Valiant & 18.1 & 6 & 225.0 \\
+Merc 280C & 17.8 & 6 & 167.6 \\
+Merc 450SL & 17.3 & 8 & 275.8 \\
+Merc 450SE & 16.4 & 8 & 275.8 \\
+Ford Pantera L & 15.8 & 8 & 351.0 \\
+Dodge Challenger & 15.5 & 8 & 318.0 \\
+Merc 450SLC & 15.2 & 8 & 275.8 \\
+AMC Javelin & 15.2 & 8 & 304.0 \\
+Maserati Bora & 15.0 & 8 & 301.0 \\
+Chrysler Imperial & 14.7 & 8 & 440.0 \\
+Duster 360 & 14.3 & 8 & 360.0 \\
+Camaro Z28 & 13.3 & 8 & 350.0 \\
+Cadillac Fleetwood & 10.4 & 8 & 472.0 \\
+Lincoln Continental & 10.4 & 8 & 460.0 \\
+\end{longtable}
+
+Create a New Variable
+
+You can create a new variable using the \texttt{mutate} function in
+\texttt{dplyr} package. For example, you want to create a new variable,
+called FuelEff, which is defined as reciprocal of mpg, then you can do
+it as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FuelEff =} \DecValTok{1}\SpecialCharTok{/}\NormalTok{mpg) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{FuelEff) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\caption{Create a New Variable in \texttt{mtcars}
+dataset}\tabularnewline
+\toprule\noalign{}
+& am & gear & carb & FuelEff \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+& am & gear & carb & FuelEff \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Mazda RX4 & 1 & 4 & 4 & 0.0476190 \\
+Mazda RX4 Wag & 1 & 4 & 4 & 0.0476190 \\
+Datsun 710 & 1 & 4 & 1 & 0.0438596 \\
+Hornet 4 Drive & 0 & 3 & 1 & 0.0467290 \\
+Hornet Sportabout & 0 & 3 & 2 & 0.0534759 \\
+Valiant & 0 & 3 & 1 & 0.0552486 \\
+Duster 360 & 0 & 3 & 4 & 0.0699301 \\
+Merc 240D & 0 & 4 & 2 & 0.0409836 \\
+Merc 230 & 0 & 4 & 2 & 0.0438596 \\
+Merc 280 & 0 & 4 & 4 & 0.0520833 \\
+Merc 280C & 0 & 4 & 4 & 0.0561798 \\
+Merc 450SE & 0 & 3 & 3 & 0.0609756 \\
+Merc 450SL & 0 & 3 & 3 & 0.0578035 \\
+Merc 450SLC & 0 & 3 & 3 & 0.0657895 \\
+Cadillac Fleetwood & 0 & 3 & 4 & 0.0961538 \\
+Lincoln Continental & 0 & 3 & 4 & 0.0961538 \\
+Chrysler Imperial & 0 & 3 & 4 & 0.0680272 \\
+Fiat 128 & 1 & 4 & 1 & 0.0308642 \\
+Honda Civic & 1 & 4 & 2 & 0.0328947 \\
+Toyota Corolla & 1 & 4 & 1 & 0.0294985 \\
+Toyota Corona & 0 & 3 & 1 & 0.0465116 \\
+Dodge Challenger & 0 & 3 & 2 & 0.0645161 \\
+AMC Javelin & 0 & 3 & 2 & 0.0657895 \\
+Camaro Z28 & 0 & 3 & 4 & 0.0751880 \\
+Pontiac Firebird & 0 & 3 & 2 & 0.0520833 \\
+Fiat X1-9 & 1 & 4 & 1 & 0.0366300 \\
+Porsche 914-2 & 1 & 5 & 2 & 0.0384615 \\
+Lotus Europa & 1 & 5 & 2 & 0.0328947 \\
+Ford Pantera L & 1 & 5 & 4 & 0.0632911 \\
+Ferrari Dino & 1 & 5 & 6 & 0.0507614 \\
+Maserati Bora & 1 & 5 & 8 & 0.0666667 \\
+Volvo 142E & 1 & 4 & 2 & 0.0467290 \\
+\end{longtable}
 
 \bookmarksetup{startatroot}
 

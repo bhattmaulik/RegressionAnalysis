@@ -47,10 +47,7 @@ format:
     number-sections: true
     number-depth: 3
     documentclass: scrbook
-    classoption: [twoside, openright, headsepline, footsepline, listof = totocnumbered, chapterprefix = true, titlepage = false]
-    #change it later to openright
-    #template-partials:
-    #  - title.tex
+    classoption: ["paper =a4", "twoside", "openright", "headsepline", "footsepline", "listof = totocnumbered", "chapterprefix = true", "firstiscover"]
     include-in-header:
       - file: preamble.tex
     margin-left: 1in
@@ -63,6 +60,8 @@ format:
     lot: true
     lof: true
     fig-cap-location: bottom
+    fig-align: center
+    fig-width: 6.5
     tbl-cap-location: top
     code-line-numbers: true
     keep-tex: true
@@ -79,6 +78,6 @@ execute:
   error: false
   cache: true
 editor: visual
-filters: [remove_tltle.lua]
+
 
 

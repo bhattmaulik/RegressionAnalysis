@@ -68,7 +68,7 @@ getwd()
 setwd("Path/to/another/folder")
 ```
 
-Quarto
+## Quarto
 
 Quarto is a new open-source scientific and technical publishing system developed by Posit (the maker of RStudio). Quarto is designed to be useful to anyone who wants to create reproducible documents. A Quarto document contains both - the code and the prose. For example, if you are running regression analysis in R, R Script will only contain your code, but a Quarto document will contain your R code and your interpretation of the regression results. Quarto runs computations into separate pluggable language "engines", which helps make this cross-language functionality easier to support .
 
@@ -100,3 +100,102 @@ install_tinytex()
 ```
 
 These commands install the most commonly used \LaTeX packages into your system. However, if you want to install all the \LaTeX packages, you can do so by using `install_tinytex(bundle = "TinyTeX-2")` instead of `install_tinytex()` function above.
+
+## Your First Interaction with R
+
+After installing R and RStudio, you would start RStudio (not R). RStudio has four parts in the screen. The four parts (called "panes") are source pane, console pane, environment pane and files pane. You can customize each pane using `Tools Menu > Global Options > Pane Layout`. The RStudio screen looks as follows:
+
+```{r}
+#| label: fig-rstudio-panes
+#| fig-cap: "RStudio Panes"
+#| echo: false
+knitr::include_graphics(here::here("images","RStudio-panes.png"))
+```
+
+When you open a new file in RStudio using the `Files Menu > New File`, you are presented with many options like R Script, R Markdown Document, Quarto Document, etc. I would suggest you to choose R Markdown Document or Quarto Document, because in these two file formats, you can write both - your analysis and your prose. Your document will be saved in your working directory.
+
+In RStudio's File Menu, you will also find another option: `New Project`. This is a considerable improvement over a new file - be it an R Script or a Quarto Document. This is because it changes the working directory of the project to the folder, where `.Rproj` file of the project is stored. You can share this folder with anyone, and the code will work just fine on that computer also.
+
+When you go to `File Menu > New Project > New Directory`, you get options as follows:
+
+```{r}
+#| label: fig-rstudio-project
+#| fig-cap: "Types of RStudio Projects"
+#| echo: false
+knitr::include_graphics(here::here("images","New_Project.png"))
+```
+
+As you can see, it has many options like RStudio Project, R Package, Quarto Project, Quarto Website, Quarto Blog and Quarto Book. This book is written using a Quarto Book project.
+
+## Installing Packages
+
+You can install packages using the command `install.packages(package_name)`. For example, the command to install the `easystats` set of packages would be `install.packages(easystats)`.
+
+## Loading and Manipulating Data
+
+In order to analyse the data, we need to load or import the data first. There are many possibilities as far as loading/importing data is concerned. If the data comes from a package, then you can directly load the data using the `data(dataset_name)` command. For example, the command `data(mtcars)` will load the `mtcars` dataset into the environment. This dataset comes in-built in R.
+
+Most of the data comes from external sources in different file formats like csv or Microsoft Excel. Data in csv file format can easily be read using the `read.csv(path_to_data_file)` command. There is `readr` package also, which is part of the `tidyverse` set of packages. This package `readr` can import csv data and load it in the environment as a `tibble`. The native data format in R is `data.frame`, and `tibble` is "advanced version of `data.frame` according to the developers of the tidyverse set of packages.
+
+Similarly, to import data from Microsoft Excel file, there is `readxl` package, which is also a part of `tidyverse`. Just like `readr`, `readxl` would also import the data in form of a `tibble`. Both the packages also share similar interface to import data.
+
+The packages `foreign` and `haven` are useful for importing data from other statistical packages like SPSS, SAS and STATA.
+
+Another noteworthy package is `data.table`, which can import data from many formats. Its function `fread` is versatile and can read data in many formats.
+
+### Manipulating Data
+
+Although R is capable of data manipulation without using any other packages, some of the packages created especially to facilitate data manipulation makes the process easy and understandable for others. In our examples, we will use `tidyverse` set of packages for data manipulation. In particular, two of its packages `dplyr` and `tidyr` make this process quite easy.
+
+### Selecting Columns from Dataset
+
+We can use the `select` command from `dplyr` for selecting columns from a dataset.
+
+```{r}
+#| label: mtcars-select
+#| tbl-cap: "Selecting Columns from am to carb from mtcars dataset"
+library(tidyverse)
+mtcars |> select(am:carb) |> knitr::kable()
+```
+
+In the above command, we first loaded the `tidyverse` set of packages, so that its functionality is available in the R session. Then we took the built-in dataset `mtcars`, and then selected the columns from `am` to `carb` in the dataset. The `|>` is called the `pipe operator` in R. It was introduced in R version 4.1. Before that, there was another pipe operator (`%>%`) in the `magrittr` package, which is also a part of `tidyverse`. To understand how pipe operator makes coding easy and readable, imagine you want to take g(f(x)), which reads g of f of x. It means you want to take a value x, apply the function f on that value, and on the output, you want to apply another function g. Before the introduction of pipe operator, you would have written it as `g(f(x))`, but now after R 4.1, you can write it as `x |> f() |> g()`.
+
+### Selecting Rows from a Dataset (aka `filtering`)
+
+We can use `filter` function from `dplyr` for filtering rows of a dataset. For example, we want to filter the rows of `mtcars` dataset, where `cyl` is equal to 6. We can do this by
+
+```{r}
+#| label: mtcars-filter
+#| tbl-cap: "Selecting Rows from mtcars dataset where value of cyl is 6"
+mtcars |> filter(cyl==6) |> knitr::kable()
+```
+
+We can see that in this code, we have used "=" twice. In R, "=" is an assignment operator. It means, when we write `cyl=6`, it assigns value 6 to the variable `cyl`. So, when we want to check equality, we have to use "==" instead of "=".
+
+### Arrange Data
+
+Using `dplyr`, it is easy to arrange or sort data in ascending or descending order of a column: use the `arrange` function for that.
+
+```{r}
+#| label: mtcars-arrange
+#| tbl-cap: "Arrange the Data in Ascending Order of `mpg`"
+mtcars |> arrange(mpg)|> select(mpg:disp) |> knitr::kable()
+```
+
+You can similarly arrange the data in descending order of `mpg` column in the `mtcars` dataset.
+
+```{r}
+#| label: mtcars-arrange-desc
+#| tbl-cap: "Arrange the Data in Descending Order of `mpg`"
+mtcars |> arrange(desc(mpg)) |> select(mpg:disp) |> knitr::kable()
+```
+
+Create a New Variable
+
+You can create a new variable using the `mutate` function in `dplyr` package. For example, you want to create a new variable, called FuelEff, which is defined as reciprocal of mpg, then you can do it as follows:
+
+```{r}
+#| label: mtcars-mutate
+#| tbl-cap: "Create a New Variable in `mtcars` dataset"
+mtcars |> mutate(FuelEff = 1/mpg) |> select(am:FuelEff) |> knitr::kable()
+```

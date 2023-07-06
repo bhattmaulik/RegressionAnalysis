@@ -1,4 +1,4 @@
-# Appendix B: Data sets used in the book's examples {.unnumbered}
+# Data sets used in the book's examples
 
 ```{=latex}
 \setcounter{figure}{0}
@@ -6,3 +6,6 @@
 \setcounter{table}{0}
 \renewcommand{\thetable}{B.\arabic{table}}
 ```
+### Introduction
+
+Dummy text

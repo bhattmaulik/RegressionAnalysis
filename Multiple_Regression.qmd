@@ -25,12 +25,48 @@ display_chapter_status("drafting")
 
 \end{objectives}
 ```
--   Extending regression analysis to multiple independent variables
+### Introduction
 
--   Building and interpreting multiple linear regression models in R
+In the previous chapter, we saw simple linear regression, in which we attempted to understand the relationship between two variables - one called independent variable and the other called the dependent variable. Multiple linear regression is a statistical technique that allows us to analyze the relationship between two or more independent variables and a dependent variable. It is an extension of simple linear regression, which only involves one independent variable. Multiple linear regression is used to predict the value of a dependent variable based on the values of two or more independent variables. It is commonly used in fields such as economics, finance, and social sciences.
 
--   Handling multicollinearity and selecting significant predictors in an economic context
+Assumptions of Multiple Linear Regression
 
--   Model evaluation and diagnostics in econometric regression
+There are a few assumptions of multiple linear regression. They are as follows:
 
--   Application of multiple linear regression in economic analysis using R
+1.  Linearity of coefficients and error terms
+
+    The coefficients ($\beta$) and the error terms ($\epsilon$) are linear. The variables themselves might be linear or polynomials. But the coefficients and error terms must be linear.
+
+2.  The error term ($\epsilon$) has population mean zero.
+
+    In particular, the error term is normally distributed with the population mean of zero. If the population mean of the error term is other than zero, it means at least some part of the error term is predictable. Such a predictable part should be kept in the regression equation itself, not in error term. The error term should contain only random error, which can be attributed to chance. When the population mean is not equal to zero, statisticians call it "bias".
+
+3.  None of the independent variables is correlated with the error term.
+
+    If any of the independent variable is correlated with the error term, it means it is possible to predict the error term. So, in such case, it is better to put this information in the regression equation itself. As we said in the previous point, the error term should contain only the random error, which explains the variability of the dependent variable. If the error term also explains the variability of any of the independent variable, it is not an error per se.
+
+4.  Observations in the error term are independent of one another (i.e., not correlated with one another). If error terms are correlated, it means it is possible to predict the error term of the next observation, using the information of the error term in the first observation. And any information, which can be used to predict the error term, should be put in the regression equation itself. The error terms should contain only the random component.
+
+5.  The variance in the error terms remain constant for all the observations. This assumption is also called homoskedasticity. PENDING
+
+6.  There is no perfect correlation between any of the independent variable with the dependent variable. If there is a perfect correlation between any two variables, then one of the two variables is unnecessary.
+
+[The Five Assumptions of Multiple Linear Regression - Statology](https://www.statology.org/multiple-linear-regression-assumptions/)
+
+Model Building Strategies
+
+also see pdf on steps to follow in multiple regression model building
+
+[13 Multiple Regression and Model Building \| Quantitative Research Methods for Political Science, Public Policy and Public Administration: 4th Edition With Applications in R (bookdown.org)](https://bookdown.org/ripberjt/qrmbook/multiple-regression-and-model-building.html)
+
+Model Diagnostics
+
+[Chapter 13 Multiple Regression Models \| Introduction to Statistics and Data Science (nps.edu)](https://faculty.nps.edu/rbassett/_book/multiple-regression-models.html)
+
+[Diagnostics_for_multiple_regression (stanford.edu)](https://web.stanford.edu/class/stats191/notebooks/Diagnostics_for_multiple_regression.html)
+
+Interpretation of Results of Multiple Linear Regression
+
+Multicollinearity and Variable Selection
+
+Model Selection Strategies

@@ -94,7 +94,7 @@ model1 |> model_performance() |>
   display(format = "markdown", caption = "Regression Effectiveness")
 ```
 
-Interpretation of Regression Model
+### Interpretation of Regression Model
 
 \- The intercept is statistically non-significant and negative (beta = -0.16, 95% CI \[-0.59, 0.27\], t(98) = -0.74, p = 0.461; Std. beta = -5.50e-18, 95% CI \[-0.20, 0.20\]).
 
@@ -105,3 +105,13 @@ The model explains a statistically not significant and very
 weak proportion of variance (R\^2 = 0.02, F(1, 98) = 1.53, p =
 
 0.219, adj. R\^2 = 5.32e-03).
+
+### Non-Linear Relationship in Regression
+
+Sometimes, the relationship between the dependent and independent variable is not linear, but quadratic. This can be understood either from the scatter plot diagram or from theoretical considerations. In mathematical terms, the relationship is
+
+$$
+Y = \beta_0 + \beta_1*X^2 + \gamma
+$$ {#eq-quadratic}
+
+where X and Y are independent and dependent variables, respectively. This is still considered "Linear Regression", because we are interested in the the linearity of the coefficient term (i.e., \beta), not the linearity of the variables. In the equation above, both the coefficients ($\beta_0$ and $\beta_1$) are linear, and so is the error term, $\gamma$ in this equation.

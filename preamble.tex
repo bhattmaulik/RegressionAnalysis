@@ -1,6 +1,6 @@
-\usepackage[automark]{scrlayer-scrpage}
-%\usepackage[blocks]{authblk)
-%\usepackage{uni-titlepage}
+\usepackage[automark]{scrlayer-scrpage}%for header and footer
+\usepackage{setspace}%for line spacing
+%\doublespacing
 
 \providecommand{\abstractname}{Learning Objectives} % not in scrbook class
 \newenvironment{objectives}[1]{%
@@ -17,6 +17,9 @@
 	\hrule
 	\vspace{0.6cm}
 }
+%Quarto uses \maketitle command by default.
+%So, if you want to add your custom title, you will have to
+%redefine the command using the \renewcommand.
 \renewcommand{\maketitle}{
 \begin{titlepage}
 	\centering
@@ -36,3 +39,46 @@
 	{\large Maulik Bhatt}\par%
 \end{titlepage}
 }
+\definecolor{mybluei}{RGB}{28,138,207}
+\definecolor{myblueii}{RGB}{131,197,231}
+
+\addtokomafont{disposition}{\usefont{T1}{qhv}{b}{n}\selectfont\color{myblueii}}
+
+\addtokomafont{chapter}{\fontsize{30pt}{30pt}\selectfont}
+\newkomafont{chapternumber}{\fontsize{50}{120}\selectfont\color{white}}
+\newkomafont{chaptername}{\itshape\rmfamily\small\color{white}}
+
+\addtokomafont{section}{\fontsize{14pt}{14pt}\selectfont}
+\newkomafont{sectionnumber}{\fontsize{18pt}{18pt}\selectfont\rmfamily\color{white}}
+
+\addtokomafont{subsection}{\fontsize{12pt}{12pt}\selectfont}
+\newkomafont{subsectionnumber}{\fontsize{16pt}{16pt}\selectfont\rmfamily\color{white}}
+
+\renewcommand\chapterformat{%
+  \raisebox{-6pt}{\colorbox{mybluei}{%
+    \parbox[b][60pt]{45pt}{\centering%
+      {\usekomafont{chaptername}{\chapapp}}%
+      \vfill{\usekomafont{chapternumber}{\thechapter\autodot}}%
+      \vspace{6pt}%
+}}}\enskip}
+
+\renewcommand\sectionformat{%
+  \setlength\fboxsep{5pt}%
+  \raisebox{-4pt}{\colorbox{mybluei}{%
+    \enskip\usekomafont{sectionnumber}{\thesection\autodot}\enskip}%
+  \quad%
+}}
+
+\renewcommand\subsectionformat{%
+  \setlength\fboxsep{5pt}%
+  \raisebox{-4pt}{\colorbox{mybluei}{%
+    \enskip\usekomafont{subsectionnumber}{\thesubsection\autodot}\enskip}%
+  \quad%
+}}
+
+\makeatletter
+\renewcommand\sectionlinesformat[4]{%
+  \makebox[0pt][l]{\rule[-5pt]{\textwidth}{1pt}}%
+  \@hangfrom{#3}{#4}%
+}
+\makeatother

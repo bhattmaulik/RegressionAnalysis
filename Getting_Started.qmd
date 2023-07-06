@@ -190,7 +190,7 @@ You can similarly arrange the data in descending order of `mpg` column in the `m
 mtcars |> arrange(desc(mpg)) |> select(mpg:disp) |> knitr::kable()
 ```
 
-Create a New Variable
+### Create a New Variable
 
 You can create a new variable using the `mutate` function in `dplyr` package. For example, you want to create a new variable, called FuelEff, which is defined as reciprocal of mpg, then you can do it as follows:
 
@@ -198,4 +198,22 @@ You can create a new variable using the `mutate` function in `dplyr` package. Fo
 #| label: mtcars-mutate
 #| tbl-cap: "Create a New Variable in `mtcars` dataset"
 mtcars |> mutate(FuelEff = 1/mpg) |> select(am:FuelEff) |> knitr::kable()
+```
+
+Summarize a Data
+
+Suppose you want to see what is the average `mpg` in the whole dataset? Remember mpg stands for miles per gallon. So, this column shows the fuel efficiency of various cars. So, you can use `summary` function from dplyr to get this answer.
+
+```{r}
+#| label: mtcars-summarise
+#| tbl-cap: "Average Miles Per Gallon of Cars in USA"
+mtcars |> summarise("Average MPG" = mean(mpg)) |> knitr::kable()
+```
+
+However, this function `summarise` becomes more powerful when combined with another function `group_by`. For example, you want to know if there is difference in mean mpg for different level of cyl. You can see it using the following code:
+
+```{r}
+#| label: mtcars-group-by
+#| tbl-cap: "Miles Per Gallon for Different Values of Cylinder"
+mtcars |> group_by(cyl) |> summarise("Average MPG" = mean(mpg)) |> knitr::kable()
 ```

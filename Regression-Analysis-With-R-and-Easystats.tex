@@ -125,9 +125,9 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\usepackage[automark]{scrlayer-scrpage}
-%\usepackage[blocks]{authblk)
-%\usepackage{uni-titlepage}
+\usepackage[automark]{scrlayer-scrpage}%for header and footer
+\usepackage{setspace}%for line spacing
+%\doublespacing
 
 \providecommand{\abstractname}{Learning Objectives} % not in scrbook class
 \newenvironment{objectives}[1]{%
@@ -144,6 +144,9 @@
 	\hrule
 	\vspace{0.6cm}
 }
+%Quarto uses \maketitle command by default.
+%So, if you want to add your custom title, you will have to
+%redefine the command using the \renewcommand.
 \renewcommand{\maketitle}{
 \begin{titlepage}
 	\centering
@@ -163,6 +166,49 @@
 	{\large Maulik Bhatt}\par%
 \end{titlepage}
 }
+\definecolor{mybluei}{RGB}{28,138,207}
+\definecolor{myblueii}{RGB}{131,197,231}
+
+\addtokomafont{disposition}{\usefont{T1}{qhv}{b}{n}\selectfont\color{myblueii}}
+
+\addtokomafont{chapter}{\fontsize{30pt}{30pt}\selectfont}
+\newkomafont{chapternumber}{\fontsize{50}{120}\selectfont\color{white}}
+\newkomafont{chaptername}{\itshape\rmfamily\small\color{white}}
+
+\addtokomafont{section}{\fontsize{14pt}{14pt}\selectfont}
+\newkomafont{sectionnumber}{\fontsize{18pt}{18pt}\selectfont\rmfamily\color{white}}
+
+\addtokomafont{subsection}{\fontsize{12pt}{12pt}\selectfont}
+\newkomafont{subsectionnumber}{\fontsize{16pt}{16pt}\selectfont\rmfamily\color{white}}
+
+\renewcommand\chapterformat{%
+  \raisebox{-6pt}{\colorbox{mybluei}{%
+    \parbox[b][60pt]{45pt}{\centering%
+      {\usekomafont{chaptername}{\chapapp}}%
+      \vfill{\usekomafont{chapternumber}{\thechapter\autodot}}%
+      \vspace{6pt}%
+}}}\enskip}
+
+\renewcommand\sectionformat{%
+  \setlength\fboxsep{5pt}%
+  \raisebox{-4pt}{\colorbox{mybluei}{%
+    \enskip\usekomafont{sectionnumber}{\thesection\autodot}\enskip}%
+  \quad%
+}}
+
+\renewcommand\subsectionformat{%
+  \setlength\fboxsep{5pt}%
+  \raisebox{-4pt}{\colorbox{mybluei}{%
+    \enskip\usekomafont{subsectionnumber}{\thesubsection\autodot}\enskip}%
+  \quad%
+}}
+
+\makeatletter
+\renewcommand\sectionlinesformat[4]{%
+  \makebox[0pt][l]{\rule[-5pt]{\textwidth}{1pt}}%
+  \@hangfrom{#3}{#4}%
+}
+\makeatother
 \makeatletter
 \makeatother
 \makeatletter
@@ -235,12 +281,12 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{29/06/2023}
+\date{30/06/2023}
 
 \begin{document}
 \frontmatter
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, breakable, frame hidden, boxrule=0pt, interior hidden, sharp corners, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, enhanced, breakable, borderline west={3pt}{0pt}{shadecolor}, interior hidden, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Contents}
 {
@@ -1024,7 +1070,8 @@ Cadillac Fleetwood & 10.4 & 8 & 472.0 \\
 Lincoln Continental & 10.4 & 8 & 460.0 \\
 \end{longtable}
 
-Create a New Variable
+\hypertarget{create-a-new-variable}{%
+\subsection{Create a New Variable}\label{create-a-new-variable}}
 
 You can create a new variable using the \texttt{mutate} function in
 \texttt{dplyr} package. For example, you want to create a new variable,
@@ -1082,6 +1129,63 @@ Ford Pantera L & 1 & 5 & 4 & 0.0632911 \\
 Ferrari Dino & 1 & 5 & 6 & 0.0507614 \\
 Maserati Bora & 1 & 5 & 8 & 0.0666667 \\
 Volvo 142E & 1 & 4 & 2 & 0.0467290 \\
+\end{longtable}
+
+Summarize a Data
+
+Suppose you want to see what is the average \texttt{mpg} in the whole
+dataset? Remember mpg stands for miles per gallon. So, this column shows
+the fuel efficiency of various cars. So, you can use \texttt{summary}
+function from dplyr to get this answer.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarise}\NormalTok{(}\StringTok{"Average MPG"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}r@{}}
+\caption{Average Miles Per Gallon of Cars in USA}\tabularnewline
+\toprule\noalign{}
+Average MPG \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Average MPG \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+20.09062 \\
+\end{longtable}
+
+However, this function \texttt{summarise} becomes more powerful when
+combined with another function \texttt{group\_by}. For example, you want
+to know if there is difference in mean mpg for different level of cyl.
+You can see it using the following code:
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(cyl) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarise}\NormalTok{(}\StringTok{"Average MPG"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rr@{}}
+\caption{Miles Per Gallon for Different Values of
+Cylinder}\tabularnewline
+\toprule\noalign{}
+cyl & Average MPG \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+cyl & Average MPG \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+4 & 26.66364 \\
+6 & 19.74286 \\
+8 & 15.10000 \\
 \end{longtable}
 
 \bookmarksetup{startatroot}

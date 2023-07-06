@@ -1,4 +1,4 @@
-# Appendix A: R packages for econometric regression analysis and additional resources
+# R packages for econometric regression analysis and additional resources
 
 ```{=latex}
 \setcounter{figure}{0} 
@@ -12,7 +12,17 @@ This book could never be completed without using many packages. The most notable
 #| eval: false
 #| echo: true
 #| label: sec-packages
-RA_packages <- c("AER","easystats","fpp3","lmtest","ggthemes","gt","gtsummary","patchwork","here","fs", "knitr","kableExtra")
+RA_packages <- c("AER",
+                 "easystats",
+                 "fpp3",
+                 "lmtest",
+                 "ggthemes",
+                 "gt",
+                 "gtsummary",
+                 "patchwork",
+                 "here","fs",
+                 "knitr",
+                 "kableExtra")
 install.packages(RA_packages)
 ```
 
@@ -35,9 +45,14 @@ To install packages from Github, you need to install one of the three packages f
 #| echo: true
 #| eval: false
 #Install devtools, remotes or pak
-install.packages("remotes")#or install.packages("devltools")#or install.packages("pak")
+install.packages("remotes")#or install.packages("devltools")
+#or install.packages("pak")
 #Load the package
-library(remotes)#or library(devtools) or library(pak)
-#download the gujarati5sie package using one of the above packages
-remotes::install_github("bhattmaulik/Gujarati5sie")#or devtools::install_github("bhattmaulik/Gujarati5sie") or pak::pak("bhattmaulik/Gujarati5sie")
+library(remotes)#or library(devtools) 
+#or library(pak)
+#download the gujarati5sie package 
+#using one of the above packages
+remotes::install_github("bhattmaulik/Gujarati5sie")
+#or devtools::install_github("bhattmaulik/Gujarati5sie") 
+#or pak::pak("bhattmaulik/Gujarati5sie")
 ```

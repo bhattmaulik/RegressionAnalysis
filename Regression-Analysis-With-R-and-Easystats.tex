@@ -15,6 +15,7 @@
   firstiscover]{scrbook}
 
 \usepackage{amsmath,amssymb}
+\usepackage{setspace}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -46,7 +47,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\usepackage[lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in]{geometry}
+\usepackage[top=1in,bottom=1in,left=1in,right=1in,heightrounded]{geometry}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{3}
 % Make \paragraph and \subparagraph free-standing
@@ -124,8 +125,33 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage[automark]{scrlayer-scrpage}%for header and footer
+\pagestyle{scrheadings}
+\usepackage{pagecolor}%to change the page color of the title page
 \usepackage{setspace}%for line spacing
 %\doublespacing
 
@@ -147,8 +173,11 @@
 %Quarto uses \maketitle command by default.
 %So, if you want to add your custom title, you will have to
 %redefine the command using the \renewcommand.
+\definecolor{myblue}{RGB}{70, 130, 180}%steelblue color
 \renewcommand{\maketitle}{
 \begin{titlepage}
+		\pagecolor{myblue}
+		\color{white}
 	\centering
 	\vspace*{\baselineskip}
 	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
@@ -164,8 +193,11 @@
 	\vfill
 	{\scshape 2023} \\
 	{\large Maulik Bhatt}\par%
+
 \end{titlepage}
+\nopagecolor%to change the page color of the subsequent pages
 }
+%redesign chapter and section styles
 \definecolor{mybluei}{RGB}{28,138,207}
 \definecolor{myblueii}{RGB}{131,197,231}
 
@@ -262,6 +294,9 @@
 \makeatletter
 \makeatother
 \makeatletter
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, interior hidden, enhanced, sharp corners, boxrule=0pt, breakable]}{\end{tcolorbox}}\fi
+\makeatother
+\makeatletter
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -281,13 +316,11 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{30/06/2023}
+\date{06/07/2023}
 
 \begin{document}
 \frontmatter
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, enhanced, breakable, borderline west={3pt}{0pt}{shadecolor}, interior hidden, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
-
 \renewcommand*\contentsname{Contents}
 {
 \hypersetup{linkcolor=}
@@ -296,6 +329,7 @@
 }
 \listoffigures
 \listoftables
+\setstretch{2}
 \mainmatter
 \bookmarksetup{startatroot}
 
@@ -566,7 +600,7 @@ Useful Settings in RStudio
 I would recommend you not to save the workspace in RStudio. This setting
 can be disabled in RStudio as follows:
 
-\begin{figure}
+\begin{figure}[h]
 
 {\centering \includegraphics[width=3.92in,height=\textheight]{images/RStudio-settings.png}
 
@@ -676,7 +710,7 @@ customize each pane using
 \texttt{Tools\ Menu\ \textgreater{}\ Global\ Options\ \textgreater{}\ Pane\ Layout}.
 The RStudio screen looks as follows:
 
-\begin{figure}
+\begin{figure}[h]
 
 {\centering \includegraphics[width=4.27in,height=\textheight]{images/RStudio-panes.png}
 
@@ -704,7 +738,7 @@ When you go to
 \texttt{File\ Menu\ \textgreater{}\ New\ Project\ \textgreater{}\ New\ Directory},
 you get options as follows:
 
-\begin{figure}
+\begin{figure}[h]
 
 {\centering \includegraphics[width=4.27in,height=\textheight]{images/New_Project.png}
 
@@ -1404,7 +1438,9 @@ AIC & AICc & BIC & R2 & R2 (adj.) & RMSE & Sigma \\
 297.71 & 297.96 & 305.53 & 9.94e-03 & -1.59e-04 & 1.04 & 1.05 \\
 \end{longtable}
 
-Interpretation of Regression Model
+\hypertarget{interpretation-of-regression-model}{%
+\subsection{Interpretation of Regression
+Model}\label{interpretation-of-regression-model}}
 
 - The intercept is statistically non-significant and negative (beta =
 -0.16, 95\% CI {[}-0.59, 0.27{]}, t(98) = -0.74, p = 0.461; Std. beta =
@@ -1423,6 +1459,26 @@ The model explains a statistically not significant and very
 weak proportion of variance (R\^{}2 = 0.02, F(1, 98) = 1.53, p =
 
 0.219, adj. R\^{}2 = 5.32e-03).
+
+\hypertarget{non-linear-relationship-in-regression}{%
+\subsection{Non-Linear Relationship in
+Regression}\label{non-linear-relationship-in-regression}}
+
+Sometimes, the relationship between the dependent and independent
+variable is not linear, but quadratic. This can be understood either
+from the scatter plot diagram or from theoretical considerations. In
+mathematical terms, the relationship is
+
+\begin{equation}\protect\hypertarget{eq-quadratic}{}{
+Y = \beta_0 + \beta_1*X^2 + \gamma
+}\label{eq-quadratic}\end{equation}
+
+where X and Y are independent and dependent variables, respectively.
+This is still considered ``Linear Regression'', because we are
+interested in the the linearity of the coefficient term (i.e., \beta),
+not the linearity of the variables. In the equation above, both the
+coefficients (\(\beta_0\) and \(\beta_1\)) are linear, and so is the
+error term, \(\gamma\) in this equation.
 
 \bookmarksetup{startatroot}
 
@@ -1460,19 +1516,97 @@ recommend reading it. \\
 
 \end{objectives}
 
-\begin{itemize}
+\hypertarget{introduction-1}{%
+\subsection{Introduction}\label{introduction-1}}
+
+In the previous chapter, we saw simple linear regression, in which we
+attempted to understand the relationship between two variables - one
+called independent variable and the other called the dependent variable.
+Multiple linear regression is a statistical technique that allows us to
+analyze the relationship between two or more independent variables and a
+dependent variable. It is an extension of simple linear regression,
+which only involves one independent variable. Multiple linear regression
+is used to predict the value of a dependent variable based on the values
+of two or more independent variables. It is commonly used in fields such
+as economics, finance, and social sciences.
+
+Assumptions of Multiple Linear Regression
+
+There are a few assumptions of multiple linear regression. They are as
+follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
 \item
-  Extending regression analysis to multiple independent variables
+  Linearity of coefficients and error terms
+
+  The coefficients (\(\beta\)) and the error terms (\(\epsilon\)) are
+  linear. The variables themselves might be linear or polynomials. But
+  the coefficients and error terms must be linear.
 \item
-  Building and interpreting multiple linear regression models in R
+  The error term (\(\epsilon\)) has population mean zero.
+
+  In particular, the error term is normally distributed with the
+  population mean of zero. If the population mean of the error term is
+  other than zero, it means at least some part of the error term is
+  predictable. Such a predictable part should be kept in the regression
+  equation itself, not in error term. The error term should contain only
+  random error, which can be attributed to chance. When the population
+  mean is not equal to zero, statisticians call it ``bias''.
 \item
-  Handling multicollinearity and selecting significant predictors in an
-  economic context
+  None of the independent variables is correlated with the error term.
+
+  If any of the independent variable is correlated with the error term,
+  it means it is possible to predict the error term. So, in such case,
+  it is better to put this information in the regression equation
+  itself. As we said in the previous point, the error term should
+  contain only the random error, which explains the variability of the
+  dependent variable. If the error term also explains the variability of
+  any of the independent variable, it is not an error per se.
 \item
-  Model evaluation and diagnostics in econometric regression
+  Observations in the error term are independent of one another (i.e.,
+  not correlated with one another). If error terms are correlated, it
+  means it is possible to predict the error term of the next
+  observation, using the information of the error term in the first
+  observation. And any information, which can be used to predict the
+  error term, should be put in the regression equation itself. The error
+  terms should contain only the random component.
 \item
-  Application of multiple linear regression in economic analysis using R
-\end{itemize}
+  The variance in the error terms remain constant for all the
+  observations. This assumption is also called homoskedasticity. PENDING
+\item
+  There is no perfect correlation between any of the independent
+  variable with the dependent variable. If there is a perfect
+  correlation between any two variables, then one of the two variables
+  is unnecessary.
+\end{enumerate}
+
+\href{https://www.statology.org/multiple-linear-regression-assumptions/}{The
+Five Assumptions of Multiple Linear Regression - Statology}
+
+Model Building Strategies
+
+also see pdf on steps to follow in multiple regression model building
+
+\href{https://bookdown.org/ripberjt/qrmbook/multiple-regression-and-model-building.html}{13
+Multiple Regression and Model Building \textbar{} Quantitative Research
+Methods for Political Science, Public Policy and Public Administration:
+4th Edition With Applications in R (bookdown.org)}
+
+Model Diagnostics
+
+\href{https://faculty.nps.edu/rbassett/_book/multiple-regression-models.html}{Chapter
+13 Multiple Regression Models \textbar{} Introduction to Statistics and
+Data Science (nps.edu)}
+
+\href{https://web.stanford.edu/class/stats191/notebooks/Diagnostics_for_multiple_regression.html}{Diagnostics\_for\_multiple\_regression
+(stanford.edu)}
+
+Interpretation of Results of Multiple Linear Regression
+
+Multicollinearity and Variable Selection
+
+Model Selection Strategies
 
 \bookmarksetup{startatroot}
 
@@ -1806,10 +1940,9 @@ recommend reading it. \\
 \addcontentsline{toc}{part}{Appendices}
 \appendix
 
-\hypertarget{appendix-a-r-packages-for-econometric-regression-analysis-and-additional-resources}{%
-\chapter{Appendix A: R packages for econometric regression analysis and
-additional
-resources}\label{appendix-a-r-packages-for-econometric-regression-analysis-and-additional-resources}}
+\hypertarget{r-packages-for-econometric-regression-analysis-and-additional-resources}{%
+\chapter{R packages for econometric regression analysis and additional
+resources}\label{r-packages-for-econometric-regression-analysis-and-additional-resources}}
 
 \setcounter{figure}{0} 
 \renewcommand{\thefigure}{A.\arabic{figure}}
@@ -1823,7 +1956,17 @@ commands in R.
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{RA\_packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"AER"}\NormalTok{,}\StringTok{"easystats"}\NormalTok{,}\StringTok{"fpp3"}\NormalTok{,}\StringTok{"lmtest"}\NormalTok{,}\StringTok{"ggthemes"}\NormalTok{,}\StringTok{"gt"}\NormalTok{,}\StringTok{"gtsummary"}\NormalTok{,}\StringTok{"patchwork"}\NormalTok{,}\StringTok{"here"}\NormalTok{,}\StringTok{"fs"}\NormalTok{, }\StringTok{"knitr"}\NormalTok{,}\StringTok{"kableExtra"}\NormalTok{)}
+\NormalTok{RA\_packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"AER"}\NormalTok{,}
+                 \StringTok{"easystats"}\NormalTok{,}
+                 \StringTok{"fpp3"}\NormalTok{,}
+                 \StringTok{"lmtest"}\NormalTok{,}
+                 \StringTok{"ggthemes"}\NormalTok{,}
+                 \StringTok{"gt"}\NormalTok{,}
+                 \StringTok{"gtsummary"}\NormalTok{,}
+                 \StringTok{"patchwork"}\NormalTok{,}
+                 \StringTok{"here"}\NormalTok{,}\StringTok{"fs"}\NormalTok{,}
+                 \StringTok{"knitr"}\NormalTok{,}
+                 \StringTok{"kableExtra"}\NormalTok{)}
 \FunctionTok{install.packages}\NormalTok{(RA\_packages)}
 \end{Highlighting}
 \end{Shaded}
@@ -1865,41 +2008,44 @@ Gujarati and others, then you can do it as follows:
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
 \CommentTok{\#Install devtools, remotes or pak}
-\FunctionTok{install.packages}\NormalTok{(}\StringTok{"remotes"}\NormalTok{)}\CommentTok{\#or install.packages("devltools")\#or install.packages("pak")}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"remotes"}\NormalTok{)}\CommentTok{\#or install.packages("devltools")}
+\CommentTok{\#or install.packages("pak")}
 \CommentTok{\#Load the package}
-\FunctionTok{library}\NormalTok{(remotes)}\CommentTok{\#or library(devtools) or library(pak)}
-\CommentTok{\#download the gujarati5sie package using one of the above packages}
-\NormalTok{remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"bhattmaulik/Gujarati5sie"}\NormalTok{)}\CommentTok{\#or devtools::install\_github("bhattmaulik/Gujarati5sie") or pak::pak("bhattmaulik/Gujarati5sie")}
+\FunctionTok{library}\NormalTok{(remotes)}\CommentTok{\#or library(devtools) }
+\CommentTok{\#or library(pak)}
+\CommentTok{\#download the gujarati5sie package }
+\CommentTok{\#using one of the above packages}
+\NormalTok{remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"bhattmaulik/Gujarati5sie"}\NormalTok{)}
+\CommentTok{\#or devtools::install\_github("bhattmaulik/Gujarati5sie") }
+\CommentTok{\#or pak::pak("bhattmaulik/Gujarati5sie")}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{appendix-b-data-sets-used-in-the-books-examples}{%
-\chapter*{Appendix B: Data sets used in the book's
-examples}\label{appendix-b-data-sets-used-in-the-books-examples}}
-\addcontentsline{toc}{chapter}{Appendix B: Data sets used in the book's
-examples}
-
-\markboth{Appendix B: Data sets used in the book's examples}{Appendix B:
-Data sets used in the book's examples}
+\hypertarget{data-sets-used-in-the-books-examples}{%
+\chapter{Data sets used in the book's
+examples}\label{data-sets-used-in-the-books-examples}}
 
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{B.\arabic{figure}} 
 \setcounter{table}{0}
 \renewcommand{\thetable}{B.\arabic{table}}
 
-\hypertarget{appendix-c-how-to-build-this-book-locally}{%
-\chapter*{Appendix C: How to Build This Book
-Locally}\label{appendix-c-how-to-build-this-book-locally}}
-\addcontentsline{toc}{chapter}{Appendix C: How to Build This Book
-Locally}
+\hypertarget{introduction-2}{%
+\subsection{Introduction}\label{introduction-2}}
 
-\markboth{Appendix C: How to Build This Book Locally}{Appendix C: How to
-Build This Book Locally}
+Dummy text
+
+\hypertarget{how-to-build-this-book-locally}{%
+\chapter{How to Build This Book
+Locally}\label{how-to-build-this-book-locally}}
 
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{C.\arabic{figure}}
 \setcounter{table}{0}
 \renewcommand{\thetable}{C.\arabic{table}}
+
+\hypertarget{introduction-3}{%
+\subsection{Introduction}\label{introduction-3}}
 
 If you want to build this book locally on your computer, please download
 the entire code from Github. The first step is to visit the website
@@ -1968,7 +2114,9 @@ traditional way using R code, you can use the following code:
 \FunctionTok{install.packages}\NormalTok{(}\StringTok{"tinytex"}\NormalTok{)}
 \FunctionTok{library}\NormalTok{(tinytex)}
 \NormalTok{tinytex}\SpecialCharTok{::}\FunctionTok{install\_tinytex}\NormalTok{()}
-\CommentTok{\#if you want to install all the LaTeX packages, you can modify the command to tinytex::install\_tinytex(bundle = "TinyTeX{-}2")}
+\CommentTok{\#if you want to install all the LaTeX packages, }
+\CommentTok{\#you can modify the command to }
+\CommentTok{\#tinytex::install\_tinytex(bundle = "TinyTeX{-}2")}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1983,6 +2131,89 @@ to select which bundle you want to install. By default, you get to
 install the bundle \texttt{TinyTeX-1}, which contains only the most
 necessary LaTeX packages. But if you choose the bundle
 \texttt{TinyTeX-2}, you can download all the \texttt{LaTeX} packages.
+
+\hypertarget{references}{%
+\chapter*{References}\label{references}}
+\addcontentsline{toc}{chapter}{References}
+
+\markboth{References}{References}
+
+\thispagestyle{plain}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-ggthemes}{}}%
+Arnold, Jeffrey B. 2021. \emph{{ggthemes}: Extra Themes, Scales and
+Geoms for {``{ggplot2}''}}.
+\url{https://CRAN.R-project.org/package=ggthemes}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-fs}{}}%
+Hester, Jim, Hadley Wickham, and Gábor Csárdi. 2023. \emph{{fs}:
+Cross-Platform File System Operations Based on {``{libuv}''}}.
+\url{https://CRAN.R-project.org/package=fs}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-fpp3}{}}%
+Hyndman, Rob. 2023. \emph{Fpp3: Data for {``{Forecasting: Principles and
+Practice}''} (3rd Edition)}.
+\url{https://CRAN.R-project.org/package=fpp3}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-gt}{}}%
+Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra
+Lauer, and JooYoung Seo. 2023. \emph{{gt}: Easily Create
+Presentation-Ready Display Tables}.
+\url{https://CRAN.R-project.org/package=gt}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-AER}{}}%
+Kleiber, Christian, and Achim Zeileis. 2008. \emph{Applied Econometrics
+with {R}}. New York: Springer-Verlag.
+\url{https://CRAN.R-project.org/package=AER}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-easystats}{}}%
+Lüdecke, Daniel, Mattan S. Ben-Shachar, Indrajeet Patil, Brenton M.
+Wiernik, Etienne Bacher, Rémi Thériault, and Dominique Makowski. 2022.
+{``{easystats}: Framework for Easy Statistical Modeling, Visualization,
+and Reporting.''} \emph{CRAN}.
+\url{https://easystats.github.io/easystats/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-here}{}}%
+Müller, Kirill. 2020. \emph{{here}: A Simpler Way to Find Your Files}.
+\url{https://CRAN.R-project.org/package=here}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-patchwork}{}}%
+Pedersen, Thomas Lin. 2022. \emph{{patchwork}: The Composer of Plots}.
+\url{https://CRAN.R-project.org/package=patchwork}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-gtsummary}{}}%
+Sjoberg, Daniel D., Karissa Whiting, Michael Curry, Jessica A. Lavery,
+and Joseph Larmarange. 2021. {``Reproducible Summary Tables with the
+Gtsummary Package.''} \emph{{The R Journal}} 13: 570--80.
+\url{https://doi.org/10.32614/RJ-2021-053}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-knitr2014}{}}%
+Xie, Yihui. 2014. {``{knitr}: A Comprehensive Tool for Reproducible
+Research in {R}.''} In \emph{Implementing Reproducible Computational
+Research}, edited by Victoria Stodden, Friedrich Leisch, and Roger D.
+Peng. Chapman; Hall/CRC.
+
+\leavevmode\vadjust pre{\hypertarget{ref-knitr2015}{}}%
+---------. 2015. \emph{Dynamic Documents with {R} and Knitr}. 2nd ed.
+Boca Raton, Florida: Chapman; Hall/CRC. \url{https://yihui.org/knitr/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-knitr2023}{}}%
+---------. 2023. \emph{{knitr}: A General-Purpose Package for Dynamic
+Report Generation in r}. \url{https://yihui.org/knitr/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lmtest}{}}%
+Zeileis, Achim, and Torsten Hothorn. 2002. {``Diagnostic Checking in
+Regression Relationships.''} \emph{R News} 2 (3): 7--10.
+\url{https://CRAN.R-project.org/doc/Rnews/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-kableExtra}{}}%
+Zhu, Hao. 2021. \emph{{kableExtra}: Construct Complex Table with
+{``{kable}''} and Pipe Syntax}.
+\url{https://CRAN.R-project.org/package=kableExtra}.
+
+\end{CSLReferences}
 
 
 \backmatter

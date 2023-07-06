@@ -1,4 +1,6 @@
 \usepackage[automark]{scrlayer-scrpage}%for header and footer
+\pagestyle{scrheadings}
+\usepackage{pagecolor}%to change the page color of the title page
 \usepackage{setspace}%for line spacing
 %\doublespacing
 
@@ -20,8 +22,11 @@
 %Quarto uses \maketitle command by default.
 %So, if you want to add your custom title, you will have to
 %redefine the command using the \renewcommand.
+\definecolor{myblue}{RGB}{70, 130, 180}%steelblue color
 \renewcommand{\maketitle}{
 \begin{titlepage}
+		\pagecolor{myblue}
+		\color{white}
 	\centering
 	\vspace*{\baselineskip}
 	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
@@ -37,8 +42,11 @@
 	\vfill
 	{\scshape 2023} \\
 	{\large Maulik Bhatt}\par%
+
 \end{titlepage}
+\nopagecolor%to change the page color of the subsequent pages
 }
+%redesign chapter and section styles
 \definecolor{mybluei}{RGB}{28,138,207}
 \definecolor{myblueii}{RGB}{131,197,231}
 

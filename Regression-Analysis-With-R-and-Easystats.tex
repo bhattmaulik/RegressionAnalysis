@@ -196,7 +196,18 @@
 
 \end{titlepage}
 \nopagecolor%to change the page color of the subsequent pages
+\newpage
+	
+	\thispagestyle{empty}
+	
+	\begin{center}
+		
+		Copyright © 2023 Maulik Bhatt
+		
+	\end{center}
+	\newpage
 }
+%\uppertitleback{\copyright Maulik Bhatt}
 %redesign chapter and section styles
 \definecolor{mybluei}{RGB}{28,138,207}
 \definecolor{myblueii}{RGB}{131,197,231}
@@ -294,7 +305,7 @@
 \makeatletter
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, interior hidden, enhanced, sharp corners, boxrule=0pt, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable, enhanced, interior hidden, frame hidden, sharp corners]}{\end{tcolorbox}}\fi
 \makeatother
 \makeatletter
 \makeatother
@@ -316,7 +327,7 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{06/07/2023}
+\date{07/07/2023}
 
 \begin{document}
 \frontmatter

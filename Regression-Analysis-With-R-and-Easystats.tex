@@ -228,14 +228,16 @@
   \raisebox{-6pt}{\colorbox{mybluei}{%
     \parbox[b][60pt]{45pt}{\centering%
       {\usekomafont{chaptername}{\chapapp}}%
-      \vfill{\usekomafont{chapternumber}{\thechapter\autodot}}%
+      \vfill{\usekomafont{chapternumber}{\thechapter}}%
+      %\vfill{\usekomafont{chapternumber}{\thechapter\autodot}}%
       \vspace{6pt}%
 }}}\enskip}
 
 \renewcommand\sectionformat{%
   \setlength\fboxsep{5pt}%
   \raisebox{-4pt}{\colorbox{mybluei}{%
-    \enskip\usekomafont{sectionnumber}{\thesection\autodot}\enskip}%
+    \enskip\usekomafont{sectionnumber}{\thesection}\enskip}%
+    %\enskip\usekomafont{sectionnumber}{\thesection\autodot}\enskip}%
   \quad%
 }}
 
@@ -297,17 +299,6 @@
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 \makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable, enhanced, interior hidden, frame hidden, sharp corners]}{\end{tcolorbox}}\fi
-\makeatother
-\makeatletter
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -327,7 +318,7 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{07/07/2023}
+\date{14/08/2023}
 
 \begin{document}
 \frontmatter
@@ -1592,10 +1583,90 @@ follows:
   is unnecessary.
 \end{enumerate}
 
-\href{https://www.statology.org/multiple-linear-regression-assumptions/}{The
-Five Assumptions of Multiple Linear Regression - Statology}
+Multiple Linear Regression: A Practical Example
+
+Let's look at the dataset from the book ``Basic Econometrics'' by
+Damodar Gujarati, et al (The Special Indian Economy Edition). The Table
+7.6 shows consumption of Chicken in 22 states and union territories in
+India. The variables are as follows:
+
+\begin{itemize}
+\item
+  Y: Consumption of chicken (in kg)
+\item
+  X2: Price of chicken (Rs. Per kg)
+\item
+  X3: Price of fish (Rs. Per kg)
+\item
+  X4: Per capita income (Rs. Thousands at 1993-94 prices)
+\end{itemize}
+
+(Note: You need to download the \texttt{Gujarati5sie} package from
+github using the command
+\texttt{devtools::install\_github("bhattmaulik/Gujarati5sie")}. Once you
+have installed this package, you can check the documentation of any of
+the table contained in the package using the \texttt{?table} syntex. For
+example, \texttt{?Table7.6} will show you the documentation for the
+Table 7.6 in the package.)
+
+We can load the dataset, and inspect the variables in the dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\CommentTok{\#devtools::install\_github("bhattmaulik/Gujarati5sie) }
+\CommentTok{\#to download the "Gujarati5sie" package}
+\CommentTok{\#which contains the dataset}
+\CommentTok{\#install.packages("GGally)}
+\CommentTok{\#to install the GGally package}
+\FunctionTok{library}\NormalTok{(easystats)}
+\FunctionTok{library}\NormalTok{(Gujarati5sie)}
+\FunctionTok{library}\NormalTok{(GGally)}
+\FunctionTok{data}\NormalTok{(}\StringTok{"Table7.6"}\NormalTok{)}
+\CommentTok{\#to load the dataset from Table 7.6}
+\FunctionTok{ggpairs}\NormalTok{(Table7}\FloatTok{.6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[h]
+
+{\centering \includegraphics{Multiple_Regression_files/figure-pdf/unnamed-chunk-1-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\CommentTok{\#to check correlation among variables in the dataset}
+\end{Highlighting}
+\end{Shaded}
+
+We can see that Y has negative correlation with X2 and X3, and slightly
+negative correlation with X4 also. This looks \textbf{usual more or
+less,} because according to theory, the consumption of a commodity would
+have negative relationship with its price. Fish is a competitor for
+chicken, so consumption of chicken should have positive correlation with
+the price of fish, which is not the case in this dataset.
 
 Model Building Strategies
+
+Often, regression model building needs multiple models. In the first
+step, the analyst needs to know the possibly relevant independent
+variables, which might affect the dependent variable. Then the data is
+collected for these variables. After data collection, the analyst would
+fit a regression model, and find coefficients for the model. But that's
+not the end of the regression. The analyst would need to check whether
+the model fulfills the assumptions of the regression model. If there are
+violations, the analyst would need to create another model. Often, a
+step-wise regression process is adopted.
+
+In a step-wise regression model, independent variables would be added or
+removed one-by-one and the analyst would monitor its impact on the
+decision criteria (often, \(R^2\) or adjusted R\textsuperscript{2}, but
+it could be AIC or BIC also). The analyst would choose the model, which
+optimizes the decision criteria: for R\textsuperscript{2} and adjusted
+R\textsuperscript{2}, the more the better, while for AIC and BIC, the
+less is the better.
 
 also see pdf on steps to follow in multiple regression model building
 
@@ -1615,9 +1686,32 @@ Data Science (nps.edu)}
 
 Interpretation of Results of Multiple Linear Regression
 
+\href{https://www.scribbr.com/statistics/linear-regression-in-r/}{Linear
+Regression in R \textbar{} A Step-by-Step Guide \& Examples
+(scribbr.com)}
+
+\href{http://svmiller.com/blog/2014/08/reading-a-regression-table-a-guide-for-students/}{Reading
+a Regression Table: A Guide for Students \textbar{} Steven V. Miller
+(svmiller.com)}
+
 Multicollinearity and Variable Selection
 
+\href{https://statisticsbyjim.com/regression/multicollinearity-in-regression-analysis/}{Multicollinearity
+in Regression Analysis: Problems, Detection, and Solutions - Statistics
+By Jim}
+
+\href{https://www.upgrad.com/blog/multicollinearity-in-regression-analysis/}{Multicollinearity
+in Regression Analysis: Everything You Need to Know \textbar{} upGrad
+blog}
+
 Model Selection Strategies
+
+\href{https://testscience.org/analyze-test-data/inferential/benefits-of-statistical-modeling/model-selection/\#:~:text=There\%20are\%20several\%20model\%20building\%20strategies\%20available\%20using,to\%20regularization\%20approaches\%20\%28ridge\%20regression\%2C\%20LASSO\%2C\%20elastic\%20net\%29.}{Model
+Selection -- Test Science 3.0}
+
+\href{https://towardsdatascience.com/evaluation-metrics-model-selection-in-linear-regression-73c7573208be}{Evaluation
+metrics \& Model Selection in Linear Regression \textbar{} by NVS
+Yashwanth \textbar{} Towards Data Science}
 
 \bookmarksetup{startatroot}
 
@@ -1665,6 +1759,13 @@ recommend reading it. \\
   Examples and case studies of dummy variable regression in economics
   using R
 \end{itemize}
+
+\href{http://sthda.com/english/articles/40-regression-analysis/163-regression-with-categorical-variables-dummy-coding-essentials-in-r/}{Regression
+with Categorical Variables: Dummy Coding Essentials in R - Articles -
+STHDA}
+
+\href{http://www.personal.rhul.ac.uk/uhte/006/ec2203/Use\%20and\%20Interpretation\%20of\%20Dummy\%20Variables.pdf}{Microsoft
+Word - Use and Interpretation of Dummy Variables.doc (rhul.ac.uk)}
 
 \bookmarksetup{startatroot}
 
@@ -2148,8 +2249,6 @@ necessary LaTeX packages. But if you choose the bundle
 \addcontentsline{toc}{chapter}{References}
 
 \markboth{References}{References}
-
-\thispagestyle{plain}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

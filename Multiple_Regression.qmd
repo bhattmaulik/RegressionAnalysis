@@ -51,9 +51,44 @@ There are a few assumptions of multiple linear regression. They are as follows:
 
 6.  There is no perfect correlation between any of the independent variable with the dependent variable. If there is a perfect correlation between any two variables, then one of the two variables is unnecessary.
 
-[The Five Assumptions of Multiple Linear Regression - Statology](https://www.statology.org/multiple-linear-regression-assumptions/)
+Multiple Linear Regression: A Practical Example
+
+Let's look at the dataset from the book "Basic Econometrics" by Damodar Gujarati, et al (The Special Indian Economy Edition). The Table 7.6 shows consumption of Chicken in 22 states and union territories in India. The variables are as follows:
+
+-   Y: Consumption of chicken (in kg)
+
+-   X2: Price of chicken (Rs. Per kg)
+
+-   X3: Price of fish (Rs. Per kg)
+
+-   X4: Per capita income (Rs. Thousands at 1993-94 prices)
+
+(Note: You need to download the `Gujarati5sie` package from github using the command `devtools::install_github("bhattmaulik/Gujarati5sie")`. Once you have installed this package, you can check the documentation of any of the table contained in the package using the `?table` syntex. For example, `?Table7.6` will show you the documentation for the Table 7.6 in the package.)
+
+We can load the dataset, and inspect the variables in the dataset.
+
+```{r}
+#devtools::install_github("bhattmaulik/Gujarati5sie) 
+#to download the "Gujarati5sie" package
+#which contains the dataset
+#install.packages("GGally)
+#to install the GGally package
+library(easystats)
+library(Gujarati5sie)
+library(GGally)
+data("Table7.6")
+#to load the dataset from Table 7.6
+ggpairs(Table7.6)
+#to check correlation among variables in the dataset
+```
+
+We can see that Y has negative correlation with X2 and X3, and slightly negative correlation with X4 also. This looks **usual more or less,** because according to theory, the consumption of a commodity would have negative relationship with its price. Fish is a competitor for chicken, so consumption of chicken should have positive correlation with the price of fish, which is not the case in this dataset.
 
 Model Building Strategies
+
+Often, regression model building needs multiple models. In the first step, the analyst needs to know the possibly relevant independent variables, which might affect the dependent variable. Then the data is collected for these variables. After data collection, the analyst would fit a regression model, and find coefficients for the model. But that's not the end of the regression. The analyst would need to check whether the model fulfills the assumptions of the regression model. If there are violations, the analyst would need to create another model. Often, a step-wise regression process is adopted.
+
+In a step-wise regression model, independent variables would be added or removed one-by-one and the analyst would monitor its impact on the decision criteria (often, $R^2$ or adjusted R^2^, but it could be AIC or BIC also). The analyst would choose the model, which optimizes the decision criteria: for R^2^ and adjusted R^2^, the more the better, while for AIC and BIC, the less is the better.
 
 also see pdf on steps to follow in multiple regression model building
 
@@ -67,6 +102,18 @@ Model Diagnostics
 
 Interpretation of Results of Multiple Linear Regression
 
+[Linear Regression in R \| A Step-by-Step Guide & Examples (scribbr.com)](https://www.scribbr.com/statistics/linear-regression-in-r/)
+
+[Reading a Regression Table: A Guide for Students \| Steven V. Miller (svmiller.com)](http://svmiller.com/blog/2014/08/reading-a-regression-table-a-guide-for-students/)
+
 Multicollinearity and Variable Selection
 
+[Multicollinearity in Regression Analysis: Problems, Detection, and Solutions - Statistics By Jim](https://statisticsbyjim.com/regression/multicollinearity-in-regression-analysis/)
+
+[Multicollinearity in Regression Analysis: Everything You Need to Know \| upGrad blog](https://www.upgrad.com/blog/multicollinearity-in-regression-analysis/)
+
 Model Selection Strategies
+
+[Model Selection -- Test Science 3.0](https://testscience.org/analyze-test-data/inferential/benefits-of-statistical-modeling/model-selection/#:~:text=There%20are%20several%20model%20building%20strategies%20available%20using,to%20regularization%20approaches%20%28ridge%20regression%2C%20LASSO%2C%20elastic%20net%29.)
+
+[Evaluation metrics & Model Selection in Linear Regression \| by NVS Yashwanth \| Towards Data Science](https://towardsdatascience.com/evaluation-metrics-model-selection-in-linear-regression-73c7573208be)

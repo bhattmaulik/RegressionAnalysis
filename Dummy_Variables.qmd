@@ -30,3 +30,9 @@ display_chapter_status("drafting")
 -   Dummy variable pitfalls and remedies in econometric modeling
 
 -   Examples and case studies of dummy variable regression in economics using R
+
+[Regression with Categorical Variables: Dummy Coding Essentials in R - Articles - STHDA](http://sthda.com/english/articles/40-regression-analysis/163-regression-with-categorical-variables-dummy-coding-essentials-in-r/)
+
+
+
+[Microsoft Word - Use and Interpretation of Dummy Variables.doc (rhul.ac.uk)](http://www.personal.rhul.ac.uk/uhte/006/ec2203/Use%20and%20Interpretation%20of%20Dummy%20Variables.pdf)

@@ -51,14 +51,28 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{3}
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -78,7 +92,7 @@
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
 \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
@@ -88,7 +102,7 @@
 \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
 \newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
 \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
@@ -125,28 +139,38 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
   % turn on hanging indent if param 1 is 1
   \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
   \fi
   % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
 \usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage[automark]{scrlayer-scrpage}%for header and footer
@@ -255,8 +279,6 @@
 }
 \makeatother
 \makeatletter
-\makeatother
-\makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
 \makeatletter
@@ -295,15 +317,16 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
-\@ifpackageloaded{caption}{}{\usepackage{caption}}
-\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 \makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
@@ -318,11 +341,12 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{14/08/2023}
+\date{22/04/2024}
 
 \begin{document}
 \frontmatter
 \maketitle
+
 \renewcommand*\contentsname{Contents}
 {
 \hypersetup{linkcolor=}
@@ -335,16 +359,14 @@
 \mainmatter
 \bookmarksetup{startatroot}
 
-\hypertarget{preface}{%
-\chapter*{Preface}\label{preface}}
+\chapter*{Preface}\label{preface}
 \addcontentsline{toc}{chapter}{Preface}
 
 \markboth{Preface}{Preface}
 
 \bookmarksetup{startatroot}
 
-\hypertarget{acknowledgement}{%
-\chapter*{Acknowledgement}\label{acknowledgement}}
+\chapter*{Acknowledgement}\label{acknowledgement}
 \addcontentsline{toc}{chapter}{Acknowledgement}
 
 \markboth{Acknowledgement}{Acknowledgement}
@@ -402,8 +424,7 @@ Thank you.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{introduction}{%
-\chapter{Introduction}\label{introduction}}
+\chapter{Introduction}\label{introduction}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -443,9 +464,8 @@ various experiments. In these experiments, we observe how much the
 demand for a commodity increase of decrease in response to a unit change
 (increase or decrease) in price of the commodity.
 
-\hypertarget{importance-of-r-for-econometrics-and-statistics}{%
 \section{Importance of R for Econometrics and
-Statistics}\label{importance-of-r-for-econometrics-and-statistics}}
+Statistics}\label{importance-of-r-for-econometrics-and-statistics}
 
 Many software are available for statistical and econometric analysis.
 Some of the popular software include SPSS, SAS, Stata, MATLAB, etc.
@@ -481,9 +501,8 @@ Started with R.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{introduction-to-econometrics-and-regression-analysis}{%
 \chapter{Introduction to Econometrics and Regression
-Analysis}\label{introduction-to-econometrics-and-regression-analysis}}
+Analysis}\label{introduction-to-econometrics-and-regression-analysis}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -522,9 +541,8 @@ Introduction to R
 
 \bookmarksetup{startatroot}
 
-\hypertarget{getting-started-with-r-for-econometrics}{%
 \chapter{Getting Started with R for
-Econometrics}\label{getting-started-with-r-for-econometrics}}
+Econometrics}\label{getting-started-with-r-for-econometrics}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -555,8 +573,7 @@ recommend reading it. \\
 
 \end{objectives}
 
-\hypertarget{a-brief-history-of-r}{%
-\section{A Brief History of R}\label{a-brief-history-of-r}}
+\section{A Brief History of R}\label{a-brief-history-of-r}
 
 John Chambers, working at Bell Laboratories, developed S programming
 language for statistical analysis. This programming language was
@@ -604,13 +621,15 @@ can be disabled in RStudio as follows:
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=3.92in,height=\textheight]{images/RStudio-settings.png}
+\centering{
+
+\includegraphics[width=3.92in,height=\textheight]{images/RStudio-settings.png}
 
 }
 
 \caption{\label{fig-disable-workspace}How to Disable Saving Workspace}
 
-\end{figure}
+\end{figure}%
 
 This setting (of not saving your workspace) seems counter-intuitive. But
 it helps you in the longer term. Assume you have to share your work with
@@ -630,12 +649,11 @@ and change the working directory using R commands.
 \CommentTok{\# Find the working directory}
 \FunctionTok{getwd}\NormalTok{()}
 \CommentTok{\#Change the working directory}
-\FunctionTok{setwd}\NormalTok{(}\StringTok{"Path/to/another/folder"}\NormalTok{)}
+\CommentTok{\#setwd("Path/to/another/folder")}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{quarto}{%
-\section{Quarto}\label{quarto}}
+\section{Quarto}\label{quarto}
 
 Quarto is a new open-source scientific and technical publishing system
 developed by Posit (the maker of RStudio). Quarto is designed to be
@@ -701,9 +719,8 @@ system. However, if you want to install all the \LaTeX packages, you can
 do so by using \texttt{install\_tinytex(bundle\ =\ "TinyTeX-2")} instead
 of \texttt{install\_tinytex()} function above.
 
-\hypertarget{your-first-interaction-with-r}{%
 \section{Your First Interaction with
-R}\label{your-first-interaction-with-r}}
+R}\label{your-first-interaction-with-r}
 
 After installing R and RStudio, you would start RStudio (not R). RStudio
 has four parts in the screen. The four parts (called ``panes'') are
@@ -714,13 +731,15 @@ The RStudio screen looks as follows:
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=4.27in,height=\textheight]{images/RStudio-panes.png}
+\centering{
+
+\includegraphics[width=4.27in,height=\textheight]{images/RStudio-panes.png}
 
 }
 
 \caption{\label{fig-rstudio-panes}RStudio Panes}
 
-\end{figure}
+\end{figure}%
 
 When you open a new file in RStudio using the
 \texttt{Files\ Menu\ \textgreater{}\ New\ File}, you are presented with
@@ -742,29 +761,29 @@ you get options as follows:
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=4.27in,height=\textheight]{images/New_Project.png}
+\centering{
+
+\includegraphics[width=4.27in,height=\textheight]{images/New_Project.png}
 
 }
 
 \caption{\label{fig-rstudio-project}Types of RStudio Projects}
 
-\end{figure}
+\end{figure}%
 
 As you can see, it has many options like RStudio Project, R Package,
 Quarto Project, Quarto Website, Quarto Blog and Quarto Book. This book
 is written using a Quarto Book project.
 
-\hypertarget{installing-packages}{%
-\section{Installing Packages}\label{installing-packages}}
+\section{Installing Packages}\label{installing-packages}
 
 You can install packages using the command
 \texttt{install.packages(package\_name)}. For example, the command to
 install the \texttt{easystats} set of packages would be
 \texttt{install.packages(easystats)}.
 
-\hypertarget{loading-and-manipulating-data}{%
 \section{Loading and Manipulating
-Data}\label{loading-and-manipulating-data}}
+Data}\label{loading-and-manipulating-data}
 
 In order to analyse the data, we need to load or import the data first.
 There are many possibilities as far as loading/importing data is
@@ -796,8 +815,7 @@ Another noteworthy package is \texttt{data.table}, which can import data
 from many formats. Its function \texttt{fread} is versatile and can read
 data in many formats.
 
-\hypertarget{manipulating-data}{%
-\subsection{Manipulating Data}\label{manipulating-data}}
+\subsection{Manipulating Data}\label{manipulating-data}
 
 Although R is capable of data manipulation without using any other
 packages, some of the packages created especially to facilitate data
@@ -806,9 +824,8 @@ our examples, we will use \texttt{tidyverse} set of packages for data
 manipulation. In particular, two of its packages \texttt{dplyr} and
 \texttt{tidyr} make this process quite easy.
 
-\hypertarget{selecting-columns-from-dataset}{%
 \subsection{Selecting Columns from
-Dataset}\label{selecting-columns-from-dataset}}
+Dataset}\label{selecting-columns-from-dataset}
 
 We can use the \texttt{select} command from \texttt{dplyr} for selecting
 columns from a dataset.
@@ -816,6 +833,10 @@ columns from a dataset.
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
 \FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{library}\NormalTok{(conflicted)}
+\FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"lag"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{)}
+\FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"tidy"}\NormalTok{, }\StringTok{"broom"}\NormalTok{)}
+\FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"augment"}\NormalTok{,}\StringTok{"broom"}\NormalTok{)}
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{carb) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -883,9 +904,8 @@ have written it as \texttt{g(f(x))}, but now after R 4.1, you can write
 it as
 \texttt{x\ \textbar{}\textgreater{}\ f()\ \textbar{}\textgreater{}\ g()}.
 
-\hypertarget{selecting-rows-from-a-dataset-aka-filtering}{%
 \subsection{\texorpdfstring{Selecting Rows from a Dataset (aka
-\texttt{filtering})}{Selecting Rows from a Dataset (aka filtering)}}\label{selecting-rows-from-a-dataset-aka-filtering}}
+\texttt{filtering})}{Selecting Rows from a Dataset (aka filtering)}}\label{selecting-rows-from-a-dataset-aka-filtering}
 
 We can use \texttt{filter} function from \texttt{dplyr} for filtering
 rows of a dataset. For example, we want to filter the rows of
@@ -894,7 +914,7 @@ this by
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{filter}\NormalTok{(cyl}\SpecialCharTok{==}\DecValTok{6}\NormalTok{) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(cyl}\SpecialCharTok{==}\DecValTok{6}\NormalTok{) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -990,8 +1010,7 @@ an assignment operator. It means, when we write \texttt{cyl=6}, it
 assigns value 6 to the variable \texttt{cyl}. So, when we want to check
 equality, we have to use ``=='' instead of ``=''.
 
-\hypertarget{arrange-data}{%
-\subsection{Arrange Data}\label{arrange-data}}
+\subsection{Arrange Data}\label{arrange-data}
 
 Using \texttt{dplyr}, it is easy to arrange or sort data in ascending or
 descending order of a column: use the \texttt{arrange} function for
@@ -1106,8 +1125,7 @@ Cadillac Fleetwood & 10.4 & 8 & 472.0 \\
 Lincoln Continental & 10.4 & 8 & 460.0 \\
 \end{longtable}
 
-\hypertarget{create-a-new-variable}{%
-\subsection{Create a New Variable}\label{create-a-new-variable}}
+\subsection{Create a New Variable}\label{create-a-new-variable}
 
 You can create a new variable using the \texttt{mutate} function in
 \texttt{dplyr} package. For example, you want to create a new variable,
@@ -1226,8 +1244,7 @@ cyl & Average MPG \\
 
 \bookmarksetup{startatroot}
 
-\hypertarget{simple-linear-regression}{%
-\chapter{Simple Linear Regression}\label{simple-linear-regression}}
+\chapter{Simple Linear Regression}\label{simple-linear-regression}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1335,15 +1352,17 @@ create this scatterplot diagram.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\begin{figure}[h]
 
-{\centering \includegraphics{lm_files/figure-pdf/fig-scatterplot-1.pdf}
+\centering{
+
+\includegraphics{lm_files/figure-pdf/fig-scatterplot-1.pdf}
 
 }
 
 \caption{\label{fig-scatterplot}Scatterplot of X and Y}
 
-\end{figure}
+\end{figure}%
 
 Now we can create a regression model from this dataset.
 
@@ -1398,14 +1417,12 @@ beautify the table in the output.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{tbl-regression-params}{}
 \begin{longtable}[]{@{}lccccc@{}}
-\caption{\label{tbl-regression-params}Regression
-Parameters}\tabularnewline
-\toprule\noalign{}
-Parameter & Coefficient & SE & 95\% CI & t(98) & p \\
-\midrule\noalign{}
-\endfirsthead
+
+\caption{\label{tbl-regression-params}Regression Parameters}
+
+\tabularnewline
+
 \toprule\noalign{}
 Parameter & Coefficient & SE & 95\% CI & t(98) & p \\
 \midrule\noalign{}
@@ -1414,6 +1431,7 @@ Parameter & Coefficient & SE & 95\% CI & t(98) & p \\
 \endlastfoot
 (Intercept) & 0.25 & 0.21 & (-0.16, 0.66) & 1.20 & 0.234 \\
 x & -0.06 & 0.06 & (-0.17, 0.06) & -0.99 & 0.324 \\
+
 \end{longtable}
 
 \begin{Shaded}
@@ -1423,10 +1441,13 @@ x & -0.06 & 0.06 & (-0.17, 0.06) & -0.99 & 0.324 \\
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{tbl-regression-effectiveness}{}
 \begin{longtable}[]{@{}lcccccc@{}}
-\caption{\label{tbl-regression-effectiveness}Regression
-Effectiveness}\tabularnewline
+
+\caption{\label{tbl-regression-effectiveness}Regression Effectiveness}
+
+\tabularnewline
+
+\caption{Regression Effectiveness}\tabularnewline
 \toprule\noalign{}
 AIC & AICc & BIC & R2 & R2 (adj.) & RMSE & Sigma \\
 \midrule\noalign{}
@@ -1438,11 +1459,11 @@ AIC & AICc & BIC & R2 & R2 (adj.) & RMSE & Sigma \\
 \bottomrule\noalign{}
 \endlastfoot
 297.71 & 297.96 & 305.53 & 9.94e-03 & -1.59e-04 & 1.04 & 1.05 \\
+
 \end{longtable}
 
-\hypertarget{interpretation-of-regression-model}{%
 \subsection{Interpretation of Regression
-Model}\label{interpretation-of-regression-model}}
+Model}\label{interpretation-of-regression-model}
 
 - The intercept is statistically non-significant and negative (beta =
 -0.16, 95\% CI {[}-0.59, 0.27{]}, t(98) = -0.74, p = 0.461; Std. beta =
@@ -1462,18 +1483,17 @@ weak proportion of variance (R\^{}2 = 0.02, F(1, 98) = 1.53, p =
 
 0.219, adj. R\^{}2 = 5.32e-03).
 
-\hypertarget{non-linear-relationship-in-regression}{%
 \subsection{Non-Linear Relationship in
-Regression}\label{non-linear-relationship-in-regression}}
+Regression}\label{non-linear-relationship-in-regression}
 
 Sometimes, the relationship between the dependent and independent
 variable is not linear, but quadratic. This can be understood either
 from the scatter plot diagram or from theoretical considerations. In
 mathematical terms, the relationship is
 
-\begin{equation}\protect\hypertarget{eq-quadratic}{}{
+\begin{equation}\phantomsection\label{eq-quadratic}{
 Y = \beta_0 + \beta_1*X^2 + \gamma
-}\label{eq-quadratic}\end{equation}
+}\end{equation}
 
 where X and Y are independent and dependent variables, respectively.
 This is still considered ``Linear Regression'', because we are
@@ -1484,8 +1504,7 @@ error term, \(\gamma\) in this equation.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{multiple-linear-regression}{%
-\chapter{Multiple Linear Regression}\label{multiple-linear-regression}}
+\chapter{Multiple Linear Regression}\label{multiple-linear-regression}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1518,8 +1537,7 @@ recommend reading it. \\
 
 \end{objectives}
 
-\hypertarget{introduction-1}{%
-\subsection{Introduction}\label{introduction-1}}
+\subsection{Introduction}\label{introduction-1}
 
 In the previous chapter, we saw simple linear regression, in which we
 attempted to understand the relationship between two variables - one
@@ -1532,7 +1550,8 @@ is used to predict the value of a dependent variable based on the values
 of two or more independent variables. It is commonly used in fields such
 as economics, finance, and social sciences.
 
-Assumptions of Multiple Linear Regression
+\section{Assumptions of Multiple Linear
+Regression}\label{assumptions-of-multiple-linear-regression}
 
 There are a few assumptions of multiple linear regression. They are as
 follows:
@@ -1583,7 +1602,8 @@ follows:
   is unnecessary.
 \end{enumerate}
 
-Multiple Linear Regression: A Practical Example
+\section{Multiple Linear Regression: A Practical
+Example}\label{multiple-linear-regression-a-practical-example}
 
 Let's look at the dataset from the book ``Basic Econometrics'' by
 Damodar Gujarati, et al (The Special Indian Economy Edition). The Table
@@ -1618,22 +1638,16 @@ We can load the dataset, and inspect the variables in the dataset.
 \CommentTok{\#which contains the dataset}
 \CommentTok{\#install.packages("GGally)}
 \CommentTok{\#to install the GGally package}
-\FunctionTok{library}\NormalTok{(easystats)}
-\FunctionTok{library}\NormalTok{(Gujarati5sie)}
-\FunctionTok{library}\NormalTok{(GGally)}
+\CommentTok{\# library(easystats)}
+\CommentTok{\# library(Gujarati5sie)}
+\CommentTok{\# library(GGally)}
 \FunctionTok{data}\NormalTok{(}\StringTok{"Table7.6"}\NormalTok{)}
 \CommentTok{\#to load the dataset from Table 7.6}
 \FunctionTok{ggpairs}\NormalTok{(Table7}\FloatTok{.6}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[h]
-
-{\centering \includegraphics{Multiple_Regression_files/figure-pdf/unnamed-chunk-1-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{Multiple_Regression_files/figure-pdf/unnamed-chunk-1-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
@@ -1647,6 +1661,21 @@ less,} because according to theory, the consumption of a commodity would
 have negative relationship with its price. Fish is a competitor for
 chicken, so consumption of chicken should have positive correlation with
 the price of fish, which is not the case in this dataset.
+
+Let's fit a linear regression model on the data.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Y}\SpecialCharTok{\textasciitilde{}}\NormalTok{X2}\SpecialCharTok{+}\NormalTok{X3}\SpecialCharTok{+}\NormalTok{X4, }\AttributeTok{data =}\NormalTok{ Table7}\FloatTok{.6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can see that multiple regression also requires the \texttt{lm}
+function, just like classical linear regression model. To add more
+variables in the regression model, we have to use the \texttt{+} sign on
+the right hand side of the \texttt{\textasciitilde{}} sign.
+
+PENDING
 
 Model Building Strategies
 
@@ -1715,9 +1744,8 @@ Yashwanth \textbar{} Towards Data Science}
 
 \bookmarksetup{startatroot}
 
-\hypertarget{regression-analysis-with-dummy-variables}{%
 \chapter{Regression Analysis with Dummy
-Variables}\label{regression-analysis-with-dummy-variables}}
+Variables}\label{regression-analysis-with-dummy-variables}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1769,9 +1797,8 @@ Word - Use and Interpretation of Dummy Variables.doc (rhul.ac.uk)}
 
 \bookmarksetup{startatroot}
 
-\hypertarget{heteroscedasticity-and-robust-regression}{%
 \chapter{Heteroscedasticity and Robust
-Regression}\label{heteroscedasticity-and-robust-regression}}
+Regression}\label{heteroscedasticity-and-robust-regression}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1816,8 +1843,7 @@ recommend reading it. \\
 
 \bookmarksetup{startatroot}
 
-\hypertarget{time-series-regression}{%
-\chapter{Time Series Regression}\label{time-series-regression}}
+\chapter{Time Series Regression}\label{time-series-regression}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1865,9 +1891,8 @@ recommend reading it. \\
 
 \bookmarksetup{startatroot}
 
-\hypertarget{introduction-to-logistic-regression}{%
 \chapter{Introduction to Logistic
-Regression}\label{introduction-to-logistic-regression}}
+Regression}\label{introduction-to-logistic-regression}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1911,9 +1936,8 @@ recommend reading it. \\
 
 \bookmarksetup{startatroot}
 
-\hypertarget{model-evaluation-and-selection}{%
 \chapter{Model Evaluation and
-Selection}\label{model-evaluation-and-selection}}
+Selection}\label{model-evaluation-and-selection}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -1959,9 +1983,8 @@ recommend reading it. \\
 
 \bookmarksetup{startatroot}
 
-\hypertarget{practical-tips-and-resources-for-econometric-regression}{%
 \chapter{Practical Tips and Resources for Econometric
-Regression}\label{practical-tips-and-resources-for-econometric-regression}}
+Regression}\label{practical-tips-and-resources-for-econometric-regression}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -2006,8 +2029,7 @@ recommend reading it. \\
 
 \bookmarksetup{startatroot}
 
-\hypertarget{conclusion}{%
-\chapter{Conclusion}\label{conclusion}}
+\chapter{Conclusion}\label{conclusion}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -2052,9 +2074,8 @@ recommend reading it. \\
 \addcontentsline{toc}{part}{Appendices}
 \appendix
 
-\hypertarget{r-packages-for-econometric-regression-analysis-and-additional-resources}{%
 \chapter{R packages for econometric regression analysis and additional
-resources}\label{r-packages-for-econometric-regression-analysis-and-additional-resources}}
+resources}\label{r-packages-for-econometric-regression-analysis-and-additional-resources}
 
 \setcounter{figure}{0} 
 \renewcommand{\thefigure}{A.\arabic{figure}}
@@ -2133,31 +2154,27 @@ Gujarati and others, then you can do it as follows:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{data-sets-used-in-the-books-examples}{%
 \chapter{Data sets used in the book's
-examples}\label{data-sets-used-in-the-books-examples}}
+examples}\label{data-sets-used-in-the-books-examples}
 
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{B.\arabic{figure}} 
 \setcounter{table}{0}
 \renewcommand{\thetable}{B.\arabic{table}}
 
-\hypertarget{introduction-2}{%
-\subsection{Introduction}\label{introduction-2}}
+\subsection{Introduction}\label{introduction-2}
 
 Dummy text
 
-\hypertarget{how-to-build-this-book-locally}{%
 \chapter{How to Build This Book
-Locally}\label{how-to-build-this-book-locally}}
+Locally}\label{how-to-build-this-book-locally}
 
 \setcounter{figure}{0}
 \renewcommand{\thefigure}{C.\arabic{figure}}
 \setcounter{table}{0}
 \renewcommand{\thetable}{C.\arabic{table}}
 
-\hypertarget{introduction-3}{%
-\subsection{Introduction}\label{introduction-3}}
+\subsection{Introduction}\label{introduction-3}
 
 If you want to build this book locally on your computer, please download
 the entire code from Github. The first step is to visit the website
@@ -2171,15 +2188,17 @@ below.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\begin{figure}[h]
 
-{\centering \includegraphics[width=4.43in,height=\textheight]{images/download-book.png}
+\centering{
+
+\includegraphics[width=4.43in,height=\textheight]{images/download-book.png}
 
 }
 
 \caption{\label{fig-download-book}Download the book from Github}
 
-\end{figure}
+\end{figure}%
 
 After you download the zip file, unzip it. This will create a folder in
 your computer. Within this folder, double click on the
@@ -2208,15 +2227,17 @@ through terminal in RStudio using the command
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\begin{figure}[h]
 
-{\centering \includegraphics[width=2.73in,height=\textheight]{images/build-book.png}
+\centering{
+
+\includegraphics[width=2.73in,height=\textheight]{images/build-book.png}
 
 }
 
 \caption{\label{fig-build-book}Build book using tinytex}
 
-\end{figure}
+\end{figure}%
 
 If you can't install it this way, or if you want to install it through
 traditional way using R code, you can use the following code:
@@ -2244,81 +2265,80 @@ install the bundle \texttt{TinyTeX-1}, which contains only the most
 necessary LaTeX packages. But if you choose the bundle
 \texttt{TinyTeX-2}, you can download all the \texttt{LaTeX} packages.
 
-\hypertarget{references}{%
-\chapter*{References}\label{references}}
+\chapter*{References}\label{references}
 \addcontentsline{toc}{chapter}{References}
 
 \markboth{References}{References}
 
-\hypertarget{refs}{}
+\phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-ggthemes}{}}%
+\bibitem[\citeproctext]{ref-ggthemes}
 Arnold, Jeffrey B. 2021. \emph{{ggthemes}: Extra Themes, Scales and
 Geoms for {``{ggplot2}''}}.
 \url{https://CRAN.R-project.org/package=ggthemes}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-fs}{}}%
+\bibitem[\citeproctext]{ref-fs}
 Hester, Jim, Hadley Wickham, and Gábor Csárdi. 2023. \emph{{fs}:
 Cross-Platform File System Operations Based on {``{libuv}''}}.
 \url{https://CRAN.R-project.org/package=fs}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-fpp3}{}}%
+\bibitem[\citeproctext]{ref-fpp3}
 Hyndman, Rob. 2023. \emph{Fpp3: Data for {``{Forecasting: Principles and
 Practice}''} (3rd Edition)}.
 \url{https://CRAN.R-project.org/package=fpp3}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-gt}{}}%
+\bibitem[\citeproctext]{ref-gt}
 Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra
 Lauer, and JooYoung Seo. 2023. \emph{{gt}: Easily Create
 Presentation-Ready Display Tables}.
 \url{https://CRAN.R-project.org/package=gt}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-AER}{}}%
+\bibitem[\citeproctext]{ref-AER}
 Kleiber, Christian, and Achim Zeileis. 2008. \emph{Applied Econometrics
 with {R}}. New York: Springer-Verlag.
 \url{https://CRAN.R-project.org/package=AER}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-easystats}{}}%
+\bibitem[\citeproctext]{ref-easystats}
 Lüdecke, Daniel, Mattan S. Ben-Shachar, Indrajeet Patil, Brenton M.
 Wiernik, Etienne Bacher, Rémi Thériault, and Dominique Makowski. 2022.
 {``{easystats}: Framework for Easy Statistical Modeling, Visualization,
 and Reporting.''} \emph{CRAN}.
 \url{https://easystats.github.io/easystats/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-here}{}}%
+\bibitem[\citeproctext]{ref-here}
 Müller, Kirill. 2020. \emph{{here}: A Simpler Way to Find Your Files}.
 \url{https://CRAN.R-project.org/package=here}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-patchwork}{}}%
+\bibitem[\citeproctext]{ref-patchwork}
 Pedersen, Thomas Lin. 2022. \emph{{patchwork}: The Composer of Plots}.
 \url{https://CRAN.R-project.org/package=patchwork}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-gtsummary}{}}%
+\bibitem[\citeproctext]{ref-gtsummary}
 Sjoberg, Daniel D., Karissa Whiting, Michael Curry, Jessica A. Lavery,
 and Joseph Larmarange. 2021. {``Reproducible Summary Tables with the
 Gtsummary Package.''} \emph{{The R Journal}} 13: 570--80.
 \url{https://doi.org/10.32614/RJ-2021-053}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-knitr2014}{}}%
+\bibitem[\citeproctext]{ref-knitr2014}
 Xie, Yihui. 2014. {``{knitr}: A Comprehensive Tool for Reproducible
 Research in {R}.''} In \emph{Implementing Reproducible Computational
 Research}, edited by Victoria Stodden, Friedrich Leisch, and Roger D.
 Peng. Chapman; Hall/CRC.
 
-\leavevmode\vadjust pre{\hypertarget{ref-knitr2015}{}}%
+\bibitem[\citeproctext]{ref-knitr2015}
 ---------. 2015. \emph{Dynamic Documents with {R} and Knitr}. 2nd ed.
 Boca Raton, Florida: Chapman; Hall/CRC. \url{https://yihui.org/knitr/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-knitr2023}{}}%
+\bibitem[\citeproctext]{ref-knitr2023}
 ---------. 2023. \emph{{knitr}: A General-Purpose Package for Dynamic
 Report Generation in r}. \url{https://yihui.org/knitr/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-lmtest}{}}%
+\bibitem[\citeproctext]{ref-lmtest}
 Zeileis, Achim, and Torsten Hothorn. 2002. {``Diagnostic Checking in
 Regression Relationships.''} \emph{R News} 2 (3): 7--10.
 \url{https://CRAN.R-project.org/doc/Rnews/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-kableExtra}{}}%
+\bibitem[\citeproctext]{ref-kableExtra}
 Zhu, Hao. 2021. \emph{{kableExtra}: Construct Complex Table with
 {``{kable}''} and Pipe Syntax}.
 \url{https://CRAN.R-project.org/package=kableExtra}.

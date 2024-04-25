@@ -65,7 +65,7 @@ R has a concept of working directory. When you save your R script and your work,
 # Find the working directory
 getwd()
 #Change the working directory
-setwd("Path/to/another/folder")
+#setwd("Path/to/another/folder")
 ```
 
 ## Quarto
@@ -155,6 +155,10 @@ We can use the `select` command from `dplyr` for selecting columns from a datase
 #| label: mtcars-select
 #| tbl-cap: "Selecting Columns from am to carb from mtcars dataset"
 library(tidyverse)
+library(conflicted)
+conflict_prefer("lag", "dplyr")
+conflict_prefer("tidy", "broom")
+conflict_prefer("augment","broom")
 mtcars |> select(am:carb) |> knitr::kable()
 ```
 
@@ -167,7 +171,7 @@ We can use `filter` function from `dplyr` for filtering rows of a dataset. For e
 ```{r}
 #| label: mtcars-filter
 #| tbl-cap: "Selecting Rows from mtcars dataset where value of cyl is 6"
-mtcars |> filter(cyl==6) |> knitr::kable()
+mtcars |> dplyr::filter(cyl==6) |> knitr::kable()
 ```
 
 We can see that in this code, we have used "=" twice. In R, "=" is an assignment operator. It means, when we write `cyl=6`, it assigns value 6 to the variable `cyl`. So, when we want to check equality, we have to use "==" instead of "=".

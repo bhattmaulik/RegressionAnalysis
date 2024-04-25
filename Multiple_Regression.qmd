@@ -29,7 +29,7 @@ display_chapter_status("drafting")
 
 In the previous chapter, we saw simple linear regression, in which we attempted to understand the relationship between two variables - one called independent variable and the other called the dependent variable. Multiple linear regression is a statistical technique that allows us to analyze the relationship between two or more independent variables and a dependent variable. It is an extension of simple linear regression, which only involves one independent variable. Multiple linear regression is used to predict the value of a dependent variable based on the values of two or more independent variables. It is commonly used in fields such as economics, finance, and social sciences.
 
-Assumptions of Multiple Linear Regression
+## Assumptions of Multiple Linear Regression
 
 There are a few assumptions of multiple linear regression. They are as follows:
 
@@ -51,7 +51,7 @@ There are a few assumptions of multiple linear regression. They are as follows:
 
 6.  There is no perfect correlation between any of the independent variable with the dependent variable. If there is a perfect correlation between any two variables, then one of the two variables is unnecessary.
 
-Multiple Linear Regression: A Practical Example
+## Multiple Linear Regression: A Practical Example
 
 Let's look at the dataset from the book "Basic Econometrics" by Damodar Gujarati, et al (The Special Indian Economy Edition). The Table 7.6 shows consumption of Chicken in 22 states and union territories in India. The variables are as follows:
 
@@ -73,9 +73,9 @@ We can load the dataset, and inspect the variables in the dataset.
 #which contains the dataset
 #install.packages("GGally)
 #to install the GGally package
-library(easystats)
-library(Gujarati5sie)
-library(GGally)
+# library(easystats)
+# library(Gujarati5sie)
+# library(GGally)
 data("Table7.6")
 #to load the dataset from Table 7.6
 ggpairs(Table7.6)
@@ -83,6 +83,16 @@ ggpairs(Table7.6)
 ```
 
 We can see that Y has negative correlation with X2 and X3, and slightly negative correlation with X4 also. This looks **usual more or less,** because according to theory, the consumption of a commodity would have negative relationship with its price. Fish is a competitor for chicken, so consumption of chicken should have positive correlation with the price of fish, which is not the case in this dataset.
+
+Let's fit a linear regression model on the data.
+
+```{r}
+mod1 <- lm(Y~X2+X3+X4, data = Table7.6)
+```
+
+We can see that multiple regression also requires the `lm` function, just like classical linear regression model. To add more variables in the regression model, we have to use the `+` sign on the right hand side of the `~` sign.
+
+PENDING
 
 Model Building Strategies
 

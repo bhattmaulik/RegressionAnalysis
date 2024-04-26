@@ -31,17 +31,17 @@ R was first released in 1993. In 1995, another statistician Martin Mächler conv
 
 R also has a robust community of users. As of writing this, there are 19,719 user-developed packages on Comprehensive R Archive Network (CRAN), which distributes the R source code and packages. Apart from CRAN, many more packages are also available on code sharing platform github. Users can download packages from github as well. The Appendix A explains how to install packages from CRAN and from github.
 
-How to Install R
+## How to Install R
 
 You can install R from the website of [CRAN](https://cran.r-project.org/). Downloadable files and instructions to download and install R for all the major operating systems are available on this website. R can be downloaded and installed on Windows, Mac and Linux platforms.
 
 It is possible to use R right from within this R Graphical User Interface (R-Gui). But such a work will not be reproducible. It means, you will be able to work on your system, but you won't be able to share that work with others. IDE like RStudio makes it much easier to work in R, and to share your work with others.
 
-How to Install RStudio
+## How to Install RStudio
 
 Once you have installed R for your operating system, you can visit the website of [RStudio](https://posit.co/download/rstudio-desktop/). Just like R, RStudio is also available on Windows, Mac and Linux platforms.
 
-Useful Settings in RStudio
+## Useful Settings in RStudio
 
 I would recommend you not to save the workspace in RStudio. This setting can be disabled in RStudio as follows:
 
@@ -54,7 +54,7 @@ knitr::include_graphics(here::here("images","RStudio-settings.png"))
 
 This setting (of not saving your workspace) seems counter-intuitive. But it helps you in the longer term. Assume you have to share your work with someone else. The other person might not have the same settings of computer in his/her system. So, the work on your system might look different in that system. Instead, you should save the R Script (or even better, a Quarto document) in your system, and should share it.
 
-The Concept of Working Directory
+## The Concept of Working Directory
 
 R has a concept of working directory. When you save your R script and your work, it gets saved in the "working directory" of R. You can find and change the working directory using R commands.
 
@@ -84,7 +84,7 @@ Here are some points that emphasize the reproducibility of Quarto over R scripts
 
 These features make Quarto a better choice than R scripts when it comes to reproducibility. With Quarto, you can easily create documents that are easy to reproduce and share with others.
 
-Optional: Installing \LaTeX
+## Optional: Installing \LaTeX
 
 If you want to work in Quarto, and want to generate PDF output, \LaTeX is required. There are two popular \LaTeX distributions: MiKTeX and TeX Live. However, I prefer another \LaTeX distribution, called TinyTeX. It's a light weight distribution of \LaTeX, and works well with R. You can install it using R as follows:
 
@@ -204,7 +204,7 @@ You can create a new variable using the `mutate` function in `dplyr` package. Fo
 mtcars |> mutate(FuelEff = 1/mpg) |> select(am:FuelEff) |> knitr::kable()
 ```
 
-Summarize a Data
+## Summarize a Data
 
 Suppose you want to see what is the average `mpg` in the whole dataset? Remember mpg stands for miles per gallon. So, this column shows the fuel efficiency of various cars. So, you can use `summary` function from dplyr to get this answer.
 

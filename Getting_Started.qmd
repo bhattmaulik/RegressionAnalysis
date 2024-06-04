@@ -25,11 +25,16 @@ display_chapter_status("drafting")
 ```
 ## A Brief History of R
 
+```{r}
+#| echo: false
+total_pkgs <- nrow(available.packages(repos = "https://cran.rstudio.com"))
+```
+
 John Chambers, working at Bell Laboratories, developed S programming language for statistical analysis. This programming language was incorporated in the commercial program S-plus. Inspired by this programming languagage, tw o statistics professors Robert Gentleman and Ross Ihaka developed a reduced version of S, which they named R.
 
 R was first released in 1993. In 1995, another statistician Martin Mächler convinced Gentleman and Ihaka to make R source code available to general public. As a result, R became free and open source under GNU General Public License.
 
-R also has a robust community of users. As of writing this, there are 19,719 user-developed packages on Comprehensive R Archive Network (CRAN), which distributes the R source code and packages. Apart from CRAN, many more packages are also available on code sharing platform github. Users can download packages from github as well. The Appendix A explains how to install packages from CRAN and from github.
+R also has a robust community of users. As of writing this, there are `r total_pkgs` user-developed packages on Comprehensive R Archive Network (CRAN), which distributes the R source code and packages. Apart from CRAN, many more packages are also available on code sharing platform github. Users can download packages from github as well. The Appendix A explains how to install packages from CRAN and from github.
 
 ## How to Install R
 
@@ -159,7 +164,7 @@ library(conflicted)
 conflict_prefer("lag", "dplyr")
 conflict_prefer("tidy", "broom")
 conflict_prefer("augment","broom")
-mtcars |> select(am:carb) |> knitr::kable()
+mtcars |> select(am:carb) |> head() |> knitr::kable()
 ```
 
 In the above command, we first loaded the `tidyverse` set of packages, so that its functionality is available in the R session. Then we took the built-in dataset `mtcars`, and then selected the columns from `am` to `carb` in the dataset. The `|>` is called the `pipe operator` in R. It was introduced in R version 4.1. Before that, there was another pipe operator (`%>%`) in the `magrittr` package, which is also a part of `tidyverse`. To understand how pipe operator makes coding easy and readable, imagine you want to take g(f(x)), which reads g of f of x. It means you want to take a value x, apply the function f on that value, and on the output, you want to apply another function g. Before the introduction of pipe operator, you would have written it as `g(f(x))`, but now after R 4.1, you can write it as `x |> f() |> g()`.
@@ -171,7 +176,7 @@ We can use `filter` function from `dplyr` for filtering rows of a dataset. For e
 ```{r}
 #| label: mtcars-filter
 #| tbl-cap: "Selecting Rows from mtcars dataset where value of cyl is 6"
-mtcars |> dplyr::filter(cyl==6) |> knitr::kable()
+mtcars |> dplyr::filter(cyl==6) |> head() |> knitr::kable()
 ```
 
 We can see that in this code, we have used "=" twice. In R, "=" is an assignment operator. It means, when we write `cyl=6`, it assigns value 6 to the variable `cyl`. So, when we want to check equality, we have to use "==" instead of "=".
@@ -183,7 +188,7 @@ Using `dplyr`, it is easy to arrange or sort data in ascending or descending ord
 ```{r}
 #| label: mtcars-arrange
 #| tbl-cap: "Arrange the Data in Ascending Order of `mpg`"
-mtcars |> arrange(mpg)|> select(mpg:disp) |> knitr::kable()
+mtcars |> arrange(mpg)|> select(mpg:disp) |> head() |> knitr::kable()
 ```
 
 You can similarly arrange the data in descending order of `mpg` column in the `mtcars` dataset.
@@ -191,7 +196,7 @@ You can similarly arrange the data in descending order of `mpg` column in the `m
 ```{r}
 #| label: mtcars-arrange-desc
 #| tbl-cap: "Arrange the Data in Descending Order of `mpg`"
-mtcars |> arrange(desc(mpg)) |> select(mpg:disp) |> knitr::kable()
+mtcars |> arrange(desc(mpg)) |> select(mpg:disp) |> head() |> knitr::kable()
 ```
 
 ### Create a New Variable
@@ -201,7 +206,7 @@ You can create a new variable using the `mutate` function in `dplyr` package. Fo
 ```{r}
 #| label: mtcars-mutate
 #| tbl-cap: "Create a New Variable in `mtcars` dataset"
-mtcars |> mutate(FuelEff = 1/mpg) |> select(am:FuelEff) |> knitr::kable()
+mtcars |> mutate(FuelEff = 1/mpg) |> select(am:FuelEff) |> head() |> knitr::kable()
 ```
 
 ## Summarize a Data
@@ -221,3 +226,5 @@ However, this function `summarise` becomes more powerful when combined with anot
 #| tbl-cap: "Miles Per Gallon for Different Values of Cylinder"
 mtcars |> group_by(cyl) |> summarise("Average MPG" = mean(mpg)) |> knitr::kable()
 ```
+
+The `group_by` argument changes the unit of analysis. For example, if we write the code `mtcars |> summarize(mean_mpg = mean(mpg))`, then the unit of analysis is all the the observations of the `mpg` column. But when we introduce `group_by`, by writing `mtcars |> group_by(cyl) |> summarise("Average MPG" = mean(mpg))`, then the unit of analysis is each level of `cyl` variable. Now the average of `mpg` is calculated for each level of `cyl`, instead of calculating it for the whole lot of observation.

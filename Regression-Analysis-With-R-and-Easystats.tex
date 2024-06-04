@@ -322,6 +322,18 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}{}
+\makeatother
+\makeatletter
+\@ifundefined{codebgcolor}{\definecolor{codebgcolor}{HTML}{EFEFEF}}{}
+\makeatother
+\makeatletter
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, colback={codebgcolor}, boxrule=0pt, breakable, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
+\makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -341,7 +353,7 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{26/04/2024}
+\date{27/04/2024}
 
 \begin{document}
 \frontmatter
@@ -724,13 +736,13 @@ general public. As a result, R became free and open source under GNU
 General Public License.
 
 R also has a robust community of users. As of writing this, there are
-19,719 user-developed packages on Comprehensive R Archive Network
-(CRAN), which distributes the R source code and packages. Apart from
-CRAN, many more packages are also available on code sharing platform
-github. Users can download packages from github as well. The Appendix A
-explains how to install packages from CRAN and from github.
+20607 user-developed packages on Comprehensive R Archive Network (CRAN),
+which distributes the R source code and packages. Apart from CRAN, many
+more packages are also available on code sharing platform github. Users
+can download packages from github as well. The Appendix A explains how
+to install packages from CRAN and from github.
 
-How to Install R
+\section{How to Install R}\label{how-to-install-r}
 
 You can install R from the website of
 \href{https://cran.r-project.org/}{CRAN}. Downloadable files and
@@ -744,14 +756,14 @@ you will be able to work on your system, but you won't be able to share
 that work with others. IDE like RStudio makes it much easier to work in
 R, and to share your work with others.
 
-How to Install RStudio
+\section{How to Install RStudio}\label{how-to-install-rstudio}
 
 Once you have installed R for your operating system, you can visit the
 website of \href{https://posit.co/download/rstudio-desktop/}{RStudio}.
 Just like R, RStudio is also available on Windows, Mac and Linux
 platforms.
 
-Useful Settings in RStudio
+\section{Useful Settings in RStudio}\label{useful-settings-in-rstudio}
 
 I would recommend you not to save the workspace in RStudio. This setting
 can be disabled in RStudio as follows:
@@ -775,7 +787,8 @@ computer in his/her system. So, the work on your system might look
 different in that system. Instead, you should save the R Script (or even
 better, a Quarto document) in your system, and should share it.
 
-The Concept of Working Directory
+\section{The Concept of Working
+Directory}\label{the-concept-of-working-directory}
 
 R has a concept of working directory. When you save your R script and
 your work, it gets saved in the ``working directory'' of R. You can find
@@ -832,7 +845,8 @@ These features make Quarto a better choice than R scripts when it comes
 to reproducibility. With Quarto, you can easily create documents that
 are easy to reproduce and share with others.
 
-Optional: Installing \LaTeX
+\section{\texorpdfstring{Optional: Installing
+\LaTeX}{Optional: Installing }}\label{optional-installing}
 
 If you want to work in Quarto, and want to generate PDF output,
 \LaTeX is required. There are two popular \LaTeX distributions: MiKTeX
@@ -974,7 +988,7 @@ columns from a dataset.
 \FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"lag"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{)}
 \FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"tidy"}\NormalTok{, }\StringTok{"broom"}\NormalTok{)}
 \FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"augment"}\NormalTok{,}\StringTok{"broom"}\NormalTok{)}
-\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{carb) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{carb) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -997,32 +1011,6 @@ Datsun 710 & 1 & 4 & 1 \\
 Hornet 4 Drive & 0 & 3 & 1 \\
 Hornet Sportabout & 0 & 3 & 2 \\
 Valiant & 0 & 3 & 1 \\
-Duster 360 & 0 & 3 & 4 \\
-Merc 240D & 0 & 4 & 2 \\
-Merc 230 & 0 & 4 & 2 \\
-Merc 280 & 0 & 4 & 4 \\
-Merc 280C & 0 & 4 & 4 \\
-Merc 450SE & 0 & 3 & 3 \\
-Merc 450SL & 0 & 3 & 3 \\
-Merc 450SLC & 0 & 3 & 3 \\
-Cadillac Fleetwood & 0 & 3 & 4 \\
-Lincoln Continental & 0 & 3 & 4 \\
-Chrysler Imperial & 0 & 3 & 4 \\
-Fiat 128 & 1 & 4 & 1 \\
-Honda Civic & 1 & 4 & 2 \\
-Toyota Corolla & 1 & 4 & 1 \\
-Toyota Corona & 0 & 3 & 1 \\
-Dodge Challenger & 0 & 3 & 2 \\
-AMC Javelin & 0 & 3 & 2 \\
-Camaro Z28 & 0 & 3 & 4 \\
-Pontiac Firebird & 0 & 3 & 2 \\
-Fiat X1-9 & 1 & 4 & 1 \\
-Porsche 914-2 & 1 & 5 & 2 \\
-Lotus Europa & 1 & 5 & 2 \\
-Ford Pantera L & 1 & 5 & 4 \\
-Ferrari Dino & 1 & 5 & 6 \\
-Maserati Bora & 1 & 5 & 8 \\
-Volvo 142E & 1 & 4 & 2 \\
 \end{longtable}
 
 In the above command, we first loaded the \texttt{tidyverse} set of
@@ -1051,7 +1039,7 @@ this by
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(cyl}\SpecialCharTok{==}\DecValTok{6}\NormalTok{) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(cyl}\SpecialCharTok{==}\DecValTok{6}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1138,8 +1126,6 @@ Merc 280 & 19.2 & 6 & 167.6 & 123 & 3.92 & 3.440 & 18.30 & 1 & 0 & 4 &
 4 \\
 Merc 280C & 17.8 & 6 & 167.6 & 123 & 3.92 & 3.440 & 18.90 & 1 & 0 & 4 &
 4 \\
-Ferrari Dino & 19.7 & 6 & 145.0 & 175 & 3.62 & 2.770 & 15.50 & 0 & 1 & 5
-& 6 \\
 \end{longtable}
 
 We can see that in this code, we have used ``='' twice. In R, ``='' is
@@ -1155,7 +1141,7 @@ that.
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(mpg)}\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(mpg)}\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1172,38 +1158,12 @@ that.
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Cadillac Fleetwood & 10.4 & 8 & 472.0 \\
-Lincoln Continental & 10.4 & 8 & 460.0 \\
-Camaro Z28 & 13.3 & 8 & 350.0 \\
-Duster 360 & 14.3 & 8 & 360.0 \\
-Chrysler Imperial & 14.7 & 8 & 440.0 \\
-Maserati Bora & 15.0 & 8 & 301.0 \\
-Merc 450SLC & 15.2 & 8 & 275.8 \\
-AMC Javelin & 15.2 & 8 & 304.0 \\
-Dodge Challenger & 15.5 & 8 & 318.0 \\
-Ford Pantera L & 15.8 & 8 & 351.0 \\
-Merc 450SE & 16.4 & 8 & 275.8 \\
-Merc 450SL & 17.3 & 8 & 275.8 \\
-Merc 280C & 17.8 & 6 & 167.6 \\
-Valiant & 18.1 & 6 & 225.0 \\
-Hornet Sportabout & 18.7 & 8 & 360.0 \\
-Merc 280 & 19.2 & 6 & 167.6 \\
-Pontiac Firebird & 19.2 & 8 & 400.0 \\
-Ferrari Dino & 19.7 & 6 & 145.0 \\
-Mazda RX4 & 21.0 & 6 & 160.0 \\
-Mazda RX4 Wag & 21.0 & 6 & 160.0 \\
-Hornet 4 Drive & 21.4 & 6 & 258.0 \\
-Volvo 142E & 21.4 & 4 & 121.0 \\
-Toyota Corona & 21.5 & 4 & 120.1 \\
-Datsun 710 & 22.8 & 4 & 108.0 \\
-Merc 230 & 22.8 & 4 & 140.8 \\
-Merc 240D & 24.4 & 4 & 146.7 \\
-Porsche 914-2 & 26.0 & 4 & 120.3 \\
-Fiat X1-9 & 27.3 & 4 & 79.0 \\
-Honda Civic & 30.4 & 4 & 75.7 \\
-Lotus Europa & 30.4 & 4 & 95.1 \\
-Fiat 128 & 32.4 & 4 & 78.7 \\
-Toyota Corolla & 33.9 & 4 & 71.1 \\
+Cadillac Fleetwood & 10.4 & 8 & 472 \\
+Lincoln Continental & 10.4 & 8 & 460 \\
+Camaro Z28 & 13.3 & 8 & 350 \\
+Duster 360 & 14.3 & 8 & 360 \\
+Chrysler Imperial & 14.7 & 8 & 440 \\
+Maserati Bora & 15.0 & 8 & 301 \\
 \end{longtable}
 
 You can similarly arrange the data in descending order of \texttt{mpg}
@@ -1211,7 +1171,7 @@ column in the \texttt{mtcars} dataset.
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1234,32 +1194,6 @@ Honda Civic & 30.4 & 4 & 75.7 \\
 Lotus Europa & 30.4 & 4 & 95.1 \\
 Fiat X1-9 & 27.3 & 4 & 79.0 \\
 Porsche 914-2 & 26.0 & 4 & 120.3 \\
-Merc 240D & 24.4 & 4 & 146.7 \\
-Datsun 710 & 22.8 & 4 & 108.0 \\
-Merc 230 & 22.8 & 4 & 140.8 \\
-Toyota Corona & 21.5 & 4 & 120.1 \\
-Hornet 4 Drive & 21.4 & 6 & 258.0 \\
-Volvo 142E & 21.4 & 4 & 121.0 \\
-Mazda RX4 & 21.0 & 6 & 160.0 \\
-Mazda RX4 Wag & 21.0 & 6 & 160.0 \\
-Ferrari Dino & 19.7 & 6 & 145.0 \\
-Merc 280 & 19.2 & 6 & 167.6 \\
-Pontiac Firebird & 19.2 & 8 & 400.0 \\
-Hornet Sportabout & 18.7 & 8 & 360.0 \\
-Valiant & 18.1 & 6 & 225.0 \\
-Merc 280C & 17.8 & 6 & 167.6 \\
-Merc 450SL & 17.3 & 8 & 275.8 \\
-Merc 450SE & 16.4 & 8 & 275.8 \\
-Ford Pantera L & 15.8 & 8 & 351.0 \\
-Dodge Challenger & 15.5 & 8 & 318.0 \\
-Merc 450SLC & 15.2 & 8 & 275.8 \\
-AMC Javelin & 15.2 & 8 & 304.0 \\
-Maserati Bora & 15.0 & 8 & 301.0 \\
-Chrysler Imperial & 14.7 & 8 & 440.0 \\
-Duster 360 & 14.3 & 8 & 360.0 \\
-Camaro Z28 & 13.3 & 8 & 350.0 \\
-Cadillac Fleetwood & 10.4 & 8 & 472.0 \\
-Lincoln Continental & 10.4 & 8 & 460.0 \\
 \end{longtable}
 
 \subsection{Create a New Variable}\label{create-a-new-variable}
@@ -1271,7 +1205,7 @@ it as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
-\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FuelEff =} \DecValTok{1}\SpecialCharTok{/}\NormalTok{mpg) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{FuelEff) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
+\NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FuelEff =} \DecValTok{1}\SpecialCharTok{/}\NormalTok{mpg) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{FuelEff) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1294,35 +1228,9 @@ Datsun 710 & 1 & 4 & 1 & 0.0438596 \\
 Hornet 4 Drive & 0 & 3 & 1 & 0.0467290 \\
 Hornet Sportabout & 0 & 3 & 2 & 0.0534759 \\
 Valiant & 0 & 3 & 1 & 0.0552486 \\
-Duster 360 & 0 & 3 & 4 & 0.0699301 \\
-Merc 240D & 0 & 4 & 2 & 0.0409836 \\
-Merc 230 & 0 & 4 & 2 & 0.0438596 \\
-Merc 280 & 0 & 4 & 4 & 0.0520833 \\
-Merc 280C & 0 & 4 & 4 & 0.0561798 \\
-Merc 450SE & 0 & 3 & 3 & 0.0609756 \\
-Merc 450SL & 0 & 3 & 3 & 0.0578035 \\
-Merc 450SLC & 0 & 3 & 3 & 0.0657895 \\
-Cadillac Fleetwood & 0 & 3 & 4 & 0.0961538 \\
-Lincoln Continental & 0 & 3 & 4 & 0.0961538 \\
-Chrysler Imperial & 0 & 3 & 4 & 0.0680272 \\
-Fiat 128 & 1 & 4 & 1 & 0.0308642 \\
-Honda Civic & 1 & 4 & 2 & 0.0328947 \\
-Toyota Corolla & 1 & 4 & 1 & 0.0294985 \\
-Toyota Corona & 0 & 3 & 1 & 0.0465116 \\
-Dodge Challenger & 0 & 3 & 2 & 0.0645161 \\
-AMC Javelin & 0 & 3 & 2 & 0.0657895 \\
-Camaro Z28 & 0 & 3 & 4 & 0.0751880 \\
-Pontiac Firebird & 0 & 3 & 2 & 0.0520833 \\
-Fiat X1-9 & 1 & 4 & 1 & 0.0366300 \\
-Porsche 914-2 & 1 & 5 & 2 & 0.0384615 \\
-Lotus Europa & 1 & 5 & 2 & 0.0328947 \\
-Ford Pantera L & 1 & 5 & 4 & 0.0632911 \\
-Ferrari Dino & 1 & 5 & 6 & 0.0507614 \\
-Maserati Bora & 1 & 5 & 8 & 0.0666667 \\
-Volvo 142E & 1 & 4 & 2 & 0.0467290 \\
 \end{longtable}
 
-Summarize a Data
+\section{Summarize a Data}\label{summarize-a-data}
 
 Suppose you want to see what is the average \texttt{mpg} in the whole
 dataset? Remember mpg stands for miles per gallon. So, this column shows

@@ -18,7 +18,7 @@ book:
   chapters:
     - index.qmd
     - introduction.qmd
-    - econometrics.qmd
+    - Econometrics.qmd
     - Getting_Started.qmd
     - lm.qmd
     - Multiple_Regression.qmd
@@ -69,6 +69,7 @@ format:
     linestretch: 2
     tbl-cap-location: top
     code-line-numbers: true
+    code-block-bg: EFEFEF
     keep-tex: true
     link-citations: true
     nocite: |

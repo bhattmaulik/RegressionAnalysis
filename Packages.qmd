@@ -39,7 +39,7 @@ library(easystats)
 
 When you run the `install.packages(package_name)` command, R installs the package from Comprehensive R Archive Network (CRAN), which is the highest authority to decide about R. However, there are many packages, which are not available on CRAN. These packages can be downloaded from code sharing platform Github.
 
-To install packages from Github, you need to install one of the three packages first: `remotes`, `devtools` or `pak`. After that, you can easily install packages from Github also. Apart from such packages, the development versions of regular packages (which are available on CRAN) can also be downloaded from Github. For example, if you want to install the package "gujarati5sie", which is a package containing data from the book "Basic Econometrics" written by Damodar Gujarati and others, then you can do it as follows:
+To install packages from Github, you need to install one of the three packages first: `remotes`, `devtools` or `pak`. After that, you can easily install packages from Github also. Apart from such packages, the development versions of regular packages (which are available on CRAN) can also be downloaded from Github. For example, if you want to install the package "gujarati5sie", which is a package containing data from the 5th edition of the book "Basic Econometrics" written by Damodar Gujarati and others, then you can do it as follows:
 
 ```{r}
 #| echo: true

@@ -173,6 +173,20 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \usepackage[automark]{scrlayer-scrpage}%for header and footer
 \pagestyle{scrheadings}
 \usepackage{pagecolor}%to change the page color of the title page
@@ -332,7 +346,7 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{HTML}{EFEFEF}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, colback={codebgcolor}, boxrule=0pt, breakable, sharp corners, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, colback={codebgcolor}, frame hidden, sharp corners, enhanced, breakable]}{\end{tcolorbox}}\fi
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -353,7 +367,7 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{27/04/2024}
+\date{05/06/2024}
 
 \begin{document}
 \frontmatter
@@ -1287,6 +1301,18 @@ cyl & Average MPG \\
 8 & 15.10000 \\
 \end{longtable}
 
+The \texttt{group\_by} argument changes the unit of analysis. For
+example, if we write the code
+\texttt{mtcars\ \textbar{}\textgreater{}\ summarize(mean\_mpg\ =\ mean(mpg))},
+then the unit of analysis is all the the observations of the
+\texttt{mpg} column. But when we introduce \texttt{group\_by}, by
+writing
+\texttt{mtcars\ \textbar{}\textgreater{}\ group\_by(cyl)\ \textbar{}\textgreater{}\ summarise("Average\ MPG"\ =\ mean(mpg))},
+then the unit of analysis is each level of \texttt{cyl} variable. Now
+the average of \texttt{mpg} is calculated for each level of
+\texttt{cyl}, instead of calculating it for the whole lot of
+observation.
+
 \bookmarksetup{startatroot}
 
 \chapter{Simple Linear Regression}\label{simple-linear-regression}
@@ -1329,7 +1355,7 @@ recommend reading it. \\
 \end{Highlighting}
 \end{Shaded}
 
-Introduction
+\section{Introduction}\label{introduction-1}
 
 Linear regression is among the fundamental concepts in Econometrics. In
 linear regression, we try to estimate how much one variable will change,
@@ -1346,14 +1372,61 @@ When we write \texttt{y\textasciitilde{}x}, it means
 \texttt{y\ =\ ax\ +\ b}, and we need to find a and b from the data
 points given.
 
-Let's understand what it means for us. The workflow for the linear
-regression problem would be:
+\section{Unveiling Relationships: The Purpose of Linear
+Regression}\label{unveiling-relationships-the-purpose-of-linear-regression}
+
+Linear regression, a cornerstone of statistical analysis, empowers us to
+delve into the fascinating world of relationships between variables.
+Imagine yourself as a data detective, piecing together clues to
+understand how one element influences another. This is precisely the
+role linear regression plays.
+
+Suppose you're an enterprising researcher curious about the link between
+study hours and exam scores. Linear regression offers a method to
+uncover this connection. By harnessing the power of this technique, you
+can not only \textbf{predict} potential exam scores based on the number
+of hours a student studies, but also gain valuable insights into the
+\textbf{strength} of this relationship.
+
+Consider the following scenario: you establish a model depicting the
+relationship between study hours and exam scores. This model, visualized
+as a straight line, allows you to predict the anticipated exam score for
+a student who dedicates a specific number of hours to studying. This
+predictive power is undeniably valuable.
+
+However, linear regression goes beyond mere prediction. It unveils the
+\textbf{underlying nature} of the relationship between variables. The
+slope of the line you establish serves as a vital clue. A steeper slope
+suggests that additional study hours translate into a more significant
+increase in exam scores. Conversely, a gentler slope indicates a less
+pronounced impact of study hours on exam performance.
+
+In essence, linear regression equips us with a two-pronged approach:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  We would be given some observations of both - independent variable and
-  dependent variable.
+  \textbf{Prediction:} We can leverage the model to forecast outcomes
+  based on new data points.
+\item
+  \textbf{Understanding Relationships:} By analyzing the slope and other
+  properties of the line, we gain insights into how changes in one
+  variable (study hours) influence the other (exam scores).
+\end{enumerate}
+
+It's important to remember that the world isn't always perfectly linear.
+However, linear regression serves as a robust foundation for data
+analysis, providing a framework to explore connections and make informed
+decisions based on the information gleaned from our data.
+
+Let's understand what it means for us in terms of our workflow. The
+workflow for the linear regression problem would be:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  We would be given some observations of both - independent variable(s)
+  and dependent variable.
 \item
   we graph these data points, using a coordinate system (like Cartesian
   system). Each value is represented by a dot. Such a diagram is called
@@ -1370,9 +1443,54 @@ regression problem would be:
 \href{https://www.fiverr.com/resources/guides/data/linear-regression-101}{Linear
 Regression 101: What Is It And How Is It Done? \textbar{} Fiverr}
 
-Principles of Linear Regression (Gauss Markov)
+\section{Unveiling the Assumptions Behind Linear
+Regression}\label{unveiling-the-assumptions-behind-linear-regression}
 
-Example in R
+While linear regression offers a powerful lens for analyzing
+relationships, its effectiveness hinges on certain underlying
+assumptions. These assumptions, akin to the ground rules of the game,
+ensure the validity of the results we obtain. Let's delve into these key
+assumptions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Linearity:} The core principle of linear regression lies in
+  its name - \textbf{linearity}. This assumption dictates that the
+  relationship between the two variables we're investigating is
+  \textbf{straight-line} in nature. In simpler terms, when one variable
+  increases or decreases, the other variable changes in a consistent,
+  proportional manner, much like points scattered along a straight line.
+\item
+  \textbf{Independence of Errors:} This assumption emphasizes that the
+  \textbf{errors} (the difference between the actual data point and the
+  value predicted by the model) are \textbf{independent} of each other.
+  Imagine each error term as a random fluctuation; these fluctuations
+  shouldn't be influenced by the errors associated with other data
+  points.
+\item
+  \textbf{Homoscedasticity:} This tongue-twister of a term refers to the
+  notion of \textbf{constant variance} of the errors. In simpler terms,
+  the spread of the errors (how far they deviate from the predicted
+  value) should be \textbf{consistent} across all levels of the
+  independent variable (the variable we believe causes the change in the
+  other variable).
+\item
+  \textbf{Normality of Errors:} This assumption posits that the errors
+  associated with our data follow a \textbf{normal distribution}, often
+  referred to as a bell curve. This characteristic distribution helps
+  ensure the reliability of the statistical tests we perform to assess
+  the model's validity.
+\end{enumerate}
+
+By adhering to these assumptions, we create a solid foundation for
+interpreting the results of our linear regression analysis. However,
+it's crucial to remember that real-world data may not always perfectly
+satisfy these assumptions. Fortunately, there are techniques to address
+potential violations and ensure the robustness of our analysis. We'll
+explore these strategies in the upcoming chapters!
+
+\section{Example in R}\label{example-in-r}
 
 For understanding regression, we can generate a dummy dataset, and
 create a regression model on the basis of the data.
@@ -1547,6 +1665,173 @@ not the linearity of the variables. In the equation above, both the
 coefficients (\(\beta_0\) and \(\beta_1\)) are linear, and so is the
 error term, \(\gamma\) in this equation.
 
+\section{Interval Estimation and Hypothesis
+Testing}\label{interval-estimation-and-hypothesis-testing}
+
+Linear regression empowers us to understand relationships and make
+predictions. But remember, the world of data isn't perfect, and our
+models are based on samples, not the entire population. This inherent
+uncertainty is where \textbf{interval estimation} steps in.
+
+Imagine you estimated a straight line to represent the connection
+between house size (square footage) and selling price. This line
+predicts the average selling price for a given house size. But what if a
+single house is much larger or smaller than those in your sample? The
+predicted price from the model might not be the exact selling price.
+
+Interval estimation tackles this by providing a \textbf{range of
+plausible values} for the outcome variable (selling price) at a specific
+level of the independent variable (house size). This range, called a
+\textbf{confidence interval}, gives us a sense of the \textbf{precision}
+of our prediction.
+
+Here's how it works:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  We choose a \textbf{confidence level}, typically 90\% or 95\%. This
+  indicates the probability that the true value falls within the
+  constructed interval.
+\item
+  We leverage the concept of the \textbf{standard error of the
+  estimate}. This statistical measure reflects the average amount our
+  predictions might deviate from the actual values.
+\item
+  By incorporating the chosen confidence level and the standard error,
+  we calculate the \textbf{upper and lower bounds} of the confidence
+  interval. This range represents the values within which we are
+  confident (based on the chosen level) the true outcome variable will
+  lie for a given independent variable value.
+\end{enumerate}
+
+\textbf{What does this tell us?}
+
+A narrower confidence interval indicates a more precise prediction. The
+model is more certain about the range of potential selling prices for a
+specific house size. Conversely, a wider interval reflects greater
+uncertainty. The model can't pinpoint the exact selling price as
+confidently.
+
+\textbf{Interval estimation is crucial because:}
+
+\begin{itemize}
+\item
+  It acknowledges the inherent uncertainty in our predictions.
+\item
+  It allows us to communicate the \textbf{precision} of our findings.
+\item
+  It helps us assess the \textbf{reliability} of the model for
+  predictions.
+\end{itemize}
+
+By incorporating interval estimation, we paint a more nuanced picture
+when interpreting the results of linear regression analysis. We not only
+provide a predicted value but also quantify the associated uncertainty,
+making our analysis more informative and reliable.
+
+Let us understand interval estimation with an example of a real dataset.
+We will use the \texttt{mtcars} dataset, which comes bundled with R.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{disp, }\AttributeTok{data =}\NormalTok{ mtcars)}
+\end{Highlighting}
+\end{Shaded}
+
+In the code above, we fitted a model on the \texttt{mtcars} dataset,
+where Miles Per Gallon, or \texttt{mpg} is explained by Displacement
+(cubic inches), or \texttt{disp} variable. The \beta coefficient for
+\texttt{disp} is -0.0412151. The 95\% confidence interval of the
+coefficients can be found using the \texttt{confint} function in R.
+
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\FunctionTok{confint}\NormalTok{(mod1) }\SpecialCharTok{|\textgreater{}} \FunctionTok{kbl}\NormalTok{(}\AttributeTok{digits =} \DecValTok{4}\NormalTok{,}\AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{align =} \StringTok{"c"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tbl-confint}Confidence Interval of Model Coefficients}
+
+\centering{
+
+\begin{tabular}[t]{lcc}
+\toprule
+  & 2.5 \% & 97.5 \%\\
+\midrule
+(Intercept) & 27.0884 & 32.1113\\
+disp & -0.0508 & -0.0316\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+In the code above, the \texttt{confint} function is used to find out the
+confidence interval, while the other functions are used to format the
+resulting table. The last row of the table suggests that the 95\%
+confidence interval for the \texttt{disp} variable is between (-0.0508)
+and (-0.0316).
+
+\section{Hypothesis Testing}\label{hypothesis-testing}
+
+Linear regression equips us to explore relationships and make
+predictions, but are these connections merely due to chance, or do they
+hold true significance? This is where \textbf{hypothesis testing} enters
+the scene. Imagine you suspect a link between coffee consumption and
+alertness levels. Regression analysis can tell you if there's a
+relationship, but hypothesis testing helps determine if this connection
+is statistically \textbf{meaningful}.
+
+Here's the framework:
+
+\textbf{Formulating Hypotheses:}
+
+\textbf{Null Hypothesis (H₀):} This hypothesis proposes that there's
+\textbf{no significant relationship} between the independent and
+dependent variables (e.g., coffee consumption has no impact on alertness
+levels).
+
+\textbf{Alternative Hypothesis (H₁):} This hypothesis stands in
+opposition to the null hypothesis, suggesting that a \textbf{significant
+relationship} exists (e.g., coffee consumption does influence alertness
+levels).
+
+\textbf{Choosing a Significance Level:} This threshold, typically set at
+5\%, determines how likely we are to reject the null hypothesis even
+when it's actually true (a false positive). A lower significance level
+indicates a stricter test, requiring stronger evidence to reject the
+null hypothesis.
+
+\textbf{Test Statistic and p-value:} We employ statistical tests like
+the t-test or F-test to calculate a \textbf{test statistic}. This value
+reflects the strength of the evidence against the null hypothesis. A
+higher (absolute) value suggests a stronger case for rejecting the null
+hypothesis.
+
+We then calculate the \textbf{p-value}, which represents the probability
+of observing a test statistic as extreme or more extreme than the one we
+calculated, assuming the null hypothesis is true. A lower p-value
+indicates less likelihood of observing such an extreme result by chance
+alone.
+
+\textbf{Decision Making:} Based on the chosen significance level and the
+p-value, we make a decision:
+
+\textbf{Reject H₀:} If the p-value is lower than the significance level,
+we reject the null hypothesis. There's sufficient evidence to suggest a
+significant relationship between the variables.
+
+\textbf{Fail to Reject H₀:} If the p-value is greater than the
+significance level, we fail to reject the null hypothesis. We cannot
+conclude a statistically significant relationship at this level of
+significance. However, this doesn't necessarily imply there's no
+connection; it just means we don't have enough evidence to disprove the
+null hypothesis.
+
 \bookmarksetup{startatroot}
 
 \chapter{Multiple Linear Regression}\label{multiple-linear-regression}
@@ -1582,7 +1867,7 @@ recommend reading it. \\
 
 \end{objectives}
 
-\subsection{Introduction}\label{introduction-1}
+\subsection{Introduction}\label{introduction-2}
 
 In the previous chapter, we saw simple linear regression, in which we
 attempted to understand the relationship between two variables - one
@@ -2180,8 +2465,8 @@ After that, you can easily install packages from Github also. Apart from
 such packages, the development versions of regular packages (which are
 available on CRAN) can also be downloaded from Github. For example, if
 you want to install the package ``gujarati5sie'', which is a package
-containing data from the book ``Basic Econometrics'' written by Damodar
-Gujarati and others, then you can do it as follows:
+containing data from the 5th edition of the book ``Basic Econometrics''
+written by Damodar Gujarati and others, then you can do it as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[numbers=left,,]
@@ -2207,7 +2492,7 @@ examples}\label{data-sets-used-in-the-books-examples}
 \setcounter{table}{0}
 \renewcommand{\thetable}{B.\arabic{table}}
 
-\subsection{Introduction}\label{introduction-2}
+\subsection{Introduction}\label{introduction-3}
 
 Dummy text
 
@@ -2219,7 +2504,7 @@ Locally}\label{how-to-build-this-book-locally}
 \setcounter{table}{0}
 \renewcommand{\thetable}{C.\arabic{table}}
 
-\subsection{Introduction}\label{introduction-3}
+\subsection{Introduction}\label{introduction-4}
 
 If you want to build this book locally on your computer, please download
 the entire code from Github. The first step is to visit the website

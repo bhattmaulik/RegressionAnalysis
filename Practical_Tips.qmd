@@ -30,3 +30,63 @@ display_chapter_status("drafting")
 -   Dealing with endogeneity and instrumental variables
 
 -   Additional resources for further learning and practice in econometrics with R
+
+It is said that a data scientist spends 70% of his/her time in data cleaning rather than data analysis. Therefore, in this chapter, we will discuss various techniques to prepare and preprocess the data for econometric analysis. In the chapter @sec-getting-started, we introduced some methods of data pre-processing, which were essentially sub-setting the data from a larger set and creating new variables from the existing ones. In this chapter, we will deal with data cleaning, finding missing values, finding columns where a date is stored as a number (for example, importing data from Microsoft Excel), etc.
+
+## Data Cleaning
+
+The very first step of data cleaning starts with the data import itself. When you import data from `csv` file (using `readr::read_csv` function) or `Microsoft Excel` file (using the `readxl::read_excel` function), you have the option of cleaning the names directly while importing the data. Both of these functions have an argument called `.name_repair`, which determines how the column names would be changed after importing the data. The default method is the keep the names `unique`, which means, if the dataset contains multiple columns having the same name, it would change the name to `name1`, `name2`, etc. It is also possible to provide a function to this argument. We can see an example in the code below.
+
+```{r}
+#| label: tbl-name-repair
+#| tbl-cap: "Making Unique Names in a Dataset"
+library(readxl)#load the package
+read_excel(readxl_example("datasets.xlsx"), .name_repair = "unique") |> head() |> 
+  kbl()
+```
+
+Now, instead of keeping the default `unique` names, we can change it using `make_clean_names` function from the `janitor` package. For this to work, you must have installed the `janitor` package in your system.
+
+```{r}
+#| label: tbl-name-repair-janitor
+#| tbl-cap: "Making Clean Names in a Dataset using janitor package"
+read_excel(readxl_example("datasets.xlsx"),
+           .name_repair = janitor::make_clean_names) |> head() |> 
+  kbl()
+```
+
+This function (make_clean_names) converts all the names to lower case, and changes to underscore instead of dots in the column names. It also makes some more changes like writing "percent" instead of the percentage symbol (%) in the column name (if any column name has it), etc.
+
+## Finding Missing Values
+
+Often, the data will have blank or missing values. It is easy to find out if your data has missing values, using the `summary` function.
+
+```{r}
+dummy_data <- data.frame(A = c(1:5),B = c(6:8,NA,NA))
+summary(dummy_data)
+```
+
+In the code above, we created a dummy data, in which column B contains two `NA` values. When we take `summary(dummy_data)`, it will show that there are two `NA`s in the data. Thus, if your data has `NA`s, the `summary` will show it easily. Therefore, it is a good practice to look at the summary of the data as soon as you import it.
+
+Summary is a powerful function in R. It will change the output depending on the input you write in the brackets. Even if the input is a dataset, it will change the output depending upon the types of the data in the columns of the data. In the previous example, we saw that the output showed items like minimum, maximum, median, mean and NA values. If we had only text values in a column, we could see different output.
+
+```{r}
+#| label: tbl-iris-summary
+#| tbl-cap: "Summary of 'Species' column of 'iris' dataset"
+data.frame(summary(iris$Species)) |> kbl(
+)
+```
+
+In the code above, we took summary of the `Species` column of the `iris` dataset, which comes in-built in R. This column has only text data in it. So, it shows the frequency of each values (setosa, versicolor and virginica).
+
+## Date Stored as Numbers
+
+Microsoft Excel is a popular spreadsheet program. So, you might have to import data from Microsoft Excel file format quite often. However, Microsoft Excel stores date as numbers internally. Therefore, when you open the Microsoft Excel file, on the screen you might see a column as date, but when you import the data in other program (like R), it would be imported as a serial number. In such cases, the `excel_numeric_to_date` function from the `janitor` package comes handy.
+
+```{r}
+janitor::excel_numeric_to_date(45450)
+```
+
+The code above converts the numeric value 45450 to a date format. By default, Microsoft Excel follows 1900 date system, which means 1st January, 1900 is set as the base date, with the value of 0. All other dates are difference of that date from the base date. The date 7-June-2024 is 45450 days away from the base date, therefore the value of this date is 45450. The function `excel_numeric_to_date` identifies this and converts this numeric value to Date format.
+
+## Identifying Outliers in Data

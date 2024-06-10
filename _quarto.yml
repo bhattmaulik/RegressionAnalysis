@@ -46,6 +46,7 @@ format:
     theme: cosmo
   pdf:
     number-sections: true
+    pdf-engine: lualatex
     number-depth: 3
     documentclass: scrbook
     classoption: ["paper =a4", "twoside", "openright", "headsepline", "footsepline", "listof = totocnumbered", "chapterprefix = true", "firstiscover"]
@@ -68,7 +69,7 @@ format:
     fig-pos: 'h'
     linestretch: 2
     tbl-cap-location: top
-    code-line-numbers: true
+    code-line-numbers: false
     code-block-bg: EFEFEF
     keep-tex: true
     link-citations: true

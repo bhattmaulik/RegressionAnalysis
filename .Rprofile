@@ -2,9 +2,8 @@
 #Packages for modeling
 library(AER)#For econometric functions
 library(easystats)#For easy econometric modeling
+library(tidyverse)
 #Packages for tables
-library(gt)#grammar of tables
-library(gtsummary)#easily prepare summary table for regression models
 library(maulikbhatt)
 #Packages for visualizations
 library(ggforce)#add annotations in ggplots
@@ -26,6 +25,7 @@ library(conflicted)
 conflict_prefer("lag", "dplyr")
 conflict_prefer("tidy", "broom")
 conflict_prefer("augment","broom")
+conflict_prefer("mutate","dplyr")
 
 #Other packages would be loaded as and when required.
 

@@ -34,3 +34,63 @@ display_chapter_status("drafting")
 [Regression with Categorical Variables: Dummy Coding Essentials in R - Articles - STHDA](http://sthda.com/english/articles/40-regression-analysis/163-regression-with-categorical-variables-dummy-coding-essentials-in-r/)
 
 [Microsoft Word - Use and Interpretation of Dummy Variables.doc (rhul.ac.uk)](http://www.personal.rhul.ac.uk/uhte/006/ec2203/Use%20and%20Interpretation%20of%20Dummy%20Variables.pdf)
+
+## Dummy Variables
+
+Categorical variables are the variables, which divide the observations in different groups. These categorical variables are also called factors, dummy variables, or qualitative variables. For example, gender of respondent (Male v/s Female) is a factor or dummy variable. The two values "Male" and "Female" are the levels of the factor. There are packages in R, e.g., `forcats`, which deal with factor variables.
+
+## Dummy Variables in Regression
+
+In a linear regression model, the dependent variable would be a numeric (or continuous) variable. But on the independent variable side, one or more variable(s) can be factors. In such cases, we need to take some extra steps. These steps typically involve "coding" dummy variables. We can understand this by a practical example in R.
+
+The `penguins` dataset from the `palmerpenguins` package contains several factor variables, like `species`, `island` and `sex`. We will use `species` as the independent variable, and the `body_mass_g` (which captures the body mass in grams) as the dependent variables. By using the `levels` function, we can see that there are three levels of the `species` variable: Adelie, Chinstrap, and Gentoo.
+
+```{r}
+library(palmerpenguins)
+penguins <- palmerpenguins::penguins
+levels(penguins$species)
+mod1 <- lm(body_mass_g~species, data = penguins)
+summary(mod1)
+```
+
+In the code above, we created a linear regression model, where `body_mass_g` is the dependent variable, and the `species` is the independent variable. When we take `summary` of this regression model, we can see that there are three coefficients: Intercept, and the two levels of `species` variable, Chinstrap and Gentoo. The third level of the `species` variable (i.e., Adelie) is missing in this equation.
+
+This is because Adelie is the base level in the equation. You can understand this from the `contrasts` function in the code given below:
+
+```{r}
+contrasts(penguins$species)
+```
+
+You can see that Adelie is coded as 0 (zero) in this table. Therefore, the interpretation of the coefficients would also change accordingly. The coefficient of 32.43 for `speciesChinstrap` means that on average, the body mass of penguins belonging to Chinstrap species would be 32.43 grams more than a penguin belonging to the Adelie species (assuming all other factors equal). Similarly, the body mass of a penguin belonging to Gentoo category would be more than the Adelie category of penguin by 1,375.35 grams on average, assuming other factors equal.
+
+## Recoding Dummy Variables
+
+A natural question arises here: R had, by default, assigned Adelie category as the base level in this dataset. But is it possible to change which category would be considered the base level? In other words, the Adelie category was assigned the code of 0 in this table. Can we manually decide which category is coded 0?
+
+It is possible to do this. This process is called re-coding the factor levels. We can use the `fct_relevel` function from the `forcats` package for this. (Of course, there is `relevel` function if base R also. But as we are using `tidyverse` and `easystats` packages in this book throughout, it is better to use `forcats` package, which shares the core philosophy of `tidyverse`, and works well with other `tidyverse` packages.) We will have to load the `forcats` package first, because it is not loaded by default when `tidyverse` is loaded.
+
+```{r}
+library(forcats)#load the package
+penguins1 <- penguins |> mutate(species = fct_relevel(species, "Gentoo"))
+mod2 <- lm(body_mass_g~species, data = penguins1)
+summary(mod2)
+```
+
+We can see that the coefficients in this new model have changed. Now, there is no `Gentoo` in the model, but there are `Adelie` and `Chinstrap`. The numbers have changed too. The coefficient for `speciesAdelie` is -1,375.35, which means that on average, the body mass of `Adelie` category of penguin is less than that of `Gentoo` penguin by 1,375.35 grams, assuming other factors are held constant.
+
+## Dummy Variable Trap
+
+In the previous example, we saw that there are three levels in the `species` variable, but only two of them enter into the regression model. In other words, in the regression summary, we can see only two of them. This is to avoid the situation called "dummy variable trap".
+
+Let us understand this situation with an example. We will create three dummy variables in this example, and use these three dummy variables as independent variables in a regression model.
+
+```{r}
+penguins2 <- penguins |> 
+  dplyr::mutate(specie_adelie = if_else(species == "Adelie",1,0),specie_chinstrap = if_else(species == "Chinstrap",1,0),specie_gentoo = if_else(species == "Gentoo",1,0))
+mod3 <- lm(body_mass_g~specie_adelie + specie_chinstrap + specie_gentoo, data = penguins2)
+summary(mod3)
+```
+
+You can see in the summary that the coefficient for `specie_gentoo` variable is `NA`. That means this regression model is not useful for any prediction or inference.
+
+This is because one essential condition for linear regression is that there is no multicollinearity in the data. That means, if one variable can be expressed as a linear combination of two or more variables, the regression model involving these variables will throw error, just like our newly created model did.

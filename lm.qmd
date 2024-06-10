@@ -1,4 +1,4 @@
-# Simple Linear Regression
+# Simple Linear Regression {#sec-lm}
 
 ```{r status}
 #| echo: false
@@ -220,14 +220,13 @@ R automatically performs a hypothesis testing, along with presenting regression 
 
 $$
 H_0: t = 0
-$$
-$$
+$$ $$
 H_1: t \neq 0
 $$
 
 Given that both the p-values (0.234 and 0.324) are greater than the significance level (0.05), we fail to reject the null hypothesis. In other words, we believe that both, the intercept and x, are statistically significant in order to explain the variation in the dependent variable, y.
 
-Prediction
+## Prediction
 
 Linear regression not only unveils relationships between variables but also empowers us to **predict** future outcomes. Imagine you're a business analyst trying to forecast sales based on advertising spending. R, a powerful statistical programming language, provides tools to leverage your regression model for predictions.
 
@@ -235,15 +234,14 @@ Here's a breakdown of the prediction process with an example using R code:
 
 **1. Sample Data and Model Fitting:**
 
-Code snippet
-
-```         
-# Simulate some data for advertising spend (ad_spend) and sales (sales) set.seed(123) ad_spend <- rnorm(100, mean = 100, sd = 15) sales <- 50 + 2 * ad_spend + rnorm(100, mean = 0, sd = 10)  # Fit the linear regression model model <- lm(sales ~ ad_spend) 
+```{r}
+# Simulate some data for advertising spend (ad_spend) and sales (sales) 
+set.seed(123) 
+ad_spend <- rnorm(100, mean = 100, sd = 15) 
+sales <- 50 + 2 * ad_spend + rnorm(100, mean = 0, sd = 10)  
+# Fit the linear regression model
+model <- lm(sales ~ ad_spend)
 ```
-
-Use code with caution.
-
-content_copy
 
 In this code:
 
@@ -253,15 +251,12 @@ In this code:
 
 **2. Predicting Sales for a New Advertising Spend Value:**
 
-Code snippet
-
-```         
-# Predict sales for an ad spend of $120 new_spend <- 120 predicted_sales <- predict(model, newdata = data.frame(ad_spend = new_spend))  cat("Predicted sales for an ad spend of $", new_spend, ":", predicted_sales, sep = "") 
+```{r}
+# Predict sales for an ad spend of $120 
+new_spend <- 120 
+predicted_sales <- predict(model, newdata = data.frame(ad_spend = new_spend))  
+cat("Predicted sales for an ad spend of $", new_spend, ":", predicted_sales, sep = "")
 ```
-
-Use code with caution.
-
-content_copy
 
 This code:
 
@@ -270,12 +265,6 @@ This code:
 -   The `predict` function leverages the fitted model (`model`) to predict sales for this new data point (represented as a data frame with the new `ad_spend` value).
 
 -   The `cat` function displays the predicted sales value.
-
-**R will output something like:**
-
-```         
-Predicted sales for an ad spend of $ 120 : 290 
-```
 
 This indicates that based on the model, sales are predicted to be around \$290 for an advertising spend of \$120.
 
@@ -295,20 +284,22 @@ Here's a breakdown to illustrate the concept:
 
 **R Code Demonstration:**
 
-Code snippet
-
-```         
-# Simulate data for advertising spend (ad_spend) and sales (sales) set.seed(123) ad_spend <- rnorm(100, mean = 100, sd = 15) sales <- 50 + 2 * ad_spend + rnorm(100, mean = 0, sd = 10)  # Fit the linear regression model model <- lm(sales ~ ad_spend)  # New advertising spend value new_spend <- 120  # Confidence Interval for Mean Prediction conf_interval <- predict(model, newdata = data.frame(ad_spend = new_spend), interval = "confidence")  # Prediction Interval for a New Observation prediction_interval <- predict(model, newdata = data.frame(ad_spend = new_spend), interval = "prediction")  cat("Predicted sales for an ad spend of $", new_spend, ":", summary(predicted_sales), sep = "\n") cat("95% Confidence Interval for Mean Prediction:", conf_interval[,c(1,3)], sep = "\n") cat("95% Prediction Interval for a New Observation:", prediction_interval[,c(1,3)], sep = "\n") 
-```
-
-Use code [with caution.](/faq#coding)
-
-content_copy
-
-This code will output something similar to:
-
-```         
-Predicted sales for an ad spend of $ 120:       Min. 1st Qu.  Median Mean  3rd Qu. Max.  270.4422 282.2355 289.9838 289.9838 297.7321 310.5220  95% Confidence Interval for Mean Prediction:          [,1]      [,3] 1 289.9838 289.9838  95% Prediction Interval for a New Observation:          [,1]      [,3] 1 270.4422 310.5220 
+```{r}
+# Simulate data for advertising spend (ad_spend) and sales (sales)
+set.seed(123) 
+ad_spend <- rnorm(100, mean = 100, sd = 15) 
+sales <- 50 + 2 * ad_spend + rnorm(100, mean = 0, sd = 10)  
+# Fit the linear regression model
+model <- lm(sales ~ ad_spend)  
+# New advertising spend value
+new_spend <- 120  
+# Confidence Interval for Mean Prediction 
+conf_interval <- predict(model, newdata = data.frame(ad_spend = new_spend), interval = "confidence")  
+# Prediction Interval for a New Observation 
+prediction_interval <- predict(model, newdata = data.frame(ad_spend = new_spend), interval = "prediction")  
+cat("Predicted sales for an ad spend of $", new_spend, ":", summary(predicted_sales), sep = "\n") 
+cat("95% Confidence Interval for Mean Prediction:", conf_interval[,c(1,3)], sep = "\n") 
+cat("95% Prediction Interval for a New Observation:", prediction_interval[,c(1,3)], sep = "\n")
 ```
 
 **Key Points:**

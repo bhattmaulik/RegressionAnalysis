@@ -229,7 +229,7 @@
 	{\Large Maulik Bhatt \par}
 	{\itshape S P Jain Institute of Management \& Research \\ Mumbai\par}
 	\vfill
-	{\scshape 2023} \\
+	{\scshape 2024} \\
 	{\large Maulik Bhatt}\par%
 
 \end{titlepage}
@@ -240,7 +240,7 @@
 	
 	\begin{center}
 		
-		Copyright © 2023 Maulik Bhatt
+		Copyright © 2024 Maulik Bhatt
 		
 	\end{center}
 	\newpage
@@ -346,7 +346,7 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{HTML}{EFEFEF}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, colback={codebgcolor}, frame hidden, sharp corners, enhanced, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, enhanced, boxrule=0pt, frame hidden, colback={codebgcolor}, breakable]}{\end{tcolorbox}}\fi
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -367,7 +367,7 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{05/06/2024}
+\date{10/06/2024}
 
 \begin{document}
 \frontmatter
@@ -705,7 +705,7 @@ fields. Here are some prominent examples:
 \bookmarksetup{startatroot}
 
 \chapter{Getting Started with R for
-Econometrics}\label{getting-started-with-r-for-econometrics}
+Econometrics}\label{sec-getting-started}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -809,7 +809,7 @@ your work, it gets saved in the ``working directory'' of R. You can find
 and change the working directory using R commands.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \CommentTok{\# Find the working directory}
 \FunctionTok{getwd}\NormalTok{()}
 \CommentTok{\#Change the working directory}
@@ -869,7 +869,7 @@ TinyTeX. It's a light weight distribution of \LaTeX, and works well with
 R. You can install it using R as follows:
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \CommentTok{\#install tinytex R package}
 \FunctionTok{install.packages}\NormalTok{(}\StringTok{"tinytex"}\NormalTok{)}
 \CommentTok{\#load it in R}
@@ -996,7 +996,7 @@ We can use the \texttt{select} command from \texttt{dplyr} for selecting
 columns from a dataset.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(tidyverse)}
 \FunctionTok{library}\NormalTok{(conflicted)}
 \FunctionTok{conflict\_prefer}\NormalTok{(}\StringTok{"lag"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{)}
@@ -1052,7 +1052,7 @@ rows of a dataset. For example, we want to filter the rows of
 this by
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{filter}\NormalTok{(cyl}\SpecialCharTok{==}\DecValTok{6}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -1154,7 +1154,7 @@ descending order of a column: use the \texttt{arrange} function for
 that.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(mpg)}\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -1184,7 +1184,7 @@ You can similarly arrange the data in descending order of \texttt{mpg}
 column in the \texttt{mtcars} dataset.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(mpg}\SpecialCharTok{:}\NormalTok{disp) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -1218,7 +1218,7 @@ called FuelEff, which is defined as reciprocal of mpg, then you can do
 it as follows:
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{FuelEff =} \DecValTok{1}\SpecialCharTok{/}\NormalTok{mpg) }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(am}\SpecialCharTok{:}\NormalTok{FuelEff) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -1252,7 +1252,7 @@ the fuel efficiency of various cars. So, you can use \texttt{summary}
 function from dplyr to get this answer.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarise}\NormalTok{(}\StringTok{"Average MPG"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -1278,7 +1278,7 @@ to know if there is difference in mean mpg for different level of cyl.
 You can see it using the following code:
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mtcars }\SpecialCharTok{|\textgreater{}} \FunctionTok{group\_by}\NormalTok{(cyl) }\SpecialCharTok{|\textgreater{}} \FunctionTok{summarise}\NormalTok{(}\StringTok{"Average MPG"} \OtherTok{=} \FunctionTok{mean}\NormalTok{(mpg)) }\SpecialCharTok{|\textgreater{}}\NormalTok{ knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -1349,7 +1349,7 @@ recommend reading it. \\
 \end{objectives}
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(easystats)}
 \FunctionTok{library}\NormalTok{(ggplot2)}
 \end{Highlighting}
@@ -1496,7 +1496,7 @@ For understanding regression, we can generate a dummy dataset, and
 create a regression model on the basis of the data.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{dummy }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y =} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{),}\AttributeTok{x =} \FunctionTok{rpois}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{3}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -1510,7 +1510,7 @@ data to explore it visually. We will use \texttt{ggplot2} package to
 create this scatterplot diagram.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(dummy)}\SpecialCharTok{+}\FunctionTok{aes}\NormalTok{(x,y)}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Scatterplot Diagram of X and Y"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1530,7 +1530,7 @@ create this scatterplot diagram.
 Now we can create a regression model from this dataset.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{model1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y}\SpecialCharTok{\textasciitilde{}}\NormalTok{x, }\AttributeTok{data =}\NormalTok{ dummy)}
 \end{Highlighting}
 \end{Shaded}
@@ -1540,7 +1540,7 @@ understand and get the meaning out of it. So, one way is to use the
 \texttt{summary} function on this \texttt{model1} object.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{summary}\NormalTok{(model1)}
 \end{Highlighting}
 \end{Shaded}
@@ -1574,7 +1574,7 @@ the regression model. We can also use the \texttt{display} function to
 beautify the table in the output.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{model1 }\SpecialCharTok{|\textgreater{}} \FunctionTok{model\_parameters}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{display}\NormalTok{(}\AttributeTok{format =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Regression Parameters"}\NormalTok{)}
 \end{Highlighting}
@@ -1598,7 +1598,7 @@ x & -0.06 & 0.06 & (-0.17, 0.06) & -0.99 & 0.324 \\
 \end{longtable}
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{model1 }\SpecialCharTok{|\textgreater{}} \FunctionTok{model\_performance}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{display}\NormalTok{(}\AttributeTok{format =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Regression Effectiveness"}\NormalTok{)}
 \end{Highlighting}
@@ -1734,7 +1734,7 @@ Let us understand interval estimation with an example of a real dataset.
 We will use the \texttt{mtcars} dataset, which comes bundled with R.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg}\SpecialCharTok{\textasciitilde{}}\NormalTok{disp, }\AttributeTok{data =}\NormalTok{ mtcars)}
 \end{Highlighting}
 \end{Shaded}
@@ -1746,7 +1746,7 @@ where Miles Per Gallon, or \texttt{mpg} is explained by Displacement
 coefficients can be found using the \texttt{confint} function in R.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{confint}\NormalTok{(mod1) }\SpecialCharTok{|\textgreater{}} \FunctionTok{kbl}\NormalTok{(}\AttributeTok{digits =} \DecValTok{4}\NormalTok{,}\AttributeTok{booktabs =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{align =} \StringTok{"c"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1831,6 +1831,207 @@ conclude a statistically significant relationship at this level of
 significance. However, this doesn't necessarily imply there's no
 connection; it just means we don't have enough evidence to disprove the
 null hypothesis.
+
+R automatically performs a hypothesis testing, along with presenting
+regression summary. For example, in the
+Table~\ref{tbl-regression-params}, the last column titled ``p'' conducts
+a two-way hypothesis testing for the t-value shown in the previous
+column, titled ``t(98)'', (where 98 number shows the degrees of freedom)
+whether the t-value is significantly different from zero. In this case,
+the null and the alternative hypothesis are as follows:
+
+\[
+H_0: t = 0
+\] \[
+H_1: t \neq 0
+\]
+
+Given that both the p-values (0.234 and 0.324) are greater than the
+significance level (0.05), we fail to reject the null hypothesis. In
+other words, we believe that both, the intercept and x, are
+statistically significant in order to explain the variation in the
+dependent variable, y.
+
+\section{Prediction}\label{prediction}
+
+Linear regression not only unveils relationships between variables but
+also empowers us to \textbf{predict} future outcomes. Imagine you're a
+business analyst trying to forecast sales based on advertising spending.
+R, a powerful statistical programming language, provides tools to
+leverage your regression model for predictions.
+
+Here's a breakdown of the prediction process with an example using R
+code:
+
+\textbf{1. Sample Data and Model Fitting:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Simulate some data for advertising spend (ad\_spend) and sales (sales) }
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }
+\NormalTok{ad\_spend }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{100}\NormalTok{, }\AttributeTok{sd =} \DecValTok{15}\NormalTok{) }
+\NormalTok{sales }\OtherTok{\textless{}{-}} \DecValTok{50} \SpecialCharTok{+} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ ad\_spend }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{10}\NormalTok{)  }
+\CommentTok{\# Fit the linear regression model}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(sales }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ad\_spend)}
+\end{Highlighting}
+\end{Shaded}
+
+In this code:
+
+\begin{itemize}
+\item
+  We simulate data for advertising spend and sales.
+\item
+  The \texttt{lm} function fits a linear regression model where
+  \texttt{sales} is the dependent variable and \texttt{ad\_spend} is the
+  independent variable.
+\end{itemize}
+
+\textbf{2. Predicting Sales for a New Advertising Spend Value:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Predict sales for an ad spend of $120 }
+\NormalTok{new\_spend }\OtherTok{\textless{}{-}} \DecValTok{120} 
+\NormalTok{predicted\_sales }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ad\_spend =}\NormalTok{ new\_spend))  }
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Predicted sales for an ad spend of $"}\NormalTok{, new\_spend, }\StringTok{":"}\NormalTok{, predicted\_sales, }\AttributeTok{sep =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Predicted sales for an ad spend of $120:288.2723
+\end{verbatim}
+
+This code:
+
+\begin{itemize}
+\item
+  Defines a new advertising spend value of \$120.
+\item
+  The \texttt{predict} function leverages the fitted model
+  (\texttt{model}) to predict sales for this new data point (represented
+  as a data frame with the new \texttt{ad\_spend} value).
+\item
+  The \texttt{cat} function displays the predicted sales value.
+\end{itemize}
+
+This indicates that based on the model, sales are predicted to be around
+\$290 for an advertising spend of \$120.
+
+The key difference between prediction intervals and confidence intervals
+in the \texttt{predict} function of R lies in what they are trying to
+estimate:
+
+\begin{itemize}
+\item
+  \textbf{Prediction Interval:} Focuses on a \textbf{single future
+  observation}. It estimates the range within which a \textbf{new
+  individual value} of the dependent variable is likely to fall, given a
+  specific value of the independent variable.
+\item
+  \textbf{Confidence Interval:} Focuses on the \textbf{mean prediction}.
+  It estimates the range that's likely to contain the \textbf{average
+  value} of the dependent variable for a specific value of the
+  independent variable.
+\end{itemize}
+
+Here's a breakdown to illustrate the concept:
+
+\textbf{Scenario:} Predicting sales based on advertising spend.
+
+\begin{itemize}
+\item
+  \textbf{Confidence Interval:} If you set a 95\% confidence interval
+  for predicted sales at an ad spend of \$120, it indicates that you're
+  95\% confident the \textbf{average sales} for that advertising spend
+  will fall within that interval.
+\item
+  \textbf{Prediction Interval:} A 95\% prediction interval for the same
+  scenario estimates the range that's likely to encompass a
+  \textbf{single new sales value} at an ad spend of \$120.
+\end{itemize}
+
+\textbf{R Code Demonstration:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Simulate data for advertising spend (ad\_spend) and sales (sales)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }
+\NormalTok{ad\_spend }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{100}\NormalTok{, }\AttributeTok{sd =} \DecValTok{15}\NormalTok{) }
+\NormalTok{sales }\OtherTok{\textless{}{-}} \DecValTok{50} \SpecialCharTok{+} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ ad\_spend }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{10}\NormalTok{)  }
+\CommentTok{\# Fit the linear regression model}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(sales }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ad\_spend)  }
+\CommentTok{\# New advertising spend value}
+\NormalTok{new\_spend }\OtherTok{\textless{}{-}} \DecValTok{120}  
+\CommentTok{\# Confidence Interval for Mean Prediction }
+\NormalTok{conf\_interval }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ad\_spend =}\NormalTok{ new\_spend), }\AttributeTok{interval =} \StringTok{"confidence"}\NormalTok{)  }
+\CommentTok{\# Prediction Interval for a New Observation }
+\NormalTok{prediction\_interval }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ad\_spend =}\NormalTok{ new\_spend), }\AttributeTok{interval =} \StringTok{"prediction"}\NormalTok{)  }
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Predicted sales for an ad spend of $"}\NormalTok{, new\_spend, }\StringTok{":"}\NormalTok{, }\FunctionTok{summary}\NormalTok{(predicted\_sales), }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Predicted sales for an ad spend of $
+120
+:
+288.2723
+288.2723
+288.2723
+288.2723
+288.2723
+288.2723
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"95\% Confidence Interval for Mean Prediction:"}\NormalTok{, conf\_interval[,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)], }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+95% Confidence Interval for Mean Prediction:
+288.2723
+291.5374
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"95\% Prediction Interval for a New Observation:"}\NormalTok{, prediction\_interval[,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{)], }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+95% Prediction Interval for a New Observation:
+288.2723
+307.8106
+\end{verbatim}
+
+\textbf{Key Points:}
+
+\begin{itemize}
+\item
+  The confidence interval for the mean prediction is much narrower than
+  the prediction interval for a new observation. This reflects the
+  inherent uncertainty in predicting a single future value compared to
+  the average sales across multiple observations.
+\item
+  Prediction intervals are generally wider because they account for the
+  variability around the average sales figure, along with the
+  uncertainty in the model itself.
+\end{itemize}
+
+In conclusion, choosing between a confidence interval and a prediction
+interval depends on your goal:
+
+\begin{itemize}
+\item
+  If you're interested in the \textbf{average sales} for a specific
+  advertising spend, use the confidence interval.
+\item
+  If you want to estimate the range for a \textbf{single new sales
+  value}, then the prediction interval is more appropriate.
+\end{itemize}
 
 \bookmarksetup{startatroot}
 
@@ -1962,7 +2163,7 @@ Table 7.6 in the package.)
 We can load the dataset, and inspect the variables in the dataset.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \CommentTok{\#devtools::install\_github("bhattmaulik/Gujarati5sie) }
 \CommentTok{\#to download the "Gujarati5sie" package}
 \CommentTok{\#which contains the dataset}
@@ -1980,7 +2181,7 @@ We can load the dataset, and inspect the variables in the dataset.
 \includegraphics{Multiple_Regression_files/figure-pdf/unnamed-chunk-1-1.pdf}
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \CommentTok{\#to check correlation among variables in the dataset}
 \end{Highlighting}
 \end{Shaded}
@@ -1995,7 +2196,7 @@ the price of fish, which is not the case in this dataset.
 Let's fit a linear regression model on the data.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Y}\SpecialCharTok{\textasciitilde{}}\NormalTok{X2}\SpecialCharTok{+}\NormalTok{X3}\SpecialCharTok{+}\NormalTok{X4, }\AttributeTok{data =}\NormalTok{ Table7}\FloatTok{.6}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2124,6 +2325,104 @@ STHDA}
 
 \href{http://www.personal.rhul.ac.uk/uhte/006/ec2203/Use\%20and\%20Interpretation\%20of\%20Dummy\%20Variables.pdf}{Microsoft
 Word - Use and Interpretation of Dummy Variables.doc (rhul.ac.uk)}
+
+Categorical variables are the variables, which divide the observations
+in different groups. These categorical variables are also called
+factors, dummy variables, or qualitative variables. For example, gender
+of respondent (Male v/s Female) is a factor or dummy variable. The two
+values ``Male'' and ``Female'' are the levels of the factor. There are
+packages in R, e.g., \texttt{forcats}, which deal with factor variables.
+
+In a linear regression model, the dependent variable would be a numeric
+(or continuous) variable. But on the independent variable side, one or
+more variable(s) can be factors. In such cases, we need to take some
+extra steps. These steps typically involve ``coding'' dummy variables.
+We can understand this by a practical example in R.
+
+The \texttt{penguins} dataset from the \texttt{palmerpenguins} package
+contains several factor variables, like \texttt{species},
+\texttt{island} and \texttt{sex}. We will use \texttt{species} as the
+independent variable, and the \texttt{body\_mass\_g} (which captures the
+body mass in grams) as the dependent variables. By using the
+\texttt{levels} function, we can see that there are three levels of the
+\texttt{species} variable: Adelie, Chinstrap, and Gentoo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(palmerpenguins)}
+\NormalTok{penguins }\OtherTok{\textless{}{-}}\NormalTok{ palmerpenguins}\SpecialCharTok{::}\NormalTok{penguins}
+\FunctionTok{levels}\NormalTok{(penguins}\SpecialCharTok{$}\NormalTok{species)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Adelie"    "Chinstrap" "Gentoo"   
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(body\_mass\_g}\SpecialCharTok{\textasciitilde{}}\NormalTok{species, }\AttributeTok{data =}\NormalTok{ penguins)}
+\FunctionTok{summary}\NormalTok{(mod1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = body_mass_g ~ species, data = penguins)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1126.02  -333.09   -33.09   316.91  1223.98 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       3700.66      37.62   98.37   <2e-16 ***
+speciesChinstrap    32.43      67.51    0.48    0.631    
+speciesGentoo     1375.35      56.15   24.50   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 462.3 on 339 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared:  0.6697,    Adjusted R-squared:  0.6677 
+F-statistic: 343.6 on 2 and 339 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+In the code above, we created a linear regression model, where
+\texttt{body\_mass\_g} is the dependent variable, and the
+\texttt{species} is the independent variable. When we take
+\texttt{summary} of this regression model, we can see that there are
+three coefficients: Intercept, and the two levels of \texttt{species}
+variable, Chinstrap and Gentoo. The third level of the \texttt{species}
+variable (i.e., Adelie) is missing in this equation.
+
+This is because Adelie is the base level in the equation. You can
+understand this from the \texttt{contrasts} function in the code given
+below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{contrasts}\NormalTok{(penguins}\SpecialCharTok{$}\NormalTok{species)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+          Chinstrap Gentoo
+Adelie            0      0
+Chinstrap         1      0
+Gentoo            0      1
+\end{verbatim}
+
+You can see that Adelie is coded as 0 (zero) in this table. Therefore,
+the interpretation of the coefficients would also change accordingly.
+The coefficient of 32.43 for \texttt{speciesChinstrap} means that on
+average, the body mass of penguins belonging to Chinstrap species would
+be 32.43 grams more than a penguin belonging to the Adelie species
+(assuming all other factors equal). Similarly, the body mass of a
+penguin belonging to Gentoo category would be more than the Adelie
+category of penguin by 1,375.35 grams on average, assuming other factors
+equal.
 
 \bookmarksetup{startatroot}
 
@@ -2357,6 +2656,221 @@ recommend reading it. \\
   with R
 \end{itemize}
 
+It is said that a data scientist spends 70\% of his/her time in data
+cleaning rather than data analysis. Therefore, in this chapter, we will
+discuss various techniques to prepare and preprocess the data for
+econometric analysis. In the chapter Chapter~\ref{sec-getting-started},
+we introduced some methods of data pre-processing, which were
+essentially sub-setting the data from a larger set and creating new
+variables from the existing ones. In this chapter, we will deal with
+data cleaning, finding missing values, finding columns where a date is
+stored as a number (for example, importing data from Microsoft Excel),
+etc.
+
+\section{Data Cleaning}\label{data-cleaning}
+
+The very first step of data cleaning starts with the data import itself.
+When you import data from \texttt{csv} file (using
+\texttt{readr::read\_csv} function) or \texttt{Microsoft\ Excel} file
+(using the \texttt{readxl::read\_excel} function), you have the option
+of cleaning the names directly while importing the data. Both of these
+functions have an argument called \texttt{.name\_repair}, which
+determines how the column names would be changed after importing the
+data. The default method is the keep the names \texttt{unique}, which
+means, if the dataset contains multiple columns having the same name, it
+would change the name to \texttt{name1}, \texttt{name2}, etc. It is also
+possible to provide a function to this argument. We can see an example
+in the code below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(readxl)}\CommentTok{\#load the package}
+\FunctionTok{read\_excel}\NormalTok{(}\FunctionTok{readxl\_example}\NormalTok{(}\StringTok{"datasets.xlsx"}\NormalTok{), }\AttributeTok{.name\_repair =} \StringTok{"unique"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{kbl}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tbl-name-repair}Making Unique Names in a Dataset}
+
+\centering{
+
+\begin{tabular}[t]{r|r|r|r|l}
+\hline
+Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
+\hline
+5.1 & 3.5 & 1.4 & 0.2 & setosa\\
+\hline
+4.9 & 3.0 & 1.4 & 0.2 & setosa\\
+\hline
+4.7 & 3.2 & 1.3 & 0.2 & setosa\\
+\hline
+4.6 & 3.1 & 1.5 & 0.2 & setosa\\
+\hline
+5.0 & 3.6 & 1.4 & 0.2 & setosa\\
+\hline
+5.4 & 3.9 & 1.7 & 0.4 & setosa\\
+\hline
+\end{tabular}
+
+}
+
+\end{table}%
+
+Now, instead of keeping the default \texttt{unique} names, we can change
+it using \texttt{make\_clean\_names} function from the \texttt{janitor}
+package. For this to work, you must have installed the \texttt{janitor}
+package in your system.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{read\_excel}\NormalTok{(}\FunctionTok{readxl\_example}\NormalTok{(}\StringTok{"datasets.xlsx"}\NormalTok{),}
+           \AttributeTok{.name\_repair =}\NormalTok{ janitor}\SpecialCharTok{::}\NormalTok{make\_clean\_names) }\SpecialCharTok{|\textgreater{}} \FunctionTok{head}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{kbl}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tbl-name-repair-janitor}Making Clean Names in a Dataset
+using janitor package}
+
+\centering{
+
+\begin{tabular}[t]{r|r|r|r|l}
+\hline
+sepal\_length & sepal\_width & petal\_length & petal\_width & species\\
+\hline
+5.1 & 3.5 & 1.4 & 0.2 & setosa\\
+\hline
+4.9 & 3.0 & 1.4 & 0.2 & setosa\\
+\hline
+4.7 & 3.2 & 1.3 & 0.2 & setosa\\
+\hline
+4.6 & 3.1 & 1.5 & 0.2 & setosa\\
+\hline
+5.0 & 3.6 & 1.4 & 0.2 & setosa\\
+\hline
+5.4 & 3.9 & 1.7 & 0.4 & setosa\\
+\hline
+\end{tabular}
+
+}
+
+\end{table}%
+
+This function (make\_clean\_names) converts all the names to lower case,
+and changes to underscore instead of dots in the column names. It also
+makes some more changes like writing ``percent'' instead of the
+percentage symbol (\%) in the column name (if any column name has it),
+etc.
+
+\section{Finding Missing Values}\label{finding-missing-values}
+
+Often, the data will have blank or missing values. It is easy to find
+out if your data has missing values, using the \texttt{summary}
+function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dummy\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{A =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{),}\AttributeTok{B =} \FunctionTok{c}\NormalTok{(}\DecValTok{6}\SpecialCharTok{:}\DecValTok{8}\NormalTok{,}\ConstantTok{NA}\NormalTok{,}\ConstantTok{NA}\NormalTok{))}
+\FunctionTok{summary}\NormalTok{(dummy\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+       A           B      
+ Min.   :1   Min.   :6.0  
+ 1st Qu.:2   1st Qu.:6.5  
+ Median :3   Median :7.0  
+ Mean   :3   Mean   :7.0  
+ 3rd Qu.:4   3rd Qu.:7.5  
+ Max.   :5   Max.   :8.0  
+             NA's   :2    
+\end{verbatim}
+
+In the code above, we created a dummy data, in which column B contains
+two \texttt{NA} values. When we take \texttt{summary(dummy\_data)}, it
+will show that there are two \texttt{NA}s in the data. Thus, if your
+data has \texttt{NA}s, the \texttt{summary} will show it easily.
+Therefore, it is a good practice to look at the summary of the data as
+soon as you import it.
+
+Summary is a powerful function in R. It will change the output depending
+on the input you write in the brackets. Even if the input is a dataset,
+it will change the output depending upon the types of the data in the
+columns of the data. In the previous example, we saw that the output
+showed items like minimum, maximum, median, mean and NA values. If we
+had only text values in a column, we could see different output.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data.frame}\NormalTok{(}\FunctionTok{summary}\NormalTok{(iris}\SpecialCharTok{$}\NormalTok{Species)) }\SpecialCharTok{|\textgreater{}} \FunctionTok{kbl}\NormalTok{(}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tbl-iris-summary}Summary of `Species' column of `iris'
+dataset}
+
+\centering{
+
+\begin{tabular}[t]{l|r}
+\hline
+  & summary.iris.Species.\\
+\hline
+setosa & 50\\
+\hline
+versicolor & 50\\
+\hline
+virginica & 50\\
+\hline
+\end{tabular}
+
+}
+
+\end{table}%
+
+In the code above, we took summary of the \texttt{Species} column of the
+\texttt{iris} dataset, which comes in-built in R. This column has only
+text data in it. So, it shows the frequency of each values (setosa,
+versicolor and virginica).
+
+\section{Date Stored as Numbers}\label{date-stored-as-numbers}
+
+Microsoft Excel is a popular spreadsheet program. So, you might have to
+import data from Microsoft Excel file format quite often. However,
+Microsoft Excel stores date as numbers internally. Therefore, when you
+open the Microsoft Excel file, on the screen you might see a column as
+date, but when you import the data in other program (like R), it would
+be imported as a serial number. In such cases, the
+\texttt{excel\_numeric\_to\_date} function from the \texttt{janitor}
+package comes handy.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{janitor}\SpecialCharTok{::}\FunctionTok{excel\_numeric\_to\_date}\NormalTok{(}\DecValTok{45450}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "2024-06-07"
+\end{verbatim}
+
+The code above converts the numeric value 45450 to a date format. By
+default, Microsoft Excel follows 1900 date system, which means 1st
+January, 1900 is set as the base date, with the value of 0. All other
+dates are difference of that date from the base date. The date
+7-June-2024 is 45450 days away from the base date, therefore the value
+of this date is 45450. The function \texttt{excel\_numeric\_to\_date}
+identifies this and converts this numeric value to Date format.
+
+\section{Identifying Outliers in
+Data}\label{identifying-outliers-in-data}
+
 \bookmarksetup{startatroot}
 
 \chapter{Conclusion}\label{conclusion}
@@ -2418,7 +2932,7 @@ gujarati5sie, etc. These packages can be installed using the following
 commands in R.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{RA\_packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"AER"}\NormalTok{,}
                  \StringTok{"easystats"}\NormalTok{,}
                  \StringTok{"fpp3"}\NormalTok{,}
@@ -2448,7 +2962,7 @@ package using the \texttt{library(package\_name)} command. For example,
 the command to load \texttt{easystats} set of packages would be
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(easystats)}
 \end{Highlighting}
 \end{Shaded}
@@ -2469,7 +2983,7 @@ containing data from the 5th edition of the book ``Basic Econometrics''
 written by Damodar Gujarati and others, then you can do it as follows:
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \CommentTok{\#Install devtools, remotes or pak}
 \FunctionTok{install.packages}\NormalTok{(}\StringTok{"remotes"}\NormalTok{)}\CommentTok{\#or install.packages("devltools")}
 \CommentTok{\#or install.packages("pak")}
@@ -2513,7 +3027,7 @@ find the option to download the entire book in a zip file, as shown
 below.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"images"}\NormalTok{,}\StringTok{"download{-}book.png"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -2552,7 +3066,7 @@ through terminal in RStudio using the command
 \texttt{quarto\ install\ tinytex}.
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"images"}\NormalTok{,}\StringTok{"build{-}book.png"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -2573,7 +3087,7 @@ If you can't install it this way, or if you want to install it through
 traditional way using R code, you can use the following code:
 
 \begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
+\begin{Highlighting}[]
 \FunctionTok{install.packages}\NormalTok{(}\StringTok{"tinytex"}\NormalTok{)}
 \FunctionTok{library}\NormalTok{(tinytex)}
 \NormalTok{tinytex}\SpecialCharTok{::}\FunctionTok{install\_tinytex}\NormalTok{()}

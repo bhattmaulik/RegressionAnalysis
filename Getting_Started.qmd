@@ -1,4 +1,4 @@
-# Getting Started with R for Econometrics
+# Getting Started with R for Econometrics {#sec-getting-started}
 
 ```{r status}
 #| echo: false

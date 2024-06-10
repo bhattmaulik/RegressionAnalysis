@@ -27,7 +27,7 @@ Basics of Econometrics
 
 Role of Regression
 
-Introduction to R
+## Introduction to R
 
 Imagine economics as a world of ideas. Economists come up with theories that explain how the economy works, like how changes in price affect demand. These theories are great for understanding the general principles, but they often lack specifics. They can't tell you exactly how much demand will drop if the price goes up by a certain amount.
 
@@ -43,7 +43,7 @@ This chapter is like a map to understanding econometrics. It will introduce you 
 
 In short, econometrics takes economic theories from the world of ideas and translates them into tools we can use to understand and navigate the real economic world.
 
-The Role of Econometrics in Economics
+## The Role of Econometrics in Economics
 
 Economic theories often propose qualitative relationships between variables. For instance, a theory might suggest that an increase in income leads to a rise in consumption. Econometrics allows us to quantify this relationship by estimating the magnitude of change in consumption for a given change in income. This is achieved by constructing mathematical models that represent the theoretical relationships and then employing statistical techniques to estimate the unknown parameters within these models.
 

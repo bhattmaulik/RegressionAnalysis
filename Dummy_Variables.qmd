@@ -94,3 +94,20 @@ summary(mod3)
 You can see in the summary that the coefficient for `specie_gentoo` variable is `NA`. That means this regression model is not useful for any prediction or inference.
 
 This is because one essential condition for linear regression is that there is no multicollinearity in the data. That means, if one variable can be expressed as a linear combination of two or more variables, the regression model involving these variables will throw error, just like our newly created model did.
+
+In the code below, I have selected 6 random rows from the `penguins2` dataset that we just created, and converted it into matrix form. The first column in the matrix is the coefficient of the constant term (called `intercept` in the regression summary). The other three columns in the matrix are the three columns that we created: `specie_adelie`, `specie_chinstrap` and `specie_gentoo`.
+
+```{=latex}
+$$
+\begin{pmatrix}
+	1 & 0 & 0 & 1 \\
+	1 & 1 & 0 & 0 \\
+	1 & 1 & 0 & 0 \\
+	1 & 0 & 1 & 0 \\
+	1 & 0 & 0 & 1 \\
+	1 & 0 & 1 & 0
+\end{pmatrix}
+	$$
+```
+
+In this matrix, we can see that the sum of the last three columns is always 1, which is the coefficient of the intercept term. Thus, the first column can be expressed as the sum of the last three columns. Thus, the matrix doesn't have full rank. Therefore, no solution can be found for this equation.

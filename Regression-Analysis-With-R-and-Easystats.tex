@@ -173,20 +173,6 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{wrapfig}
-\usepackage{float}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{threeparttablex}
-\usepackage[normalem]{ulem}
-\usepackage{makecell}
-\usepackage{xcolor}
 \usepackage[automark]{scrlayer-scrpage}%for header and footer
 \pagestyle{scrheadings}
 \usepackage{pagecolor}%to change the page color of the title page
@@ -346,7 +332,7 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{HTML}{EFEFEF}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, enhanced, boxrule=0pt, frame hidden, colback={codebgcolor}, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, colback={codebgcolor}, enhanced, sharp corners, breakable, boxrule=0pt]}{\end{tcolorbox}}\fi
 \makeatother
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
@@ -367,7 +353,7 @@
 
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{10/06/2024}
+\date{11/06/2024}
 
 \begin{document}
 \frontmatter
@@ -563,7 +549,7 @@ Basics of Econometrics
 
 Role of Regression
 
-Introduction to R
+\section{Introduction to R}\label{introduction-to-r}
 
 Imagine economics as a world of ideas. Economists come up with theories
 that explain how the economy works, like how changes in price affect
@@ -609,7 +595,8 @@ In short, econometrics takes economic theories from the world of ideas
 and translates them into tools we can use to understand and navigate the
 real economic world.
 
-The Role of Econometrics in Economics
+\section{The Role of Econometrics in
+Economics}\label{the-role-of-econometrics-in-economics}
 
 Economic theories often propose qualitative relationships between
 variables. For instance, a theory might suggest that an increase in
@@ -1315,7 +1302,7 @@ observation.
 
 \bookmarksetup{startatroot}
 
-\chapter{Simple Linear Regression}\label{simple-linear-regression}
+\chapter{Simple Linear Regression}\label{sec-lm}
 
 \begin{longtable}[]{@{}
   >{\centering\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.0000}}@{}}
@@ -2326,12 +2313,17 @@ STHDA}
 \href{http://www.personal.rhul.ac.uk/uhte/006/ec2203/Use\%20and\%20Interpretation\%20of\%20Dummy\%20Variables.pdf}{Microsoft
 Word - Use and Interpretation of Dummy Variables.doc (rhul.ac.uk)}
 
+\section{Dummy Variables}\label{dummy-variables}
+
 Categorical variables are the variables, which divide the observations
 in different groups. These categorical variables are also called
 factors, dummy variables, or qualitative variables. For example, gender
 of respondent (Male v/s Female) is a factor or dummy variable. The two
 values ``Male'' and ``Female'' are the levels of the factor. There are
 packages in R, e.g., \texttt{forcats}, which deal with factor variables.
+
+\section{Dummy Variables in
+Regression}\label{dummy-variables-in-regression}
 
 In a linear regression model, the dependent variable would be a numeric
 (or continuous) variable. But on the independent variable side, one or
@@ -2423,6 +2415,139 @@ be 32.43 grams more than a penguin belonging to the Adelie species
 penguin belonging to Gentoo category would be more than the Adelie
 category of penguin by 1,375.35 grams on average, assuming other factors
 equal.
+
+\section{Recoding Dummy Variables}\label{recoding-dummy-variables}
+
+A natural question arises here: R had, by default, assigned Adelie
+category as the base level in this dataset. But is it possible to change
+which category would be considered the base level? In other words, the
+Adelie category was assigned the code of 0 in this table. Can we
+manually decide which category is coded 0?
+
+It is possible to do this. This process is called re-coding the factor
+levels. We can use the \texttt{fct\_relevel} function from the
+\texttt{forcats} package for this. (Of course, there is \texttt{relevel}
+function if base R also. But as we are using \texttt{tidyverse} and
+\texttt{easystats} packages in this book throughout, it is better to use
+\texttt{forcats} package, which shares the core philosophy of
+\texttt{tidyverse}, and works well with other \texttt{tidyverse}
+packages.) We will have to load the \texttt{forcats} package first,
+because it is not loaded by default when \texttt{tidyverse} is loaded.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(forcats)}\CommentTok{\#load the package}
+\NormalTok{penguins1 }\OtherTok{\textless{}{-}}\NormalTok{ penguins }\SpecialCharTok{|\textgreater{}} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{species =} \FunctionTok{fct\_relevel}\NormalTok{(species, }\StringTok{"Gentoo"}\NormalTok{))}
+\NormalTok{mod2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(body\_mass\_g}\SpecialCharTok{\textasciitilde{}}\NormalTok{species, }\AttributeTok{data =}\NormalTok{ penguins1)}
+\FunctionTok{summary}\NormalTok{(mod2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = body_mass_g ~ species, data = penguins1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1126.02  -333.09   -33.09   316.91  1223.98 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       5076.02      41.68  121.78   <2e-16 ***
+speciesAdelie    -1375.35      56.15  -24.50   <2e-16 ***
+speciesChinstrap -1342.93      69.86  -19.22   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 462.3 on 339 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared:  0.6697,    Adjusted R-squared:  0.6677 
+F-statistic: 343.6 on 2 and 339 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+We can see that the coefficients in this new model have changed. Now,
+there is no \texttt{Gentoo} in the model, but there are \texttt{Adelie}
+and \texttt{Chinstrap}. The numbers have changed too. The coefficient
+for \texttt{speciesAdelie} is -1,375.35, which means that on average,
+the body mass of \texttt{Adelie} category of penguin is less than that
+of \texttt{Gentoo} penguin by 1,375.35 grams, assuming other factors are
+held constant.
+
+\section{Dummy Variable Trap}\label{dummy-variable-trap}
+
+In the previous example, we saw that there are three levels in the
+\texttt{species} variable, but only two of them enter into the
+regression model. In other words, in the regression summary, we can see
+only two of them. This is to avoid the situation called ``dummy variable
+trap''.
+
+Let us understand this situation with an example. We will create three
+dummy variables in this example, and use these three dummy variables as
+independent variables in a regression model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{penguins2 }\OtherTok{\textless{}{-}}\NormalTok{ penguins }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\AttributeTok{specie\_adelie =} \FunctionTok{if\_else}\NormalTok{(species }\SpecialCharTok{==} \StringTok{"Adelie"}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{),}\AttributeTok{specie\_chinstrap =} \FunctionTok{if\_else}\NormalTok{(species }\SpecialCharTok{==} \StringTok{"Chinstrap"}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{),}\AttributeTok{specie\_gentoo =} \FunctionTok{if\_else}\NormalTok{(species }\SpecialCharTok{==} \StringTok{"Gentoo"}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{))}
+\NormalTok{mod3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(body\_mass\_g}\SpecialCharTok{\textasciitilde{}}\NormalTok{specie\_adelie }\SpecialCharTok{+}\NormalTok{ specie\_chinstrap }\SpecialCharTok{+}\NormalTok{ specie\_gentoo, }\AttributeTok{data =}\NormalTok{ penguins2)}
+\FunctionTok{summary}\NormalTok{(mod3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = body_mass_g ~ specie_adelie + specie_chinstrap + 
+    specie_gentoo, data = penguins2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1126.02  -333.09   -33.09   316.91  1223.98 
+
+Coefficients: (1 not defined because of singularities)
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)       5076.02      41.68  121.78   <2e-16 ***
+specie_adelie    -1375.35      56.15  -24.50   <2e-16 ***
+specie_chinstrap -1342.93      69.86  -19.22   <2e-16 ***
+specie_gentoo          NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 462.3 on 339 degrees of freedom
+  (2 observations deleted due to missingness)
+Multiple R-squared:  0.6697,    Adjusted R-squared:  0.6677 
+F-statistic: 343.6 on 2 and 339 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+You can see in the summary that the coefficient for
+\texttt{specie\_gentoo} variable is \texttt{NA}. That means this
+regression model is not useful for any prediction or inference.
+
+This is because one essential condition for linear regression is that
+there is no multicollinearity in the data. That means, if one variable
+can be expressed as a linear combination of two or more variables, the
+regression model involving these variables will throw error, just like
+our newly created model did.
+
+In the code below, I have selected 6 random rows from the
+\texttt{penguins2} dataset that we just created, and converted it into
+matrix form. The first column in the matrix is the coefficient of the
+constant term (called \texttt{intercept} in the regression summary). The
+other three columns in the matrix are the three columns that we created:
+\texttt{specie\_adelie}, \texttt{specie\_chinstrap} and
+\texttt{specie\_gentoo}.
+
+$$
+\begin{pmatrix}
+    1 & 0 & 0 & 1 \\
+    1 & 1 & 0 & 0 \\
+    1 & 1 & 0 & 0 \\
+    1 & 0 & 1 & 0 \\
+    1 & 0 & 0 & 1 \\
+    1 & 0 & 1 & 0
+\end{pmatrix}
+    $$
 
 \bookmarksetup{startatroot}
 

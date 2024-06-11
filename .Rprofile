@@ -2,7 +2,7 @@
 #Packages for modeling
 library(AER)#For econometric functions
 library(easystats)#For easy econometric modeling
-library(tidyverse)
+library(tidyverse)#For easy data manipulation
 #Packages for tables
 library(maulikbhatt)
 #Packages for visualizations

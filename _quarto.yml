@@ -32,15 +32,13 @@ book:
   appendices:
     - Packages.qmd
     - Datasets.qmd
-    - Code_Snippets.qmd
+    - Build_Book.qmd
     - References.qmd
 crossref:
   chapters: true
   appendix-title: "Appendix"
 
-  
-
-bibliography: grateful-refs.bib
+bibliography: RegressionAnalysis.bib
 format:
   html:
     theme: cosmo
@@ -49,7 +47,7 @@ format:
     pdf-engine: lualatex
     number-depth: 3
     documentclass: scrbook
-    classoption: ["paper =a4", "twoside", "openright", "headsepline", "footsepline", "listof = totocnumbered", "chapterprefix = true", "firstiscover"]
+    classoption: ["paper =a4", "twoside", "openright", "headsepline", "footsepline", "listof = totocnumbered", "chapterprefix = true", "firstiscover", "parskip = full*"]
     include-in-header:
       - file: preamble.tex
     geometry:
@@ -67,6 +65,7 @@ format:
     fig-align: center
     fig-width: 6.5
     fig-pos: 'h'
+    tbl-pos: 'h'
     linestretch: 2
     tbl-cap-location: top
     code-line-numbers: false

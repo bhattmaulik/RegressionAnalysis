@@ -110,4 +110,4 @@ $$
 	$$
 ```
 
-In this matrix, we can see that the sum of the last three columns is always 1, which is the coefficient of the intercept term. Thus, the first column can be expressed as the sum of the last three columns. Thus, the matrix doesn't have full rank. Therefore, no solution can be found for this equation.
+In this matrix, we can see that the sum of the last three columns is always 1, which is the coefficient of the intercept term. Thus, the first column can be expressed as the sum of the last three columns. Thus, the matrix doesn't have full rank. Therefore, no solution can be found for this equation. That's the reason we are seeing `NA` in the regression summary when we include all the three dummy variables. There is a simple solution to avoid this dummy variable trap: exclude one dummy variable out of the three we created.

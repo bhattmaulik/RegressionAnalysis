@@ -1,24 +1,22 @@
-# R packages for econometric regression analysis and additional resources
+# R packages for econometric regression analysis and additional resources {#sec-packages}
 
-```{=latex}
 \setcounter{figure}{0} 
 \renewcommand{\thefigure}{A.\arabic{figure}}
 \setcounter{table}{0} 
 \renewcommand{\thetable}{A.\arabic{table}}
-```
+
 This book could never be completed without using many packages. The most notable of the packages include tidyverse, easystats, AER, lmtest, fpp3, gujarati5sie, etc. These packages can be installed using the following commands in R.
 
 ```{r}
 #| eval: false
 #| echo: true
-#| label: sec-packages
+#| label: sec-packages-install
 RA_packages <- c("AER",
                  "easystats",
                  "fpp3",
                  "lmtest",
                  "ggthemes",
-                 "gt",
-                 "gtsummary",
+                 "palmerpenguins",
                  "patchwork",
                  "here","fs",
                  "knitr",
@@ -28,7 +26,7 @@ install.packages(RA_packages)
 
 The commands above install the packages into your R system. However, the functionality of these packages are not added into your R session just because you installed these packages. You have to load the required packages specifically whenever you need them.
 
-Imagine you are building a home. You have completed electrification in your home. But just because you have a fan or an AC in your home doesn't mean they start automatically. You have to switch on the appliance whenever you need it. Similarly, you will have to load the R packages into your session whenever you need those packages. You can load the package using the `library(package_name)` command. For example, the command to load `easystats` set of packages would be
+Imagine you are building a home. You have completed electrification in your home. But just because you have a fan or an AC in your home doesn't mean the fan or AC would start automatically. You have to switch on the appliance whenever you need it. Similarly, you will have to load the R packages into your session whenever you need those packages. You can load the package using the `library(package_name)` command. For example, the command to load `easystats` set of packages would be
 
 ```{r}
 #| eval: false

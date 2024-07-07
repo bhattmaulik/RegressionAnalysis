@@ -30,3 +30,70 @@ display_chapter_status("drafting")
 -   Interpreting robust regression results in an economic context
 
 -   Practical examples and exercises showcasing robust regression in econometrics
+
+Heteroscedasticity
+
+In the @sec-lm, we noted that one of the conditions for linear regression is to have equal variance at all the levels of the variables. In other words, the actual values of the observations, and the values of the observation predicted by the regression equation should be close enough throughout the regression line.
+
+Imagine you're studying the relationship between apartment size (square footage) and rent price. Linear regression helps you understand this connection, but what if the spread of errors (differences between predicted and actual rent) isn't consistent across all apartment sizes? This inconsistency is precisely what heteroscedasticity refers to.
+
+**Let's break it down:**
+
+-   **Homoscedasticity (the good kind):** In a perfect world, the errors in your regression analysis would be **homoscedastic**. This means the spread of the errors (how far they deviate from the predicted value) would be **constant** across all values of the independent variable (apartment size in our example). Imagine a nice, even spread of dots around the regression line.
+
+-   **Heteroscedasticity (the not-so-good kind):** In reality, data often exhibits heteroscedasticity. The spread of the errors might be **unequal** across different values of the independent variable. This can manifest as a funnel-shaped or fan-shaped pattern of errors around the regression line. For example, errors for smaller apartments might be tightly clustered, while errors for larger apartments might be more scattered.
+
+**Why is heteroscedasticity a problem?**
+
+Our linear regression assumptions rely on homoscedasticity. When errors are unequal, it can lead to:
+
+-   **Inaccurate standard errors:** The estimated standard errors of the coefficients (measures of how precise our estimates are) might not be reliable. This makes it difficult to assess the significance of the relationships between variables.
+
+-   **Underestimation or overestimation of p-values:** P-values help us determine if the observed relationships are due to chance. Heteroscedasticity can lead to unreliable p-values, potentially masking true relationships or suggesting significance where there isn't any.
+
+**Here's an R example to illustrate:**
+
+```{r}
+set.seed(123) 
+# Simulate data with homoscedasticity 
+x <- rnorm(100, mean = 50, sd = 5) 
+y <- 2 * x + rnorm(100, mean = 0, sd = 3)  
+# Simulate data with heteroscedasticity 
+x2 <- rnorm(100, mean = 50, sd = 10) 
+y2 <- 2 * x2 + rnorm(100, mean = 0, sd = x2/2)  
+# Error term proportional to x2 in the above code
+#create dataframe from the simulated data
+hom_dataframe <- data.frame(x = x,y = y)
+het_dataframe <- data.frame(x = x2, y = y2)
+
+#create models
+model_homo <- lm(y ~ x, data = hom_dataframe)
+model_het <- lm(y2 ~ x2, data = het_dataframe)
+#use "augment" function from broom package to find the actual and predicted values
+hom_augment <- broom::augment(model_homo)
+het_augment <- broom::augment(model_het)
+# Visualize  
+
+plot_hom <- ggplot(hom_augment, aes(x,y))+geom_point()+geom_linerange(aes(ymin = y,ymax = .fitted))+geom_smooth(method = "lm",se = FALSE) + labs(title = "Homoscedastic Data", x = "X",y = "Y")
+
+plot_het <- ggplot(het_augment, aes(x,y))+geom_point()+geom_linerange(aes(ymin = y,ymax = .fitted))+geom_smooth(method = "lm",se = FALSE)+ labs(title = "Heteroscedastic Data", x = "X",y = "Y")
+plot_hom+plot_het
+
+```
+
+**Run this code and compare the plots.** In the first plot (homoscedastic), the errors should be scattered relatively evenly around the regression line. In the second plot (heteroscedastic), the spread of errors should be wider for larger values of x2.
+
+## Formal Test for Heteroscedasticity
+
+In the section above, we used visual method to determine whether heteroscedasticity exists in a model or not. We also have formal tests to determine if that's the case. The Breusch-Pagan test formally checks whether heteroscedasticity exists in a linear regression model or not. The `bptest` function from the `lmtest` package implements this test in R. In this test, we need to check the p-value. If the p-value is less than 0.05, we can confirm that heteroscedasticity exists in the model.
+
+```{r}
+bptest(model_homo)
+bptest(model_het)
+```
+
+In the code above, we can see that the p-value for the `bptest` for the first model is much larger than 0.05, which means that there is no heteroscedasticity in this model. But in the second case, the p-value is 0.002, which suggests that there is heteroscedasticity for sure.
+
+PENDING
+
+Ways to deal with heteroscedasticity

@@ -8,4 +8,6 @@
 ```
 ### Introduction
 
-Dummy text
+In this textbook, we have relied upon datasets available in various packages. The base R also comes with some in-built datasets like `mtcars` and `iris`. We have used these datasets in some of the examples. We have also used `penguins` dataset from the `palmerpenguins` package. In the @sec-packages, you will find how to install these packages.
+
+After installing the package, you will also need to load the package in the system every time you want to use it. This can be done using the `library` command as shown in the @sec-packages. After the package is loaded, you can use the datasets contained in the package.

@@ -7,7 +7,6 @@ source("_common.R")
 display_chapter_status("drafting")
 ```
 
-```{=latex}
 \begin{objectives}{In this chapter, you will learn to}
 \begin{itemize}
 
@@ -24,7 +23,7 @@ display_chapter_status("drafting")
 \end{itemize}
 
 \end{objectives}
-```
+
 ### Introduction
 
 In the previous chapter, we saw simple linear regression, in which we attempted to understand the relationship between two variables - one called independent variable and the other called the dependent variable. Multiple linear regression is a statistical technique that allows us to analyze the relationship between two or more independent variables and a dependent variable. It is an extension of simple linear regression, which only involves one independent variable. Multiple linear regression is used to predict the value of a dependent variable based on the values of two or more independent variables. It is commonly used in fields such as economics, finance, and social sciences.
@@ -57,11 +56,11 @@ Let's look at the dataset from the book "Basic Econometrics" by Damodar Gujarati
 
 -   Y: Consumption of chicken (in kg)
 
--   X2: Price of chicken (Rs. Per kg)
+-   $X_2$: Price of chicken (Rs. Per kg)
 
--   X3: Price of fish (Rs. Per kg)
+-   $X_3$: Price of fish (Rs. Per kg)
 
--   X4: Per capita income (Rs. Thousands at 1993-94 prices)
+-   $X_4$: Per capita income (Rs. Thousands at 1993-94 prices)
 
 (Note: You need to download the `Gujarati5sie` package from github using the command `devtools::install_github("bhattmaulik/Gujarati5sie")`. Once you have installed this package, you can check the documentation of any of the table contained in the package using the `?table` syntex. For example, `?Table7.6` will show you the documentation for the Table 7.6 in the package.)
 
@@ -91,6 +90,15 @@ mod1 <- lm(Y~X2+X3+X4, data = Table7.6)
 ```
 
 We can see that multiple regression also requires the `lm` function, just like classical linear regression model. To add more variables in the regression model, we have to use the `+` sign on the right hand side of the `~` sign.
+
+We can see the model parameters and model diagnostics using the `easystats` set of packages.
+
+```{r}
+#| label: tbl-lm-params
+#| tbl-cap: "Multiple Regression Parameters"
+model_parameters(mod1)|> 
+  display(format = "markdown", caption = "Multiple Regression Parameters")
+```
 
 PENDING
 

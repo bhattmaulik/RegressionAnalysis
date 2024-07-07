@@ -12,7 +12,8 @@
   footsepline,
   listof = totocnumbered,
   chapterprefix = true,
-  firstiscover]{scrbook}
+  firstiscover,
+  parskip = full*]{scrbook}
 
 \usepackage{amsmath,amssymb}
 \usepackage{setspace}
@@ -332,8 +333,9 @@
 \@ifundefined{codebgcolor}{\definecolor{codebgcolor}{HTML}{EFEFEF}}{}
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, colback={codebgcolor}, enhanced, sharp corners, breakable, boxrule=0pt]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, sharp corners, breakable, frame hidden, colback={codebgcolor}, boxrule=0pt]}{\end{tcolorbox}}\fi
 \makeatother
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -351,9 +353,10 @@
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
+
 \title{Regression Analysis With R and Easystats}
 \author{Maulik Bhatt}
-\date{11/06/2024}
+\date{06/07/2024}
 
 \begin{document}
 \frontmatter
@@ -367,6 +370,7 @@
 }
 \listoffigures
 \listoftables
+
 \setstretch{2}
 \mainmatter
 \bookmarksetup{startatroot}
@@ -2132,11 +2136,11 @@ India. The variables are as follows:
 \item
   Y: Consumption of chicken (in kg)
 \item
-  X2: Price of chicken (Rs. Per kg)
+  \(X_2\): Price of chicken (Rs. Per kg)
 \item
-  X3: Price of fish (Rs. Per kg)
+  \(X_3\): Price of fish (Rs. Per kg)
 \item
-  X4: Per capita income (Rs. Thousands at 1993-94 prices)
+  \(X_4\): Per capita income (Rs. Thousands at 1993-94 prices)
 \end{itemize}
 
 (Note: You need to download the \texttt{Gujarati5sie} package from
@@ -2192,6 +2196,53 @@ We can see that multiple regression also requires the \texttt{lm}
 function, just like classical linear regression model. To add more
 variables in the regression model, we have to use the \texttt{+} sign on
 the right hand side of the \texttt{\textasciitilde{}} sign.
+
+We can see the model parameters and model diagnostics using the
+\texttt{easystats} set of packages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{model\_parameters}\NormalTok{(mod1)}\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{display}\NormalTok{(}\AttributeTok{format =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Multiple Regression Parameters"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1644}}
+  >{\centering\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1781}}
+  >{\centering\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1370}}
+  >{\centering\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.3151}}
+  >{\centering\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0959}}
+  >{\centering\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1096}}@{}}
+
+\caption{\label{tbl-lm-params}Multiple Regression Parameters}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Parameter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+Coefficient
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+SE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+95\% CI
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+t(18)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\centering
+p
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+(Intercept) & 0.41 & 0.07 & (0.28, 0.55) & 6.27 & \textless{} .001 \\
+X2 & -0.01 & 2.18e-03 & (-0.02, -8.04e-03) & -5.78 & \textless{} .001 \\
+X3 & 4.11e-03 & 2.06e-03 & (-2.17e-04, 8.44e-03) & 2.00 & 0.061 \\
+X4 & 0.01 & 4.82e-03 & (2.29e-03, 0.02) & 2.58 & 0.019 \\
+
+\end{longtable}
 
 PENDING
 
@@ -2549,6 +2600,15 @@ $$
 \end{pmatrix}
     $$
 
+In this matrix, we can see that the sum of the last three columns is
+always 1, which is the coefficient of the intercept term. Thus, the
+first column can be expressed as the sum of the last three columns.
+Thus, the matrix doesn't have full rank. Therefore, no solution can be
+found for this equation. That's the reason we are seeing \texttt{NA} in
+the regression summary when we include all the three dummy variables.
+There is a simple solution to avoid this dummy variable trap: exclude
+one dummy variable out of the three we created.
+
 \bookmarksetup{startatroot}
 
 \chapter{Heteroscedasticity and Robust
@@ -2594,6 +2654,146 @@ recommend reading it. \\
   Practical examples and exercises showcasing robust regression in
   econometrics
 \end{itemize}
+
+Heteroscedasticity
+
+In the Chapter~\ref{sec-lm}, we noted that one of the conditions for
+linear regression is to have equal variance at all the levels of the
+variables. In other words, the actual values of the observations, and
+the values of the observation predicted by the regression equation
+should be close enough throughout the regression line.
+
+Imagine you're studying the relationship between apartment size (square
+footage) and rent price. Linear regression helps you understand this
+connection, but what if the spread of errors (differences between
+predicted and actual rent) isn't consistent across all apartment sizes?
+This inconsistency is precisely what heteroscedasticity refers to.
+
+\textbf{Let's break it down:}
+
+\begin{itemize}
+\item
+  \textbf{Homoscedasticity (the good kind):} In a perfect world, the
+  errors in your regression analysis would be \textbf{homoscedastic}.
+  This means the spread of the errors (how far they deviate from the
+  predicted value) would be \textbf{constant} across all values of the
+  independent variable (apartment size in our example). Imagine a nice,
+  even spread of dots around the regression line.
+\item
+  \textbf{Heteroscedasticity (the not-so-good kind):} In reality, data
+  often exhibits heteroscedasticity. The spread of the errors might be
+  \textbf{unequal} across different values of the independent variable.
+  This can manifest as a funnel-shaped or fan-shaped pattern of errors
+  around the regression line. For example, errors for smaller apartments
+  might be tightly clustered, while errors for larger apartments might
+  be more scattered.
+\end{itemize}
+
+\textbf{Why is heteroscedasticity a problem?}
+
+Our linear regression assumptions rely on homoscedasticity. When errors
+are unequal, it can lead to:
+
+\begin{itemize}
+\item
+  \textbf{Inaccurate standard errors:} The estimated standard errors of
+  the coefficients (measures of how precise our estimates are) might not
+  be reliable. This makes it difficult to assess the significance of the
+  relationships between variables.
+\item
+  \textbf{Underestimation or overestimation of p-values:} P-values help
+  us determine if the observed relationships are due to chance.
+  Heteroscedasticity can lead to unreliable p-values, potentially
+  masking true relationships or suggesting significance where there
+  isn't any.
+\end{itemize}
+
+\textbf{Here's an R example to illustrate:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }
+\CommentTok{\# Simulate data with homoscedasticity }
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{50}\NormalTok{, }\AttributeTok{sd =} \DecValTok{5}\NormalTok{) }
+\NormalTok{y }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ x }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =} \DecValTok{3}\NormalTok{)  }
+\CommentTok{\# Simulate data with heteroscedasticity }
+\NormalTok{x2 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{50}\NormalTok{, }\AttributeTok{sd =} \DecValTok{10}\NormalTok{) }
+\NormalTok{y2 }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ x2 }\SpecialCharTok{+} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{, }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =}\NormalTok{ x2}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)  }
+\CommentTok{\# Error term proportional to x2 in the above code}
+\CommentTok{\#create dataframe from the simulated data}
+\NormalTok{hom\_dataframe }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x,}\AttributeTok{y =}\NormalTok{ y)}
+\NormalTok{het\_dataframe }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x2, }\AttributeTok{y =}\NormalTok{ y2)}
+
+\CommentTok{\#create models}
+\NormalTok{model\_homo }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x, }\AttributeTok{data =}\NormalTok{ hom\_dataframe)}
+\NormalTok{model\_het }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x2, }\AttributeTok{data =}\NormalTok{ het\_dataframe)}
+\CommentTok{\#use "augment" function from broom package to find the actual and predicted values}
+\NormalTok{hom\_augment }\OtherTok{\textless{}{-}}\NormalTok{ broom}\SpecialCharTok{::}\FunctionTok{augment}\NormalTok{(model\_homo)}
+\NormalTok{het\_augment }\OtherTok{\textless{}{-}}\NormalTok{ broom}\SpecialCharTok{::}\FunctionTok{augment}\NormalTok{(model\_het)}
+\CommentTok{\# Visualize  }
+
+\NormalTok{plot\_hom }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(hom\_augment, }\FunctionTok{aes}\NormalTok{(x,y))}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{geom\_linerange}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ y,}\AttributeTok{ymax =}\NormalTok{ .fitted))}\SpecialCharTok{+}\FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{,}\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Homoscedastic Data"}\NormalTok{, }\AttributeTok{x =} \StringTok{"X"}\NormalTok{,}\AttributeTok{y =} \StringTok{"Y"}\NormalTok{)}
+
+\NormalTok{plot\_het }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(het\_augment, }\FunctionTok{aes}\NormalTok{(x,y))}\SpecialCharTok{+}\FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{geom\_linerange}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ y,}\AttributeTok{ymax =}\NormalTok{ .fitted))}\SpecialCharTok{+}\FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{,}\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{)}\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Heteroscedastic Data"}\NormalTok{, }\AttributeTok{x =} \StringTok{"X"}\NormalTok{,}\AttributeTok{y =} \StringTok{"Y"}\NormalTok{)}
+\NormalTok{plot\_hom}\SpecialCharTok{+}\NormalTok{plot\_het}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Heteroskedasticity_files/figure-pdf/unnamed-chunk-1-1.pdf}
+
+\textbf{Run this code and compare the plots.} In the first plot
+(homoscedastic), the errors should be scattered relatively evenly around
+the regression line. In the second plot (heteroscedastic), the spread of
+errors should be wider for larger values of x2.
+
+\section{Formal Test for
+Heteroscedasticity}\label{formal-test-for-heteroscedasticity}
+
+In the section above, we used visual method to determine whether
+heteroscedasticity exists in a model or not. We also have formal tests
+to determine if that's the case. The Breusch-Pagan test formally checks
+whether heteroscedasticity exists in a linear regression model or not.
+The \texttt{bptest} function from the \texttt{lmtest} package implements
+this test in R. In this test, we need to check the p-value. If the
+p-value is less than 0.05, we can confirm that heteroscedasticity exists
+in the model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(model\_homo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  model_homo
+BP = 1.2665, df = 1, p-value = 0.2604
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(model\_het)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  model_het
+BP = 8.9835, df = 1, p-value = 0.002724
+\end{verbatim}
+
+In the code above, we can see that the p-value for the \texttt{bptest}
+for the first model is much larger than 0.05, which means that there is
+no heteroscedasticity in this model. But in the second case, the p-value
+is 0.002, which suggests that there is heteroscedasticity for sure.
+
+PENDING
+
+Ways to deal with heteroscedasticity
 
 \bookmarksetup{startatroot}
 
@@ -3044,7 +3244,7 @@ recommend reading it. \\
 \appendix
 
 \chapter{R packages for econometric regression analysis and additional
-resources}\label{r-packages-for-econometric-regression-analysis-and-additional-resources}
+resources}\label{sec-packages}
 
 \setcounter{figure}{0} 
 \renewcommand{\thefigure}{A.\arabic{figure}}
@@ -3063,8 +3263,7 @@ commands in R.
                  \StringTok{"fpp3"}\NormalTok{,}
                  \StringTok{"lmtest"}\NormalTok{,}
                  \StringTok{"ggthemes"}\NormalTok{,}
-                 \StringTok{"gt"}\NormalTok{,}
-                 \StringTok{"gtsummary"}\NormalTok{,}
+                 \StringTok{"palmerpenguins"}\NormalTok{,}
                  \StringTok{"patchwork"}\NormalTok{,}
                  \StringTok{"here"}\NormalTok{,}\StringTok{"fs"}\NormalTok{,}
                  \StringTok{"knitr"}\NormalTok{,}
@@ -3080,11 +3279,11 @@ packages specifically whenever you need them.
 
 Imagine you are building a home. You have completed electrification in
 your home. But just because you have a fan or an AC in your home doesn't
-mean they start automatically. You have to switch on the appliance
-whenever you need it. Similarly, you will have to load the R packages
-into your session whenever you need those packages. You can load the
-package using the \texttt{library(package\_name)} command. For example,
-the command to load \texttt{easystats} set of packages would be
+mean the fan or AC would start automatically. You have to switch on the
+appliance whenever you need it. Similarly, you will have to load the R
+packages into your session whenever you need those packages. You can
+load the package using the \texttt{library(package\_name)} command. For
+example, the command to load \texttt{easystats} set of packages would be
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3133,7 +3332,18 @@ examples}\label{data-sets-used-in-the-books-examples}
 
 \subsection{Introduction}\label{introduction-3}
 
-Dummy text
+In this textbook, we have relied upon datasets available in various
+packages. The base R also comes with some in-built datasets like
+\texttt{mtcars} and \texttt{iris}. We have used these datasets in some
+of the examples. We have also used \texttt{penguins} dataset from the
+\texttt{palmerpenguins} package. In the Appendix~\ref{sec-packages}, you
+will find how to install these packages.
+
+After installing the package, you will also need to load the package in
+the system every time you want to use it. This can be done using the
+\texttt{library} command as shown in the Appendix~\ref{sec-packages}.
+After the package is loaded, you can use the datasets contained in the
+package.
 
 \chapter{How to Build This Book
 Locally}\label{how-to-build-this-book-locally}
@@ -3150,12 +3360,6 @@ the entire code from Github. The first step is to visit the website
 \texttt{www.github.com/bhattmaulik/RegressionAnalysis}. Here, you will
 find the option to download the entire book in a zip file, as shown
 below.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"images"}\NormalTok{,}\StringTok{"download{-}book.png"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{figure}[h]
 
@@ -3189,12 +3393,6 @@ have their own set of problems for R users. The \texttt{LaTeX} compiler
 If you want to build the PDF book, you can install \texttt{tinytex}
 through terminal in RStudio using the command
 \texttt{quarto\ install\ tinytex}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"images"}\NormalTok{,}\StringTok{"build{-}book.png"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{figure}[h]
 
@@ -3242,65 +3440,56 @@ necessary LaTeX packages. But if you choose the bundle
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
 \bibitem[\citeproctext]{ref-ggthemes}
-Arnold, Jeffrey B. 2021. \emph{{ggthemes}: Extra Themes, Scales and
-Geoms for {``{ggplot2}''}}.
-\url{https://CRAN.R-project.org/package=ggthemes}.
+Arnold, Jeffrey B. 2021. {``Ggthemes: Extra Themes, Scales and Geoms for
+Ggplot2.''} Manual. \url{https://CRAN.R-project.org/package=ggthemes}.
+
+\bibitem[\citeproctext]{ref-gujaratiBasicEconometrics2017}
+Gujarati, Damodar. 2017. \emph{Basic Econometrics}. 5th ed. India:
+{McGraw} Hill Education.
 
 \bibitem[\citeproctext]{ref-fs}
-Hester, Jim, Hadley Wickham, and Gábor Csárdi. 2023. \emph{{fs}:
-Cross-Platform File System Operations Based on {``{libuv}''}}.
+Hester, Jim, Hadley Wickham, and Gábor Csárdi. 2023. {``Fs:
+Cross-Platform File System Operations Based on Libuv.''} Manual.
 \url{https://CRAN.R-project.org/package=fs}.
 
 \bibitem[\citeproctext]{ref-fpp3}
-Hyndman, Rob. 2023. \emph{Fpp3: Data for {``{Forecasting: Principles and
-Practice}''} (3rd Edition)}.
+Hyndman, Rob. 2023. {``Fpp3: Data for "Forecasting: Principles and
+Practice'' (3rd Edition).''} Manual.
 \url{https://CRAN.R-project.org/package=fpp3}.
-
-\bibitem[\citeproctext]{ref-gt}
-Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra
-Lauer, and JooYoung Seo. 2023. \emph{{gt}: Easily Create
-Presentation-Ready Display Tables}.
-\url{https://CRAN.R-project.org/package=gt}.
 
 \bibitem[\citeproctext]{ref-AER}
 Kleiber, Christian, and Achim Zeileis. 2008. \emph{Applied Econometrics
-with {R}}. New York: Springer-Verlag.
+with r}. New York: Springer-Verlag.
 \url{https://CRAN.R-project.org/package=AER}.
 
 \bibitem[\citeproctext]{ref-easystats}
 Lüdecke, Daniel, Mattan S. Ben-Shachar, Indrajeet Patil, Brenton M.
 Wiernik, Etienne Bacher, Rémi Thériault, and Dominique Makowski. 2022.
-{``{easystats}: Framework for Easy Statistical Modeling, Visualization,
-and Reporting.''} \emph{CRAN}.
+{``Easystats: Framework for Easy Statistical Modeling, Visualization,
+and Reporting.''} \emph{{CRAN}}.
 \url{https://easystats.github.io/easystats/}.
 
 \bibitem[\citeproctext]{ref-here}
-Müller, Kirill. 2020. \emph{{here}: A Simpler Way to Find Your Files}.
-\url{https://CRAN.R-project.org/package=here}.
+Müller, Kirill. 2020. {``Here: A Simpler Way to Find Your Files.''}
+Manual. \url{https://CRAN.R-project.org/package=here}.
 
 \bibitem[\citeproctext]{ref-patchwork}
-Pedersen, Thomas Lin. 2022. \emph{{patchwork}: The Composer of Plots}.
-\url{https://CRAN.R-project.org/package=patchwork}.
-
-\bibitem[\citeproctext]{ref-gtsummary}
-Sjoberg, Daniel D., Karissa Whiting, Michael Curry, Jessica A. Lavery,
-and Joseph Larmarange. 2021. {``Reproducible Summary Tables with the
-Gtsummary Package.''} \emph{{The R Journal}} 13: 570--80.
-\url{https://doi.org/10.32614/RJ-2021-053}.
+Pedersen, Thomas Lin. 2022. {``Patchwork: The Composer of Plots.''}
+Manual. \url{https://CRAN.R-project.org/package=patchwork}.
 
 \bibitem[\citeproctext]{ref-knitr2014}
-Xie, Yihui. 2014. {``{knitr}: A Comprehensive Tool for Reproducible
-Research in {R}.''} In \emph{Implementing Reproducible Computational
+Xie, Yihui. 2014. {``Knitr: A Comprehensive Tool for Reproducible
+Research in r.''} In \emph{Implementing Reproducible Computational
 Research}, edited by Victoria Stodden, Friedrich Leisch, and Roger D.
-Peng. Chapman; Hall/CRC.
+Peng. Chapman; Hall/{CRC}.
 
 \bibitem[\citeproctext]{ref-knitr2015}
----------. 2015. \emph{Dynamic Documents with {R} and Knitr}. 2nd ed.
-Boca Raton, Florida: Chapman; Hall/CRC. \url{https://yihui.org/knitr/}.
+---------. 2015. \emph{Dynamic Documents with r and Knitr}. 2nd ed. Boca
+Raton, Florida: Chapman; Hall/{CRC}. \url{https://yihui.org/knitr/}.
 
 \bibitem[\citeproctext]{ref-knitr2023}
----------. 2023. \emph{{knitr}: A General-Purpose Package for Dynamic
-Report Generation in r}. \url{https://yihui.org/knitr/}.
+---------. 2023. {``Knitr: A General-Purpose Package for Dynamic Report
+Generation in r.''} Manual. \url{https://yihui.org/knitr/}.
 
 \bibitem[\citeproctext]{ref-lmtest}
 Zeileis, Achim, and Torsten Hothorn. 2002. {``Diagnostic Checking in
@@ -3308,13 +3497,14 @@ Regression Relationships.''} \emph{R News} 2 (3): 7--10.
 \url{https://CRAN.R-project.org/doc/Rnews/}.
 
 \bibitem[\citeproctext]{ref-kableExtra}
-Zhu, Hao. 2021. \emph{{kableExtra}: Construct Complex Table with
-{``{kable}''} and Pipe Syntax}.
+Zhu, Hao. 2021. {``{kableExtra}: Construct Complex Table with Kable and
+Pipe Syntax.''} Manual.
 \url{https://CRAN.R-project.org/package=kableExtra}.
 
 \end{CSLReferences}
 
 
 \backmatter
+
 
 \end{document}
